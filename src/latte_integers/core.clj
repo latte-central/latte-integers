@@ -10,13 +10,12 @@
 
   (:require [latte.rel :as rel])
 
-  (:require [latte.quant :as q :refer [exist]])
+  (:require [latte.quant :as q :refer [exists]])
 
   (:require [latte.equal :as eq :refer [equal]])
 
   (:require [latte.subset :as set :refer [elem]])
   )
-
 
 (defaxiom int
   "The type of integers."
@@ -54,12 +53,12 @@
 (proof succ-injective :term
   ((rel/bijective-is-injective int int succ) succ-bijective))
 
-(defthm exist-succ
+(defthm ex-succ
   "An integer `y` is the successor of  *at least* another integer."
   [[y int]]
-  (exist [x int] (equal int (succ x) y)))
+  (exists [x int] (equal int (succ x) y)))
 
-(proof exist-succ :term
+(proof ex-succ :term
   (succ-surjective y))
 
 (defthm single-succ
@@ -87,7 +86,7 @@
 (proof unique-succ :term
   ((p/and-intro (q/ex int (lambda [x int] (equal int (succ x) y)))
      (q/single int (lambda [x int] (equal int (succ x) y))))
-   (exist-succ y)
+   (ex-succ y)
    (single-succ y)))
 
 (definition pred

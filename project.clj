@@ -1,0 +1,11 @@
+(defproject latte-integers "0.0.1"
+  :description "A formalization of integers in LaTTe."
+  :url "https://github.com/fredokun/latte-integers.git"
+  :license {:name "MIT Licence"
+            :url "http://opensource.org/licenses/MIT"}
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 []]
+  :codox {:metadata {:doc/format :markdown}
+          :namespaces [latte-integers.core]}
+  :plugins [[lein-codox "0.9.5"]])
+

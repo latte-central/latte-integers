@@ -1,6 +1,8 @@
 (ns latte.int
   "A formalization of the type of integers."
 
+  (:refer-clojure :exclude [and or not int])
+
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           lambda forall proof assume have]])
 

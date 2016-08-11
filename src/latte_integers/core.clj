@@ -4,7 +4,8 @@
   (:refer-clojure :exclude [and or not int])
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
-                                          lambda forall proof assume have]])
+                                          lambda forall proof assume have
+                                          ==>]])
 
   (:require [latte.prop :as p :refer [and or not <=>]])
 
@@ -14,7 +15,7 @@
 
   (:require [latte.equal :as eq :refer [equal]])
 
-  (:require [latte.subset :as set :refer [elem]])
+  (:require [latte-sets.core :as set :refer [elem]])
   )
 
 (defaxiom int

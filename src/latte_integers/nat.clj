@@ -13,7 +13,7 @@
 
             [latte-integers.core :as int :refer [zero succ pred int]]
 
-            [latte-sets.core :as set :refer [elem]]))
+            [latte-sets.core :as set :refer [elem forall-in]]))
 
 (definition nat-succ-prop
   "A property verified by all successors of natural integers."
@@ -121,11 +121,11 @@ here a simple consequence of [[succ-injective]]."
 This is the third Peano axiom but it can be
 derived from [[int-induct]]."
   [[P (==> int :type)]]
-  (==> (and (P zero)
-            (forall [x int]
-              (==> (elem int x nat)
-                   (P x)
-                   (P (succ x)))))
+  (==> (P zero)
+       (forall [x int]
+         (==> (elem int x nat)
+              (P x)
+              (P (succ x))))
        (forall [x int]
          (==> (elem int x nat)
               (P x)))))
@@ -134,45 +134,72 @@ derived from [[int-induct]]."
   (have Q _ :by (lambda [z int]
                   (and (elem int z nat)
                        (P z))))
-  (assume [u (and (P zero)
-                  (forall [x int]
-                    (==> (elem int x nat)
-                         (P x)
-                         (P (succ x)))))]
-    (have a (P zero) :by (p/and-elim-left% u))
-    (have b (forall [x int]
-              (==> (elem int x nat)
-                   (P x)
-                   (P (succ x))))
-          :by (p/and-elim-right% u))
-    (have c (Q zero) :by ((p/and-intro (elem int zero nat)
-                                       (P zero))
-                          nat-zero a))
-    (assume [y int
-             v (Q y)]
-      (have d (elem int y nat)
-            :by (p/and-elim-left% v))
-      (have e (P y)
-            :by (p/and-elim-right% v))
-      (have f (elem int (succ y) nat)
-            :by ((nat-succ y) d))
-      (have g (==> (P y) (P (succ y)))
-            :by (b y d))
-      (have h (P (succ y)) :by (g e))
-      (have i (Q (succ y)) :by ((p/and-intro (elem int (succ y) nat)
-                                             (P (succ y)))
-                                f h))
-      (have j (nat-succ-prop Q) :discharge [y v i]))
-    (have k (and (Q zero)
-                 (nat-succ-prop Q)) :by ((p/and-intro (Q zero)
-                                                      (nat-succ-prop Q)) c j))
-    (assume [x int
-             w (elem int x nat)]
-      (have l (Q x) :by (w Q k))
-      (have m (P x) :by (p/and-elim-right% l))
-      (have n (forall [x int]
+  (assume [Hz (P zero)
+           Hs (forall [x int]
                 (==> (elem int x nat)
-                     (P x))) :discharge [x w m])
-      (qed n))))
+                     (P x)
+                     (P (succ x))))]
+    (have <a> (Q zero)
+          :by (p/and-intro% 
+               nat-zero Hz))
+    (assume [y int
+             Hy (Q y)]
+      (have <b> (elem int y nat)
+            :by (p/and-elim-left% Hy))
+      (have <c> (P y)
+            :by (p/and-elim-right% Hy))
+      (have <d> (elem int (succ y) nat)
+            :by ((nat-succ y) <b>))
+      (have <e> (==> (P y) (P (succ y)))
+            :by (Hs y <b>))
+      (have <f> (P (succ y)) :by (<e> <c>))
+      (have <g> (Q (succ y)) :by (p/and-intro% <d> <f>))
+      (have <h> (nat-succ-prop Q) :discharge [y Hy <g>]))
+    (have <i> (and (Q zero)
+                   (nat-succ-prop Q)) :by (p/and-intro% <a> <h>))
+    (assume [x int
+             Hx (elem int x nat)]
+      (have <j> (Q x) :by (Hx Q <i>))
+      (have <k> (P x) :by (p/and-elim-right% <j>))
+      (have <l> (forall [x int]
+                  (==> (elem int x nat)
+                       (P x))) :discharge [x Hx <k>])
+      (qed <l>))))
+
+(defthm nat-pred-split
+  "A split theorem for natural numbers."
+  []
+  (forall-in [x int nat]
+    (==> (not (equal int x zero))
+         (elem int (pred x) nat))))
+
+(proof nat-pred-split
+    :script
+  (have P _ :by (lambda [x int]
+                  (==> (not (equal int x zero))
+                       (elem int (pred x) nat))))
+  "Let's proceed by induction"
+  "First with (P zero)"
+  (assume [Hnz (not (equal int zero zero))]
+    (have <a1> (equal int zero zero) :by (eq/eq-refl int zero))
+    (have <a2> p/absurd :by (Hnz <a1>))
+    (have <a3> (elem int (pred zero) nat) :by (<a2> (elem int (pred zero) nat)))
+    (have <a> (P zero) :discharge [Hnz <a3>]))
+  "Then the inductive case."
+  (assume [n int
+           Hn (elem int n nat)
+           Hind (P n)]
+    "We aim to prove (P (succ n))"
+    (assume [Hs (not (equal int (succ n) zero))]
+      (have <b1> (equal int n (pred (succ n)))
+            :by ((eq/eq-sym int (pred (succ n)) n) (int/pred-of-succ n)))
+      (have <b2> (elem int (pred (succ n)) nat)
+            :by ((eq/eq-subst int nat n (pred (succ n)))
+                 <b1> Hn))
+      (have <b3> (P (succ n)) :discharge [Hs <b2>]))
+    (have <b> _ :discharge [n Hn Hind <b3>]))
+  (have <c> (forall-in [x int nat] (P x))
+        :by ((nat-induct P) <a> <b>))
+  (qed <c>))
 
 

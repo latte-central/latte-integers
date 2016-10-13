@@ -3,18 +3,13 @@
 
   (:refer-clojure :exclude [and or not int])
 
-  (:require [latte.core :as latte :refer [defaxiom defthm definition
+  (:require [latte.core :as latte :refer [defprimitive defaxiom defthm definition
                                           ==> lambda forall
                                           proof assume have qed]]
-
             [latte.prop :as p :refer [and or not <=>]]
-
             [latte.rel :as rel]
-
             [latte.quant :as q :refer [exists]]
-
             [latte.equal :as eq :refer [equal]]
-
             [latte-sets.core :as set :refer [elem]]))
 
 (defaxiom int
@@ -120,10 +115,10 @@
   "The induction principle for integers
 (as an axiom)."
   [[P (==> int :type)]]
-  (==> (and (P zero)
-            (forall [x int] (==> (P x)
-                                 (and (P (succ x))
-                                      (P (pred x))))))
+  (==> (P zero)
+       (forall [x int] (==> (P x)
+                            (and (P (succ x))
+                                 (P (pred x)))))
        (forall [x int] (P x))))
 
 

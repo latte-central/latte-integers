@@ -5,17 +5,15 @@
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           lambda forall proof assume have
-                                          ==>]])
+                                          ==>]]
 
-  (:require [latte.prop :as p :refer [and or not <=>]])
+            [latte.prop :as p :refer [and or not <=>]]
 
-  (:require [latte.equal :as eq :refer [equal]])
+            [latte.equal :as eq :refer [equal]]
 
-  (:require [latte-integers.core :as int :refer [zero succ pred int]])
+            [latte-integers.core :as int :refer [zero succ pred int]]
 
-  (:require [latte-sets.core :as set :refer [elem]])
-
-  )
+            [latte-sets.core :as set :refer [elem]]))
 
 (definition nat-succ-prop
   "A property verified by all successors of natural integers."
@@ -40,7 +38,7 @@
   (assume [P (==> int :type)
            H (and (P zero)
                   (nat-succ-prop P))]
-    (have a (P zero) :by (p/%and-elim-left H))
+    (have a (P zero) :by (p/and-elim-left% H))
     (qed a)))
 
 (defthm nat-succ
@@ -59,7 +57,7 @@
                    (Q x)) :by (H Q))
       (have b (Q x) :by (a H2))
       (have c (==> (Q x) (Q (succ x)))
-            :by ((p/%and-elim-right H2) x))
+            :by ((p/and-elim-right% H2) x))
       (have d (Q (succ x)) :by (c b))
       (qed d))))
 
@@ -141,21 +139,21 @@ derived from [[int-induct]]."
                     (==> (elem int x nat)
                          (P x)
                          (P (succ x)))))]
-    (have a (P zero) :by (p/%and-elim-left u))
+    (have a (P zero) :by (p/and-elim-left% u))
     (have b (forall [x int]
               (==> (elem int x nat)
                    (P x)
                    (P (succ x))))
-          :by (p/%and-elim-right u))
+          :by (p/and-elim-right% u))
     (have c (Q zero) :by ((p/and-intro (elem int zero nat)
                                        (P zero))
                           nat-zero a))
     (assume [y int
              v (Q y)]
       (have d (elem int y nat)
-            :by (p/%and-elim-left v))
+            :by (p/and-elim-left% v))
       (have e (P y)
-            :by (p/%and-elim-right v))
+            :by (p/and-elim-right% v))
       (have f (elem int (succ y) nat)
             :by ((nat-succ y) d))
       (have g (==> (P y) (P (succ y)))
@@ -171,7 +169,7 @@ derived from [[int-induct]]."
     (assume [x int
              w (elem int x nat)]
       (have l (Q x) :by (w Q k))
-      (have m (P x) :by (p/%and-elim-right l))
+      (have m (P x) :by (p/and-elim-right% l))
       (have n (forall [x int]
                 (==> (elem int x nat)
                      (P x))) :discharge [x w m])

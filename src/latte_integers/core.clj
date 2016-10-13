@@ -4,19 +4,18 @@
   (:refer-clojure :exclude [and or not int])
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
-                                          lambda forall proof assume have
-                                          ==>]])
+                                          ==> lambda forall
+                                          proof assume have qed]]
 
-  (:require [latte.prop :as p :refer [and or not <=>]])
+            [latte.prop :as p :refer [and or not <=>]]
 
-  (:require [latte.rel :as rel])
+            [latte.rel :as rel]
 
-  (:require [latte.quant :as q :refer [exists]])
+            [latte.quant :as q :refer [exists]]
 
-  (:require [latte.equal :as eq :refer [equal]])
+            [latte.equal :as eq :refer [equal]]
 
-  (:require [latte-sets.core :as set :refer [elem]])
-  )
+            [latte-sets.core :as set :refer [elem]]))
 
 (defaxiom int
   "The type of integers."

@@ -166,14 +166,19 @@ derived from [[int-induct]]."
                        (P x))) :discharge [x Hx <k>])
       (qed <l>))))
 
-(defthm nat-pred-split
-  "A split theorem for natural numbers."
+(definition positive
+  "The integer `n` is strictly positive."
+  [[n int]]
+  (elem int (pred n) nat))
+
+(defthm positive-nat-split
+  "Any non-zero natural number is positive."
   []
   (forall-in [x int nat]
     (==> (not (equal int x zero))
-         (elem int (pred x) nat))))
+         (positive x))))
 
-(proof nat-pred-split
+(proof positive-nat-split
     :script
   (have P _ :by (lambda [x int]
                   (==> (not (equal int x zero))
@@ -203,3 +208,93 @@ derived from [[int-induct]]."
   (qed <c>))
 
 
+(defthm nat-case
+  "Case analysis for natural numbers."
+  [[P (==> int :type)]]
+  (==> (P zero)
+       (forall-in [k int nat] (P (succ k)))
+       (forall-in [n int nat] (P n))))
+
+(proof nat-case
+    :script
+  (assume [Hz (P zero)
+           Hs (forall-in [k int nat] (P (succ k)))]
+    "We proceed by induction on n"
+    (have <a> (P zero) :by Hz)
+    (assume [x int
+             Hx (elem int x nat)
+             HPx (P x)]
+      (have <b1> (P (succ x)) :by (Hs x Hx))
+      (have <b> (forall-in [k int nat]
+                  (==> (P k) (P (succ k))))
+            :discharge [x Hx HPx <b1>]))
+    (have <c> _ :by ((nat-induct P) <a> <b>))
+    (qed <c>)))
+
+(defthm positive-succ
+  "The successor of a natural number is positive."
+  [[n int]]
+  (==> (elem int n nat)
+       (positive (succ n))))
+
+(proof positive-succ
+    :script
+  (assume [Hn (elem int n nat)]
+    (have <a> (not (equal int (succ n) zero))
+          :by (nat-zero-is-not-succ n Hn))
+    (have <b> (positive (succ n))
+          :by (positive-nat-split (succ n)
+                                  ((nat-succ n) Hn)
+                                  <a>))
+    (qed <b>)))
+
+(defthm nat-split
+  "A natural number is either zero or it is positive"
+  []
+  (forall-in [n int nat] 
+    (or (equal int n zero)
+        (positive n))))
+
+(proof nat-split
+    :script
+  (have P _ :by (lambda [k int]
+                  (or (equal int k zero)
+                      (positive k))))
+  "We proceed by case analysis"
+  (have <a> (P zero) :by ((p/or-intro-left (equal int zero zero)
+                                           (positive zero))
+                          (eq/eq-refl int zero)))
+  (assume [n int
+           Hn (elem int n nat)]
+    (have <b1> (positive (succ n))
+          :by ((positive-succ n) Hn))
+    (have <b2> (or (equal int (succ n) zero)
+                   (positive (succ n)))
+          :by ((p/or-intro-right (equal int (succ n) zero)
+                                 (positive (succ n)))
+               <b1>))
+    (have <b> (forall-in [n int nat] (P (succ n)))
+          :discharge [n Hn <b2>]))
+  (have <c> (forall-in [n int nat] (P n))
+        :by ((nat-case P) <a> <b>))
+  (qed <c>))
+
+(definition negative
+  "The integer `n` is strictly negative."
+  [[n int]]
+  (not (elem int n nat)))
+
+(defthm int-split
+  "The tripartition property about integers."
+  [[n int]]
+  (or (or (equal int n zero)
+          (positive n))
+      (negative n)))
+
+(proof int-split
+    :script
+  "The proof is by induction on n"
+  
+  "Base case: zero"
+  (have <a> (int-split zero)
+        :by "TODO"))

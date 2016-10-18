@@ -13,7 +13,9 @@
 
             [latte-integers.core :as int :refer [zero succ pred int]]
 
-            [latte-sets.core :as set :refer [elem forall-in]]))
+            [latte-sets.core :as set :refer [elem forall-in]]
+
+            [latte.classic :as classic]))
 
 (definition nat-succ-prop
   "A property verified by all successors of natural integers."
@@ -248,6 +250,38 @@ derived from [[int-induct]]."
                                   <a>))
     (qed <b>)))
 
+(defthm positive-succ-conv
+  "A positive natural number is (obiously) a natural number"
+  [[n int]]
+  (==> (positive n)
+       (elem int n nat)))
+
+(proof positive-succ-conv
+    :script
+  (assume [H (positive n)]
+    (have <a> (elem int (succ (pred n)) nat)
+          :by ((nat-succ (pred n))
+               H))
+    (have <b> (elem int n nat)
+          :by ((eq/eq-subst int nat (succ (pred n)) n)
+               (int/succ-of-pred n)
+               <a>))
+    (qed <b>)))
+
+(defthm positive-succ-strong
+  "The successor of a positive is positive."
+  [[n int]]
+  (==> (positive n)
+       (positive (succ n))))
+
+(proof positive-succ-strong
+    :script
+  (assume [H (positive n)]
+    (have <a> (elem int n nat) :by ((positive-succ-conv n) H))
+    (have <b> (positive (succ n))
+          :by ((positive-succ n) <a>))
+    (qed <b>)))
+
 (defthm nat-split
   "A natural number is either zero or it is positive"
   []
@@ -293,8 +327,137 @@ derived from [[int-induct]]."
 
 (proof int-split
     :script
-  "The proof is by induction on n"
-  
-  "Base case: zero"
-  (have <a> (int-split zero)
-        :by "TODO"))
+  (have <a> (or (elem int n nat)
+                (not (elem int n nat)))
+        :by (classic/excluded-middle-ax (elem int n nat)))
+  (assume [Hyes (elem int n nat)]
+    (have <b1> (or (equal int n zero)
+                   (positive n))
+          :by ((nat-split n) Hyes))
+    (have <b2> _ :by ((p/or-intro-left (or (equal int n zero)
+                                           (positive n))
+                                       (negative n))
+                      <b1>))
+    (have <b> _ :discharge [Hyes <b2>]))
+  (assume [Hno (not (elem int n nat))]
+    (have <c1> (negative n) :by Hno)
+    (have <c2> _ :by ((p/or-intro-right (or (equal int n zero)
+                                            (positive n))
+                                        (negative n))
+                      <c1>))
+    (have <c> _ :discharge [Hno <c2>]))
+  (have <d> (or (or (equal int n zero)
+                    (positive n))
+                (negative n))
+        :by ((p/or-elim (elem int n nat)
+                        (not (elem int n nat)))
+             <a>
+             (or (or (equal int n zero)
+                     (positive n))
+                 (negative n))
+             <b>
+             <c>))
+  (qed <d>))
+
+;; The following is an attempt for a constructive
+;; proof of int-split... which requires some
+;; more informations about the fact of being
+;; negative...
+;;
+;; (proof int-split
+;;     :script
+;;   "The proof is by induction on n"
+
+;;   (have P _ :by (lambda [x int]
+;;                   (or (or (equal int x zero)
+;;                           (positive x))
+;;                       (negative x))))
+
+;;   "Base case: zero"
+;;   (have <a1> (equal int zero zero)
+;;         :by (eq/eq-refl int zero))
+;;   (have <a2> (or (equal int zero zero)
+;;                  (positive zero))
+;;         :by ((p/or-intro-left (equal int zero zero)
+;;                               (positive zero))
+;;              <a1>))
+;;   (have <a> (P zero)
+;;         :by ((p/or-intro-left (or (equal int zero zero)
+;;                                   (positive zero))
+;;                               (negative zero))
+;;              <a2>))
+;;   "Inductive case"
+;;   (assume [k int
+;;            Hind (P k)]
+;;     "Left-case"
+;;     (assume [Hl (or (equal int k zero)
+;;                     (positive k))]
+;;       "Left-left case"
+;;       (assume [Hll (equal int k zero)]
+;;         (have <lla1> (elem int k nat)
+;;               :by ((eq/eq-subst int nat zero k)
+;;                    ((eq/eq-sym int k zero) Hll)
+;;                    nat-zero))
+;;         (have <lla2> (positive (succ k))
+;;               :by ((positive-succ k) <lla1>))
+;;         (have <lla3> (or (equal int (succ k) zero)
+;;                          (positive (succ k)))
+;;               :by ((p/or-intro-right (equal int (succ k) zero)
+;;                                      (positive (succ k)))
+;;                    <lla2>))
+;;         (have <lla> (P (succ k))
+;;               :by ((p/or-intro-left (or (equal int (succ k) zero)
+;;                                         (positive (succ k)))
+;;                                     (negative (succ k)))
+;;                    <lla3>))
+;;         (have <llb1> (negative (pred k))
+;;               :by ((eq/eq-subst int
+;;                                 (lambda [x int] (negative (pred x)))
+;;                                 zero
+;;                                 k)
+;;                    ((eq/eq-sym int k zero) Hll)
+;;                    nat-zero-has-no-pred))
+;;         (have <llb> (P (pred k))
+;;               :by ((p/or-intro-right (or (equal int (pred k) zero)
+;;                                          (positive (pred k)))
+;;                                      (negative (pred k)))
+;;                    <llb1>))
+;;         (have <llc> (and (P (succ k))
+;;                          (P (pred k))) :by (p/and-intro% <lla> <llb>))
+;;         (have <ll> _ :discharge [Hll <llc>]))
+;;       "Left-right case"
+;;       (assume [Hlr (positive k)]
+;;         (have <lra1> (positive (succ k))
+;;               :by ((positive-succ-strong k) Hlr))
+;;         (have <lra2> (or (equal int (succ k) zero)
+;;                          (positive (succ k)))
+;;               :by ((p/or-intro-right (equal int (succ k) zero)
+;;                                      (positive (succ k)))
+;;                    <lra1>))
+;;         (have <lra> (P (succ k))
+;;               :by ((p/or-intro-left (or (equal int (succ k) zero)
+;;                                         (positive (succ k)))
+;;                                     (negative (succ k)))
+;;                    <lra2>))
+;;         (have <lrb1> (or (equal int (pred k) zero)
+;;                          (positive (pred k)))
+;;               :by (nat-split (pred k) Hlr))
+;;         (have <lrb> (P (pred k))
+;;               :by ((p/or-intro-left (or (equal int (pred k) zero)
+;;                                         (positive (pred k)))
+;;                                     (negative (pred k)))
+;;                    <lrb1>))
+;;         (have <lrc> (and (P (succ k))
+;;                          (P (pred k)))
+;;               :by (p/and-intro% <lra> <lrb>))
+;;         (have <lr> _ :discharge [Hlr <lrc>]))
+;;       (have <l1> (and (P (succ k))
+;;                       (P (pred k)))
+;;             :by ((p/or-elim (equal int k zero)
+;;                             (positive k))
+;;                  Hl (and (P (succ k))
+;;                          (P (pred k))) <ll> <lr>))
+;;       (have <l> _ :discharge [Hl <l1>]))
+;;     "Right case"
+;;     (assume [Hr (negative k)]
+;;       )))

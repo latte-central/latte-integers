@@ -149,15 +149,3 @@
           :by ((int-induct P) <a> <b>))
     (qed <c>)))
 
-;; (defaxiom int-recur
-;;   "The recursion principle for integers.
-
-;; According to [TT&FP,p. 318], this is derivable,
-;;  but we introduce it as an axiom since the
-;; derivation seems rather complex."
-;;   [[T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
-;;   (q/unique (==> int T)
-;;             (lambda [g (==> int T)]
-;;               (and (equal T (g 0) x)
-;;                    (forall [y int]
-;;                      (and (==> 

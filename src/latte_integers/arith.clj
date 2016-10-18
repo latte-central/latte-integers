@@ -1,5 +1,5 @@
 
-(ns latte-integers.
+(ns latte-integers.arith
   "The arithmetic functions over ℤ."
 
   (:refer-clojure :exclude [and or not int])

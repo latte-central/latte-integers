@@ -8,6 +8,7 @@
                                           proof assume have qed]]
             [latte.prop :as p :refer [and or not <=>]]
             [latte.rel :as rel]
+            [latte.fun :as fun]
             [latte.quant :as q :refer [exists]]
             [latte.equal :as eq :refer [equal]]
             [latte-sets.core :as set :refer [elem]]))
@@ -30,23 +31,23 @@
 (defaxiom succ-bijective
   "The successor function is bijective."
   []
-  (rel/bijective int int succ))
+  (fun/bijective int int succ))
 
 (defthm succ-surjective
   "The successor function is surjective."
   []
-  (rel/surjective int int succ))
+  (fun/surjective int int succ))
 
 (proof succ-surjective :term
-  ((rel/bijective-is-surjective int int succ) succ-bijective))
+  ((fun/bijective-is-surjective int int succ) succ-bijective))
 
 (defthm succ-injective
   "The successor function is injective."
   []
-  (rel/injective int int succ))
+  (fun/injective int int succ))
 
 (proof succ-injective :term
-  ((rel/bijective-is-injective int int succ) succ-bijective))
+  ((fun/bijective-is-injective int int succ) succ-bijective))
 
 (defthm ex-succ
   "An integer `y` is the successor of  *at least* another integer."

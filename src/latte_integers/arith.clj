@@ -20,10 +20,11 @@
 
             [latte.classic :as classic]
 
+            [latte.fun :as fun]
+            
             [latte-integers.core :as int :refer [succ pred]]
 
             [latte-integers.nat :as nat :refer [positive negative]]))
-
 
 (defaxiom int-recur
   "The recursion principle for integers.
@@ -43,3 +44,17 @@ derivation seems rather complex."
                       (equal T (g (pred y)) (f-pred (g y))))))))))
 
 
+(defthm int-recur-bijection
+  "The recursion principle for integers, for bijections."
+  [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
+  (q/unique
+   (==> int T)
+   (lambda [g (==> int T)]
+     (and (equal T (g zero) x)
+          (forall [y int]
+            (equal T (g (succ y)) (f (g y))))))))
+
+(proof int-recur-bijection
+    :script
+  (have inv-f _ :by (fun/inverse T T f b))
+  "TODO")

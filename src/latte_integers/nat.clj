@@ -250,13 +250,13 @@ derived from [[int-induct]]."
                                   <a>))
     (qed <b>)))
 
-(defthm positive-succ-conv
+(defthm positive-conv
   "A positive natural number is (obiously) a natural number"
   [[n int]]
   (==> (positive n)
        (elem int n nat)))
 
-(proof positive-succ-conv
+(proof positive-conv
     :script
   (assume [H (positive n)]
     (have <a> (elem int (succ (pred n)) nat)
@@ -268,6 +268,22 @@ derived from [[int-induct]]."
                <a>))
     (qed <b>)))
 
+(defthm positive-succ-conv
+  "A successor of a positive natural number 
+is (obiously) a natural number"
+  [[n int]]
+  (==> (positive (succ n))
+       (elem int n nat)))
+
+(proof positive-succ-conv
+    :script
+  (assume [H (positive (succ n))]
+    (have <a> (elem int n nat)
+          :by ((eq/eq-subst int nat (pred (succ n)) n)
+               (int/pred-of-succ n)
+               H))
+    (qed <a>)))
+
 (defthm positive-succ-strong
   "The successor of a positive is positive."
   [[n int]]
@@ -277,10 +293,27 @@ derived from [[int-induct]]."
 (proof positive-succ-strong
     :script
   (assume [H (positive n)]
-    (have <a> (elem int n nat) :by ((positive-succ-conv n) H))
+    (have <a> (elem int n nat) :by ((positive-conv n) H))
     (have <b> (positive (succ n))
           :by ((positive-succ n) <a>))
     (qed <b>)))
+
+(defthm positive-succ-equiv
+  "A positive number is a natural number."
+  [[n int]]
+  (<=> (positive (succ n))
+       (elem int n nat)))
+
+(proof positive-succ-equiv
+    :script
+  (have <a> (==> (positive (succ n))
+                 (elem int n nat))
+        :by (positive-succ-conv n))
+  (have <b> (==> (elem int n nat)
+                 (positive (succ n)))
+        :by (positive-succ n))
+  (have <c> _ :by (p/and-intro% <a> <b>))
+  (qed <c>))
 
 (defthm nat-split
   "A natural number is either zero or it is positive"
@@ -312,6 +345,52 @@ derived from [[int-induct]]."
   (have <c> (forall-in [n int nat] (P n))
         :by ((nat-case P) <a> <b>))
   (qed <c>))
+
+(defthm positive-succ-split
+  "A positive successor can split."
+  [[n int]]
+  (==> (positive (succ n))
+       (or (equal int n zero)
+           (positive n))))
+
+(proof positive-succ-split
+    :script
+  (assume [H (positive (succ n))]
+    (have <a> (elem int n nat)
+          :by ((positive-succ-conv n) H))
+    (have <b> (or (equal int n zero)
+                  (positive n))
+          :by (nat-split n <a>))
+    (qed <b>)))
+
+(defthm positive-succ-split-conv
+  "The converse of [[positive-succ-split]]."
+  [[n int]]
+  (==> (or (equal int n zero)
+           (positive n))
+       (positive (succ n))))
+
+(proof positive-succ-split-conv
+    :script
+  (assume [H (or (equal int n zero)
+                 (positive n))]
+    (assume [H1 (equal int n zero)]
+      (have <a1> (elem int n nat)
+            :by ((eq/eq-subst int nat zero n)
+                 ((eq/eq-sym int n zero) H1)
+                 nat-zero))
+      (have <a2> (positive (succ n))
+            :by ((positive-succ n) <a1>))
+      (have <a> _ :discharge [H1 <a2>]))
+    (assume [H2 (positive n)]
+      (have <b1> (positive (succ n))
+            :by ((positive-succ-strong n) H2))
+      (have <b> _ :discharge [H2 <b1>]))
+    (have <c> (positive (succ n))
+          :by ((p/or-elim (equal int n zero)
+                          (positive n))
+               H (positive (succ n)) <a> <b>))
+    (qed <c>)))
 
 (definition negative
   "The integer `n` is strictly negative."
@@ -461,3 +540,4 @@ derived from [[int-induct]]."
 ;;     "Right case"
 ;;     (assume [Hr (negative k)]
 ;;       )))
+

@@ -392,10 +392,29 @@ is (obiously) a natural number"
                H (positive (succ n)) <a> <b>))
     (qed <c>)))
 
+(defthm positive-succ-split-equiv
+  "The conjunction of [[positive-succ-split]]
+and [[positive-succ-split-conv]]."
+  [[n int]]
+  (<=> (positive (succ n))
+       (or (equal int n zero)
+           (positive n))))
+
+(proof positive-succ-split-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (positive-succ-split n)
+                                (positive-succ-split-conv n)))
+  (qed <a>))
+
 (definition negative
   "The integer `n` is strictly negative."
   [[n int]]
   (not (elem int n nat)))
+
+(defthm negative-pred
+  [[n int]]
+  (==> (negative n)
+       (negative (pred n))))
 
 (defthm int-split
   "The tripartition property about integers."

@@ -5,7 +5,7 @@
 
   (:require [latte.core :as latte :refer [defprimitive defaxiom defthm definition
                                           ==> lambda forall
-                                          proof assume have qed]]
+                                          proof try-proof assume have qed]]
             [latte.prop :as p :refer [and or not <=>]]
             [latte.rel :as rel]
             [latte.fun :as fun]
@@ -111,6 +111,33 @@
   (have b (equal int (pred (succ y)) y)
         :by (succ-injective (pred (succ y)) y a))
   (qed b))
+
+(defthm pred-surjective
+  "The predecessor function is surjective."
+  []
+  (fun/surjective int int pred))
+
+(try-proof pred-surjective
+    :script
+  (assume [y int]
+    (have <a> (equal int (pred (succ y)) y)
+          :by (pred-of-succ y))
+    (have <b> (exists [x int] (equal int (pred x) y))
+          :by ((q/ex-intro int (lambda [x int] (equal int (pred x) y)) (succ y))
+               <a>))
+    (qed <b>)))
+
+(defthm pred-injective
+  "The predecessor function is injective"
+  []
+  (fun/injective int int pred))
+
+(try-proof pred-injective
+    :script
+  (assume [x int
+           y int
+           Hxy (equal int (pred x) (pred y))]
+    "TODO"))
 
 (defaxiom int-induct
   "The induction principle for integers

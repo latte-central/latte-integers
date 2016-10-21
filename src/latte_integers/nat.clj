@@ -406,16 +406,6 @@ and [[positive-succ-split-conv]]."
                                 (positive-succ-split-conv n)))
   (qed <a>))
 
-(definition negative
-  "The integer `n` is strictly negative."
-  [[n int]]
-  (not (elem int n nat)))
-
-(defthm negative-pred
-  [[n int]]
-  (==> (negative n)
-       (negative (pred n))))
-
 ;(proof negative-pred
 ;    :script
 ;  )
@@ -564,3 +554,13 @@ and [[positive-succ-split-conv]]."
 ;;     (assume [Hr (negative k)]
 ;;       )))
 
+
+(definition negative
+  "The integer `n` is strictly negative."
+  [[n int]]
+  (not (elem int n nat)))
+
+(defthm negative-pred
+  [[n int]]
+  (==> (negative n)
+       (negative (pred n))))

@@ -49,95 +49,86 @@
 (proof succ-injective :term
   ((fun/bijective-is-injective int int succ) succ-bijective))
 
-(defthm ex-succ
+(defthm succ-ex
   "An integer `y` is the successor of  *at least* another integer."
   [[y int]]
   (exists [x int] (equal int (succ x) y)))
 
-(proof ex-succ :term
+(proof succ-ex :term
   (succ-surjective y))
 
-(defthm single-succ
+(defthm succ-single
   "An integer `y` is the successor of *at most* another integer."
   [[y int]]
   (q/single int (lambda [x int] (equal int (succ x) y))))
 
-(proof single-succ :script
-  (assume [x1 int
-           x2 int
-           H1 (equal int (succ x1) y)
-           H2 (equal int (succ x2) y)]
-    (have a (equal int y (succ x2)) :by ((eq/eq-sym int (succ x2) y) H2))
-    (have b (equal int (succ x1) (succ x2))
-          :by ((eq/eq-trans int (succ x1) y (succ x2))
-               H1 a))
-    (have c (equal int x1 x2) :by (succ-injective x1 x2 b))
-    (qed c)))
-
-(defthm unique-succ
+(proof single-succ :term
+  ((fun/injective-single int int succ)
+   succ-injective
+   y))
+ 
+(defthm succ-unique
   "There is a unique successor to an integer `y`."
   [[y int]]
   (q/unique int (lambda [x int] (equal int (succ x) y))))
 
-(proof unique-succ :term
-  ((p/and-intro (q/ex int (lambda [x int] (equal int (succ x) y)))
-     (q/single int (lambda [x int] (equal int (succ x) y))))
-   (ex-succ y)
-   (single-succ y)))
+(proof succ-unique :term
+  ((fun/bijective-unique int int succ)
+   succ-bijective
+   y))
 
 (definition pred
-  "The predecessor of `y`."
-  [[y int]]
-  (q/the int
-         (lambda [x int] (equal int (succ x) y)) 
-         (unique-succ y)))
+  "The predecessor as the inverse of the successor."
+  []
+  (fun/inverse int int succ succ-bijective))
 
 (defthm succ-of-pred
   "The succesor of the predecessor of `y` is ... `y`."
   [[y int]]
   (equal int (succ (pred y)) y))
 
-(proof succ-of-pred :term
-  (q/the-prop int (lambda [x int] (equal int (succ x) y)) (unique-succ y)))
+(proof succ-of-pred
+    :term
+  ((fun/inverse-prop int int succ succ-bijective)
+   y))
 
 (defthm pred-of-succ
   "The predecessor of the successor of `y` is ... `y`."
   [[y int]]
   (equal int (pred (succ y)) y))
 
-(proof pred-of-succ :script
-  (have a (equal int (succ (pred (succ y))) (succ y))
-        :by (succ-of-pred (succ y)))
-  (have b (equal int (pred (succ y)) y)
-        :by (succ-injective (pred (succ y)) y a))
-  (qed b))
+(proof pred-of-succ
+    :term
+  ((fun/inverse-prop-conv int int succ succ-bijective)
+   y))
+
+(defthm pred-bijective
+  "The predecessor function is bijective"
+  []
+  (fun/bijective int int pred))
+
+(proof pred-bijective
+    :term
+  (fun/inverse-bijective int int succ succ-bijective))
 
 (defthm pred-surjective
   "The predecessor function is surjective."
   []
   (fun/surjective int int pred))
 
-(try-proof pred-surjective
-    :script
-  (assume [y int]
-    (have <a> (equal int (pred (succ y)) y)
-          :by (pred-of-succ y))
-    (have <b> (exists [x int] (equal int (pred x) y))
-          :by ((q/ex-intro int (lambda [x int] (equal int (pred x) y)) (succ y))
-               <a>))
-    (qed <b>)))
+(proof pred-surjective
+    :term
+  (fun/inverse-surjective int int succ succ-bijective))
 
 (defthm pred-injective
   "The predecessor function is injective"
   []
   (fun/injective int int pred))
 
-(try-proof pred-injective
-    :script
-  (assume [x int
-           y int
-           Hxy (equal int (pred x) (pred y))]
-    "TODO"))
+(proof pred-injective
+    :term
+  (fun/inverse-injective int int succ succ-bijective))
+
 
 (defaxiom int-induct
   "The induction principle for integers

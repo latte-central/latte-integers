@@ -416,9 +416,9 @@ and [[positive-succ-split-conv]]."
   (==> (negative n)
        (negative (pred n))))
 
-(proof negative-pred
-    :script
-  )
+;(proof negative-pred
+;    :script
+;  )
 
 (defthm int-split
   "The tripartition property about integers."

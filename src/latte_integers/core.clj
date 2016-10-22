@@ -62,7 +62,7 @@
   [[y int]]
   (q/single int (lambda [x int] (equal int (succ x) y))))
 
-(proof single-succ :term
+(proof succ-single :term
   ((fun/injective-single int int succ)
    succ-injective
    y))

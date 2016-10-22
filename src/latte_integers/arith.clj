@@ -6,7 +6,7 @@
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           lambda forall proof assume have
-                                          ==>]]
+                                          try-proof ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
 
@@ -54,7 +54,7 @@ derivation seems rather complex."
           (forall [y int]
             (equal T (g (succ y)) (f (g y))))))))
 
-(proof int-recur-bijection
-    :script
-  (have inv-f _ :by (fun/inverse T T f b))
-  "TODO")
+(try-proof int-recur-bijection
+           :script
+           (have inv-f _ :by (fun/inverse T T f b))
+           "TODO")

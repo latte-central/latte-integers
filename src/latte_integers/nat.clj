@@ -642,3 +642,34 @@ and [[positive-succ-split-conv]]."
   [[n int]]
   (==> (negative n)
        (negative (pred n))))
+
+(proof negative-pred
+    :script
+  (assume [Hn (negative n)]
+    (have <split> (or (elem int (pred n) nat)
+                      (not (elem int (pred n) nat)))
+          :by (int-split-alt (pred n)))
+    (assume [H1 (elem int (pred n) nat)]
+      (have <a1> (elem int (succ (pred n)) nat)
+            :by ((nat-succ (pred n))
+                 H1))
+      (have <a2> (elem int n nat)
+            :by ((eq/eq-subst int nat (succ (pred n)) n)
+                 (int/succ-of-pred n)
+                 <a1>))
+      (have <a3> p/absurd :by (Hn <a2>))
+      (have <a4> (negative (pred n))
+            :by (<a3> (negative (pred n))))
+      (have <a> _ :discharge [H1 <a4>]))
+    (assume [H2 (not (elem int (pred n) nat))]
+      (have <b1> (negative (pred n)) :by H2)
+      (have <b> _ :discharge [H2 <b1>]))
+    (have <c> (negative (pred n))
+          :by ((p/or-elim (elem int (pred n) nat)
+                          (not (elem int (pred n) nat)))
+               <split>
+               (negative (pred n))
+               <a> <b>))
+    (qed <c>)))
+
+

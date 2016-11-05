@@ -3,7 +3,7 @@
 
   (:refer-clojure :exclude [and or not int])
 
-  (:require [latte.core :as latte :refer [defaxiom defthm definition
+  (:require [latte.core :as latte :refer [defaxiom defthm deflemma definition
                                           lambda forall proof assume have
                                           ==>]]
 
@@ -267,6 +267,34 @@ derived from [[int-induct]]."
                (int/succ-of-pred n)
                <a>))
     (qed <b>)))
+
+(defthm positive-zero-conv
+  "A positive or null number is ... natural"
+  [[n int]]
+  (==> (or (equal int n zero)
+           (positive n))
+       (elem int n nat)))
+
+(proof positive-zero-conv
+    :script
+  (assume [H (or (equal int n zero)
+                 (positive n))]
+    (assume [H1 (equal int n zero)]
+      (have <a1> (elem int n nat)
+            :by ((eq/eq-subst int nat zero n)
+                 ((eq/eq-sym int n zero) H1)
+                 nat-zero))
+      (have <a> _ :discharge [H1 <a1>]))
+    (assume [H2 (positive n)]
+      (have <b1> (elem int n nat)
+            :by ((positive-conv n) H2))
+      (have <b> _ :discharge [H2 <b1>]))
+    (have <c> (elem int n nat)
+          :by ((p/or-elim (equal int n zero)
+                          (positive n))
+               H (elem int n nat)
+               <a> <b>))
+    (qed <c>)))
 
 (defthm positive-succ-conv
   "A successor of a positive natural number 
@@ -557,7 +585,60 @@ and [[positive-succ-split-conv]]."
 ;;       )))
 
 
+(defthm negative-nat
+  []
+  (forall-in [n int nat]
+    (not (negative n))))
+
+(proof negative-nat
+    :script
+  (assume [n int
+           Hn (elem int n nat)]
+    (assume [Hneg (negative n)]
+      (have <a> p/absurd :by (Hneg Hn))
+      (have <b> (not (negative n)) :discharge [Hneg <a>]))
+    (qed <b>)))
+
+(defthm int-split-alt
+  "An alternative split principle for integers
+(or a constructive excluded middle principle, so to speak)."
+  [[n int]]
+  (or (elem int n nat)
+      (not (elem int n nat))))
+
+(proof int-split-alt
+    :script
+  (have <or> (or (or (equal int n zero)
+                     (positive n))
+                 (negative n)) :by (int-split n))
+  (assume [H1 (or (equal int n zero)
+                  (positive n))]
+    (have <a1> (elem int n nat)
+          :by ((positive-zero-conv n) H1))
+    (have <a2> _
+          :by ((p/or-intro-left (elem int n nat)
+                                (not (elem int n nat)))
+               <a1>))
+    (have <a> _ :discharge [H1 <a2>]))
+  (assume [H2 (negative n)]
+    (have <b1> (not (elem int n nat)) :by H2)
+    (have <b2> _
+          :by ((p/or-intro-right (elem int n nat)
+                                 (not (elem int n nat)))
+               <b1>))
+    (have <b> _ :discharge [H2 <b2>]))
+  (have <c> (or (elem int n nat)
+                (not (elem int n nat)))
+        :by ((p/or-elim (or (equal int n zero)
+                            (positive n))
+                        (negative n))
+             <or> (or (elem int n nat)
+                     (not (elem int n nat)))
+             <a> <b>))
+  (qed <c>))
+
 (defthm negative-pred
+  "Negative predecessors."
   [[n int]]
   (==> (negative n)
        (negative (pred n))))

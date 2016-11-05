@@ -672,4 +672,111 @@ and [[positive-succ-split-conv]]."
                <a> <b>))
     (qed <c>)))
 
+(defthm negative-pred-zero
+  "The predecessor of zero is negative."
+  []
+  (negative (pred zero)))
+
+(proof negative-pred-zero
+    :term nat-zero-has-no-pred)
+
+(defthm negative-pred-split-conv
+  "An auxiliary theorem for the predecessor."
+  [[n int]]
+  (==> (or (equal int n zero)
+           (negative n))
+       (negative (pred n))))
+
+(proof negative-pred-split-conv
+    :script
+  (assume [H (or (equal int n zero)
+                 (negative n))]
+    (assume [H1 (equal int n zero)]
+      (have <a1> (negative (pred n))
+            :by ((eq/eq-subst int (lambda [k int] (negative (pred k))) zero n)
+                 ((eq/eq-sym int n zero) H1)
+                 negative-pred-zero))
+      (have <a> _ :discharge [H1 <a1>]))
+    (assume [H2 (negative n)]
+      (have <b1> (negative (pred n))
+            :by ((negative-pred n) H2))
+      (have <b> _ :discharge [H2 <b1>]))
+    (have <c> (negative (pred n))
+          :by ((p/or-elim (equal int n zero)
+                          (negative n))
+               H (negative (pred n)) <a> <b>))
+    (qed <c>)))
+
+
+(defthm negative-pred-split
+  "Splitting of a predecessor."
+  [[n int]]
+  (==> (negative (pred n))
+       (or (equal int n zero)
+           (negative n))))
+
+(proof negative-pred-split
+    :script
+  (assume [H (negative (pred n))]
+    (have <split> (or (or (equal int n zero)
+                          (positive n))
+                      (negative n))
+          :by (int-split n))
+    (assume [H1 (or (equal int n zero)
+                    (positive n))]
+      (assume [Hz (equal int n zero)]
+        (have <a1> (or (equal int n zero)
+                       (negative n))
+              :by ((p/or-intro-left (equal int n zero)
+                                    (negative n)) Hz))
+        (have <a> _ :discharge [Hz <a1>]))
+      (assume [Hpos (positive n)]
+        (have <b1> p/absurd :by (H Hpos))
+        (have <b2> (or (equal int n zero)
+                       (negative n))
+              :by (<b1> (or (equal int n zero)
+                            (negative n))))
+        (have <b> _ :discharge [Hpos <b2>]))
+      (have <c1> (or (equal int n zero)
+                     (negative n))
+            :by ((p/or-elim (equal int n zero)
+                            (positive n))
+                 H1 (or (equal int n zero)
+                        (negative n)) <a> <b>))
+      (have <c> _ :discharge [H1 <c1>]))
+    (assume [H2 (negative n)]
+      (have <d1> (or (equal int n zero)
+                     (negative n))
+            :by ((p/or-intro-right (equal int n zero)
+                                   (negative n))
+                 H2))
+      (have <d> _ :discharge [H2 <d1>]))
+    (have <e> (or (equal int n zero)
+                  (negative n))
+          :by ((p/or-elim (or (equal int n zero)
+                              (positive n))
+                          (negative n))
+               <split> (or (equal int n zero)
+                           (negative n))
+               <c> <d>))
+    (qed <e>)))
+
+
+(defthm negative-pred-split-equiv
+  "The conjunction of [[negative-pred-split]]
+and [[negative-pred-split-conv]]."
+  [[n int]]
+  (<=> (negative (pred n))
+       (or (equal int n zero)
+           (negative n))))
+
+(proof negative-pred-split-equiv
+    :term
+  ((p/iff-intro
+       (negative (pred n))
+     (or (equal int n zero)
+         (negative n)))
+   (negative-pred-split n)
+   (negative-pred-split-conv n)))
+
 

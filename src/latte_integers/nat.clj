@@ -115,8 +115,7 @@ here a simple consequence of [[succ-injective]]."
            H3 (equal int (succ x) (succ y))]
     (have a (equal int x y)
           :by (int/succ-injective x y H3))
-    (have b _ :discharge [H1 H2 H3 a])
-    (qed b)))
+    (qed a)))
 
 (defthm nat-induct
   "The induction principle for natural integers.
@@ -155,18 +154,14 @@ derived from [[int-induct]]."
       (have <e> (==> (P y) (P (succ y)))
             :by (Hs y <b>))
       (have <f> (P (succ y)) :by (<e> <c>))
-      (have <g> (Q (succ y)) :by (p/and-intro% <d> <f>))
-      (have <h> (nat-succ-prop Q) :discharge [y Hy <g>]))
-    (have <i> (and (Q zero)
-                   (nat-succ-prop Q)) :by (p/and-intro% <a> <h>))
+      (have <g> (Q (succ y)) :by (p/and-intro% <d> <f>)))
+    (have <h> (and (Q zero)
+                   (nat-succ-prop Q)) :by (p/and-intro% <a> <g>))
     (assume [x int
              Hx (elem int x nat)]
-      (have <j> (Q x) :by (Hx Q <i>))
-      (have <k> (P x) :by (p/and-elim-right% <j>))
-      (have <l> (forall [x int]
-                  (==> (elem int x nat)
-                       (P x))) :discharge [x Hx <k>])
-      (qed <l>))))
+      (have <i> (Q x) :by (Hx Q <h>))
+      (have <j> (P x) :by (p/and-elim-right% <i>))
+      (qed <j>))))
 
 (definition positive
   "The integer `n` is strictly positive."
@@ -190,8 +185,7 @@ derived from [[int-induct]]."
   (assume [Hnz (not (equal int zero zero))]
     (have <a1> (equal int zero zero) :by (eq/eq-refl int zero))
     (have <a2> p/absurd :by (Hnz <a1>))
-    (have <a3> (elem int (pred zero) nat) :by (<a2> (elem int (pred zero) nat)))
-    (have <a> (P zero) :discharge [Hnz <a3>]))
+    (have <a> (elem int (pred zero) nat) :by (<a2> (elem int (pred zero) nat))))
   "Then the inductive case."
   (assume [n int
            Hn (elem int n nat)
@@ -200,11 +194,9 @@ derived from [[int-induct]]."
     (assume [Hs (not (equal int (succ n) zero))]
       (have <b1> (equal int n (pred (succ n)))
             :by ((eq/eq-sym int (pred (succ n)) n) (int/pred-of-succ n)))
-      (have <b2> (elem int (pred (succ n)) nat)
+      (have <b> (elem int (pred (succ n)) nat)
             :by ((eq/eq-subst int nat n (pred (succ n)))
-                 <b1> Hn))
-      (have <b3> (P (succ n)) :discharge [Hs <b2>]))
-    (have <b> _ :discharge [n Hn Hind <b3>]))
+                 <b1> Hn))))
   (have <c> (forall-in [x int nat] (P x))
         :by ((nat-induct P) <a> <b>))
   (qed <c>))
@@ -226,10 +218,7 @@ derived from [[int-induct]]."
     (assume [x int
              Hx (elem int x nat)
              HPx (P x)]
-      (have <b1> (P (succ x)) :by (Hs x Hx))
-      (have <b> (forall-in [k int nat]
-                  (==> (P k) (P (succ k))))
-            :discharge [x Hx HPx <b1>]))
+      (have <b> (P (succ x)) :by (Hs x Hx)))
     (have <c> _ :by ((nat-induct P) <a> <b>))
     (qed <c>)))
 
@@ -280,15 +269,13 @@ derived from [[int-induct]]."
   (assume [H (or (equal int n zero)
                  (positive n))]
     (assume [H1 (equal int n zero)]
-      (have <a1> (elem int n nat)
+      (have <a> (elem int n nat)
             :by ((eq/eq-subst int nat zero n)
                  ((eq/eq-sym int n zero) H1)
-                 nat-zero))
-      (have <a> _ :discharge [H1 <a1>]))
+                 nat-zero)))
     (assume [H2 (positive n)]
-      (have <b1> (elem int n nat)
-            :by ((positive-conv n) H2))
-      (have <b> _ :discharge [H2 <b1>]))
+      (have <b> (elem int n nat)
+            :by ((positive-conv n) H2)))
     (have <c> (elem int n nat)
           :by ((p/or-elim (equal int n zero)
                           (positive n))
@@ -363,13 +350,11 @@ is (obiously) a natural number"
            Hn (elem int n nat)]
     (have <b1> (positive (succ n))
           :by ((positive-succ n) Hn))
-    (have <b2> (or (equal int (succ n) zero)
-                   (positive (succ n)))
+    (have <b> (or (equal int (succ n) zero)
+                  (positive (succ n)))
           :by ((p/or-intro-right (equal int (succ n) zero)
                                  (positive (succ n)))
-               <b1>))
-    (have <b> (forall-in [n int nat] (P (succ n)))
-          :discharge [n Hn <b2>]))
+               <b1>)))
   (have <c> (forall-in [n int nat] (P n))
         :by ((nat-case P) <a> <b>))
   (qed <c>))
@@ -407,13 +392,11 @@ is (obiously) a natural number"
             :by ((eq/eq-subst int nat zero n)
                  ((eq/eq-sym int n zero) H1)
                  nat-zero))
-      (have <a2> (positive (succ n))
-            :by ((positive-succ n) <a1>))
-      (have <a> _ :discharge [H1 <a2>]))
+      (have <a> (positive (succ n))
+            :by ((positive-succ n) <a1>)))
     (assume [H2 (positive n)]
-      (have <b1> (positive (succ n))
-            :by ((positive-succ-strong n) H2))
-      (have <b> _ :discharge [H2 <b1>]))
+      (have <b> (positive (succ n))
+            :by ((positive-succ-strong n) H2)))
     (have <c> (positive (succ n))
           :by ((p/or-elim (equal int n zero)
                           (positive n))
@@ -456,18 +439,16 @@ and [[positive-succ-split-conv]]."
     (have <b1> (or (equal int n zero)
                    (positive n))
           :by ((nat-split n) Hyes))
-    (have <b2> _ :by ((p/or-intro-left (or (equal int n zero)
+    (have <b> _ :by ((p/or-intro-left (or (equal int n zero)
                                            (positive n))
                                        (negative n))
-                      <b1>))
-    (have <b> _ :discharge [Hyes <b2>]))
+                      <b1>)))
   (assume [Hno (not (elem int n nat))]
     (have <c1> (negative n) :by Hno)
-    (have <c2> _ :by ((p/or-intro-right (or (equal int n zero)
-                                            (positive n))
+    (have <c> _ :by ((p/or-intro-right (or (equal int n zero)
+                                           (positive n))
                                         (negative n))
-                      <c1>))
-    (have <c> _ :discharge [Hno <c2>]))
+                      <c1>)))
   (have <d> (or (or (equal int n zero)
                     (positive n))
                 (negative n))
@@ -595,9 +576,8 @@ and [[positive-succ-split-conv]]."
   (assume [n int
            Hn (elem int n nat)]
     (assume [Hneg (negative n)]
-      (have <a> p/absurd :by (Hneg Hn))
-      (have <b> (not (negative n)) :discharge [Hneg <a>]))
-    (qed <b>)))
+      (have <a> p/absurd :by (Hneg Hn)))
+    (qed <a>)))
 
 (defthm int-split-alt
   "An alternative split principle for integers
@@ -615,18 +595,16 @@ and [[positive-succ-split-conv]]."
                   (positive n))]
     (have <a1> (elem int n nat)
           :by ((positive-zero-conv n) H1))
-    (have <a2> _
+    (have <a> _
           :by ((p/or-intro-left (elem int n nat)
                                 (not (elem int n nat)))
-               <a1>))
-    (have <a> _ :discharge [H1 <a2>]))
+               <a1>)))
   (assume [H2 (negative n)]
     (have <b1> (not (elem int n nat)) :by H2)
-    (have <b2> _
+    (have <b> _
           :by ((p/or-intro-right (elem int n nat)
                                  (not (elem int n nat)))
-               <b1>))
-    (have <b> _ :discharge [H2 <b2>]))
+               <b1>)))
   (have <c> (or (elem int n nat)
                 (not (elem int n nat)))
         :by ((p/or-elim (or (equal int n zero)
@@ -658,12 +636,10 @@ and [[positive-succ-split-conv]]."
                  (int/succ-of-pred n)
                  <a1>))
       (have <a3> p/absurd :by (Hn <a2>))
-      (have <a4> (negative (pred n))
-            :by (<a3> (negative (pred n))))
-      (have <a> _ :discharge [H1 <a4>]))
+      (have <a> (negative (pred n))
+            :by (<a3> (negative (pred n)))))
     (assume [H2 (not (elem int (pred n) nat))]
-      (have <b1> (negative (pred n)) :by H2)
-      (have <b> _ :discharge [H2 <b1>]))
+      (have <b> (negative (pred n)) :by H2))
     (have <c> (negative (pred n))
           :by ((p/or-elim (elem int (pred n) nat)
                           (not (elem int (pred n) nat)))
@@ -692,15 +668,13 @@ and [[positive-succ-split-conv]]."
   (assume [H (or (equal int n zero)
                  (negative n))]
     (assume [H1 (equal int n zero)]
-      (have <a1> (negative (pred n))
+      (have <a> (negative (pred n))
             :by ((eq/eq-subst int (lambda [k int] (negative (pred k))) zero n)
                  ((eq/eq-sym int n zero) H1)
-                 negative-pred-zero))
-      (have <a> _ :discharge [H1 <a1>]))
+                 negative-pred-zero)))
     (assume [H2 (negative n)]
-      (have <b1> (negative (pred n))
-            :by ((negative-pred n) H2))
-      (have <b> _ :discharge [H2 <b1>]))
+      (have <b> (negative (pred n))
+            :by ((negative-pred n) H2)))
     (have <c> (negative (pred n))
           :by ((p/or-elim (equal int n zero)
                           (negative n))
@@ -725,32 +699,28 @@ and [[positive-succ-split-conv]]."
     (assume [H1 (or (equal int n zero)
                     (positive n))]
       (assume [Hz (equal int n zero)]
-        (have <a1> (or (equal int n zero)
-                       (negative n))
+        (have <a> (or (equal int n zero)
+                      (negative n))
               :by ((p/or-intro-left (equal int n zero)
-                                    (negative n)) Hz))
-        (have <a> _ :discharge [Hz <a1>]))
+                                    (negative n)) Hz)))
       (assume [Hpos (positive n)]
         (have <b1> p/absurd :by (H Hpos))
-        (have <b2> (or (equal int n zero)
+        (have <b> (or (equal int n zero)
                        (negative n))
               :by (<b1> (or (equal int n zero)
-                            (negative n))))
-        (have <b> _ :discharge [Hpos <b2>]))
-      (have <c1> (or (equal int n zero)
-                     (negative n))
+                            (negative n)))))
+      (have <c> (or (equal int n zero)
+                    (negative n))
             :by ((p/or-elim (equal int n zero)
                             (positive n))
                  H1 (or (equal int n zero)
-                        (negative n)) <a> <b>))
-      (have <c> _ :discharge [H1 <c1>]))
+                        (negative n)) <a> <b>)))
     (assume [H2 (negative n)]
-      (have <d1> (or (equal int n zero)
+      (have <d> (or (equal int n zero)
                      (negative n))
             :by ((p/or-intro-right (equal int n zero)
                                    (negative n))
-                 H2))
-      (have <d> _ :discharge [H2 <d1>]))
+                 H2)))
     (have <e> (or (equal int n zero)
                   (negative n))
           :by ((p/or-elim (or (equal int n zero)
@@ -760,7 +730,6 @@ and [[positive-succ-split-conv]]."
                            (negative n))
                <c> <d>))
     (qed <e>)))
-
 
 (defthm negative-pred-split-equiv
   "The conjunction of [[negative-pred-split]]

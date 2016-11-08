@@ -9,21 +9,14 @@
                                           try-proof ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
-
             [latte.equal :as eq :refer [equal]]
-
             [latte.quant :as q]
-
-            [latte-integers.core :as int :refer [zero succ pred int]]
+            [latte.classic :as classic]
+            [latte.fun :as fun]
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
-            [latte.classic :as classic]
-
-            [latte.fun :as fun]
-            
-            [latte-integers.core :as int :refer [succ pred]]
-
+            [latte-integers.core :as int :refer [zero succ pred int]]
             [latte-integers.nat :as nat :refer [positive negative]]))
 
 (defaxiom int-recur

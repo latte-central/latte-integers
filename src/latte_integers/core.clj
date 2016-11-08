@@ -157,13 +157,9 @@
     (have <a> (P zero) :by Hz)
     (assume [x int
              Hx (P x)]
-      (have <b1> (and (P (succ x))
+      (have <b> (and (P (succ x))
                      (P (pred x)))
-            :by (Hsp x))
-      (have <b> (forall [x int] (==> (P x)
-                                     (and (P (succ x))
-                                          (P (pred x)))))
-            :discharge [x Hx <b1>]))
+            :by (Hsp x)))
     (have <c> (forall [x int] (P x))
           :by ((int-induct P) <a> <b>))
     (qed <c>)))

@@ -32,11 +32,10 @@ derivation seems rather complex."
    (lambda [g (==> int T)]
      (and (equal T (g zero) x)
           (forall [y int]
-            (and (==> (positive y)
+            (and (==> (positive (succ y))
                       (equal T (g (succ y)) (f-succ (g y))))
-                 (==> (negative y)
+                 (==> (negative (pred  y))
                       (equal T (g (pred y)) (f-pred (g y))))))))))
-
 
 (defthm int-recur-bijection
   "The recursion principle for integers, for bijections."
@@ -48,40 +47,47 @@ derivation seems rather complex."
           (forall [y int]
             (equal T (g (succ y)) (f (g y))))))))
 
+#_(deflemma int-recur-bijection-lemma-1
+  [[T :type] [f (==> T T)] [b (fun/bijective T T f)] [g (==> int T)]]
+  (==> (forall [y int]
+         (and (==> (positive (succ y))
+                   (equal T (g (succ y)) (f (g y))))
+              (==> (negative (pred y))
+                   (equal T (g (pred y)) ((fun/inverse T T f b) (g y))))))
+       (forall [y int]
+         (equal T (g (succ y)) (f (g y))))))
 
-(deflemma int-recur-bijection-ex
-  [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
-  (q/ex
-   (==> int T)
-   (lambda [g (==> int T)]
-     (and (equal T (g zero) x)
-          (forall [y int]
-            (equal T (g (succ y)) (f (g y))))))))
-
-
-(try-proof int-recur-bijection-ex
+#_(try-proof int-recur-bijection-lemma-1
     :script
   (have inv-f _ :by (fun/inverse T T f b))
-  (have <a> (q/ex (==> int T)
-                (lambda [g (==> int T)]
-                  (and (equal T (g zero) x)
-                       (forall [y int]
-                         (and
-                          (==> (positive y)
-                               (equal T (g (succ y)) (f (g y))))
-                          (==> (negative y)
-                               (equal T (g (pred y)) (inv-f (g y)))))))))
-        :by (p/and-elim-left% (int-recur T x f inv-f)))
-  "We will proceed by eliminating the existential."
-  (assume [g (==> int T)
-           H (and (equal T (g zero) x)
-                  (forall [y int]
-                    (and
-                     (==> (positive y)
-                          (equal T (g (succ y)) (f (g y))))
-                     (==> (negative y)
-                          (equal T (g (pred y)) (inv-f (g y)))))))]
-    "todo"))
+  (assume [H (and (==> (positive (succ y))
+                       (equal T (g (succ y)) (f (g y))))
+                  (==> (negative (pred y))
+                       (equal T (g (pred y)) (inv-f (g y)))))]
+    (assume [Hpos (positive (succ y))]
+      (have <a> (equal T (g (succ y)) (f (g y)))
+            :by ((p/and-elim-left% H) Hpos)))
+    (assume [Hneg (negative (pred y))]
+      (have <b1> (equal T (g (pred y)) (inv-f (g y)))
+            :by ((p/and-elim-right% H) Hneg))
+      (have <b2> (equal T (f (g (pred y))) (f (inv-f (g y))))
+            :by ((eq/eq-cong T T f (g (pred y)) (inv-f (g y)))
+                 <b1>))
+      (have <b3> (equal T (f (inv-f (g y))) (g y))
+            :by ((fun/inverse-prop T T f b)
+                 (g y)))
+      (have <b4> (equal T (g y) (f (g (pred y))))
+            :by ((eq/eq-sym T (f (g (pred y))) (g y))
+                 ((eq/eq-trans T (f (g (pred y))) (f (inv-f (g y))) (g y))
+                  <b2> <b3>))))))
+
+;;                -1
+;;   g(y - 1) =  f  (g(y))
+;;                    -1
+;; ==> f(g(y-1)) = f(f  (g(y)))
+;; ==> f(g(y-1)) = g(y)
+;; ==> f(g(y-1+1)) = g(y+1)
+;; ==> f(g(y)) = g(y+1)
 
 (try-proof int-recur-bijection
            :script

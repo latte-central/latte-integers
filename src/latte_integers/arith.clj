@@ -20,6 +20,18 @@
             [latte-integers.core :as int :refer [zero succ pred int]]
             [latte-integers.nat :as nat :refer [positive negative]]))
 
+(definition int-recur-prop
+  "The property of the recursion principle
+for integers."
+  [[T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
+  (lambda [g (==> int T)]
+    (and (equal T (g zero) x)
+         (forall [y int]
+           (and (==> (positive (succ y))
+                     (equal T (g (succ y)) (f-succ (g y))))
+                (==> (negative (pred  y))
+                     (equal T (g (pred y)) (f-pred (g y)))))))))
+
 (defaxiom int-recur
   "The recursion principle for integers.
 
@@ -29,24 +41,22 @@ derivation seems rather complex."
   [[T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
   (q/unique
    (==> int T)
-   (lambda [g (==> int T)]
-     (and (equal T (g zero) x)
-          (forall [y int]
-            (and (==> (positive (succ y))
-                      (equal T (g (succ y)) (f-succ (g y))))
-                 (==> (negative (pred  y))
-                      (equal T (g (pred y)) (f-pred (g y))))))))))
+   (int-recur-prop T x f-succ f-pred)))
+
+(definition int-recur-bijection-prop
+  "Property of the recursion principle for integers, for bijections."
+  [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
+  (lambda [g (==> int T)]
+    (and (equal T (g zero) x)
+         (forall [y int]
+           (equal T (g (succ y)) (f (g y)))))))
 
 (defthm int-recur-bijection
   "The recursion principle for integers, for bijections."
   [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
   (q/unique
    (==> int T)
-   (lambda [g (==> int T)]
-     (and (equal T (g zero) x)
-          (forall [y int]
-            (equal T (g (succ y)) (f (g y))))))))
-
+   (int-recur-bijection-prop T x f b)))
 
 (deflemma int-recur-bijection-lemma-1
   [[T :type] [f (==> T T)] [b (fun/bijective T T f)] [g (==> int T)]]
@@ -192,4 +202,40 @@ derivation seems rather complex."
        (equal T (g (succ y)) (f (g y)))))
    (int-recur-bijection-lemma-1 T f b g)
    (int-recur-bijection-lemma-2 T f b g)))
+
+(deflemma int-recur-bijection-ex
+  [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
+  (q/ex (==> int T)
+        (int-recur-bijection-prop T x f b)))
+
+(proof int-recur-bijection-ex
+    :script
+  (have <ex> (q/ex
+                (==> int T)
+                (int-recur-prop T x f (fun/inverse T T f b)))
+        :by (p/and-elim-left% (int-recur T x f (fun/inverse T T f b))))
+  "Our goal is to eliminate the existential."
+  (assume [g (==> int T)
+           Hg ((int-recur-prop T x f (fun/inverse T T f b)) g)] 
+    (have <a> ((int-recur-bijection-prop T x f b) g)
+          :by (p/and-intro%
+               (p/and-elim-left% Hg)
+               (((int-recur-bijection-lemma-1 T f b) g)
+                (p/and-elim-right% Hg))))
+    (have <b> (q/ex (==> int T)
+                    (int-recur-bijection-prop T x f b))
+          :by ((q/ex-intro (==> int T)
+                           (int-recur-bijection-prop T x f b)
+                           g)
+               <a>)))
+  (have <c> (q/ex (==> int T)
+                  (int-recur-bijection-prop T x f b))
+        :by ((q/ex-elim (==> int T)
+                        (int-recur-prop T x f (fun/inverse T T f b))
+                        (q/ex (==> int T)
+                              (int-recur-bijection-prop T x f b)))
+             <ex> <b>))
+  (qed <c>))
+
+
 

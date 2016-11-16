@@ -237,5 +237,39 @@ derivation seems rather complex."
              <ex> <b>))
   (qed <c>))
 
+(deflemma int-recur-bijection-single
+  [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
+  (q/single (==> int T)
+            (int-recur-bijection-prop T x f b)))
 
+(proof int-recur-bijection-single
+    :script
+  (have <single> (forall [g h (==> int T)]
+                   (==> ((int-recur-prop T x f (fun/inverse T T f b)) g)
+                        ((int-recur-prop T x f (fun/inverse T T f b)) h)
+                        (equal (==> int T) g h)))
+        :by (p/and-elim-right% (int-recur T x f (fun/inverse T T f b))))
+  (assume [g (==> int T)
+           h (==> int T)
+           Hg ((int-recur-bijection-prop T x f b) g)
+           Hh ((int-recur-bijection-prop T x f b) h)]
+    (have <a> ((int-recur-prop T x f (fun/inverse T T f b)) g)
+          :by (p/and-intro%
+               (p/and-elim-left% Hg)
+               ((int-recur-bijection-lemma-2 T f b g)
+                (p/and-elim-right% Hg))))
+    (have <b> ((int-recur-prop T x f (fun/inverse T T f b)) h)
+          :by (p/and-intro%
+               (p/and-elim-left% Hh)
+               ((int-recur-bijection-lemma-2 T f b h)
+                (p/and-elim-right% Hh))))
+    (have <c> (equal (==> int T) g h)
+          :by (<single> g h <a> <b>)))
+  (qed <c>))
 
+(proof int-recur-bijection
+    :script
+  (have <a> _ :by (p/and-intro%
+                   (int-recur-bijection-ex T x f b)
+                   (int-recur-bijection-single T x f b)))
+  (qed <a>))

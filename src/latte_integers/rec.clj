@@ -1,6 +1,6 @@
 
-(ns latte-integers.arith
-  "The arithmetic functions over ℤ."
+(ns latte-integers.rec
+  "The recursion theorems for ℤ."
 
   (:refer-clojure :exclude [and or not int])
 
@@ -35,6 +35,8 @@ for integers."
 (defaxiom int-recur
   "The recursion principle for integers.
 
+cf. [[int-recur-prop]]
+
 According to [TT&FP,p. 318], this is derivable,
  but we introduce it as an axiom since the
 derivation seems rather complex."
@@ -44,7 +46,9 @@ derivation seems rather complex."
    (int-recur-prop T x f-succ f-pred)))
 
 (definition int-recur-bijection-prop
-  "Property of the recursion principle for integers, for bijections."
+  "Property of the recursion principle for integers, for bijections.
+This is a much simpler principle if the function under study
+ is bijective on ℤ (e.g. addition)."
   [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
   (lambda [g (==> int T)]
     (and (equal T (g zero) x)
@@ -52,7 +56,8 @@ derivation seems rather complex."
            (equal T (g (succ y)) (f (g y)))))))
 
 (defthm int-recur-bijection
-  "The recursion principle for integers, for bijections."
+  "The recursion principle for integers, for bijections.
+This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
   [[T :type] [x T] [f (==> T T)] [b (fun/bijective T T f)]]
   (q/unique
    (==> int T)

@@ -2,7 +2,7 @@
 (ns latte-integers.rec
   "The recursion theorems for ℤ."
 
-  (:refer-clojure :exclude [and or not int])
+  (:refer-clojure :exclude [and or not int =])
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
@@ -17,7 +17,7 @@
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
-            [latte-integers.core :as int :refer [zero succ pred int]]
+            [latte-integers.core :as int :refer [zero succ pred int =]]
             [latte-integers.nat :as nat :refer [positive negative]]))
 
 (definition int-recur-prop
@@ -89,7 +89,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
         (have <a> (equal T (g (succ y)) (f (g y)))
               :by ((p/and-elim-left% (H y)) <a1>)))
       "  - second case: y is zero"
-      (assume [Hzero (equal int y zero)]
+      (assume [Hzero (= y zero)]
         (have <b1> (positive (succ zero))
               :by ((nat/positive-succ zero)
                    nat/nat-zero))
@@ -102,10 +102,10 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
         (have <b> (equal T (g (succ y)) (f (g y)))
               :by ((p/and-elim-left% (H y)) <b2>)))
       "we regroup the first two cases"
-      (assume [Hnat (or (equal int y zero)
+      (assume [Hnat (or (= y zero)
                         (positive y))]
         (have <c> (equal T (g (succ y)) (f (g y)))
-              :by ((p/or-elim (equal int y zero)
+              :by ((p/or-elim (= y zero)
                               (positive y))
                    Hnat
                    (equal T (g (succ y)) (f (g y)))
@@ -134,7 +134,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
                     <d4> <d5>))))
       "We regroup the cases (or elimination)"
       (have <e> (equal T (g (succ y)) (f (g y)))
-            :by ((p/or-elim (or (equal int y zero)
+            :by ((p/or-elim (or (= y zero)
                                 (positive y))
                             (negative y))
                  (nat/int-split y)

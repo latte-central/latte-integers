@@ -1,7 +1,7 @@
 (ns latte-integers.core
   "A formalization of the type of integers."
 
-  (:refer-clojure :exclude [and or not int])
+  (:refer-clojure :exclude [and or not int =])
 
   (:require [latte.core :as latte :refer [defprimitive defaxiom defthm definition
                                           ==> lambda forall
@@ -17,6 +17,11 @@
   "The type of integers."
   []
   :type)
+
+(definition =
+  "The equality on integers."
+  [[n int] [m int]]
+  (equal int n m))
 
 (defaxiom zero
   "The integer zero."
@@ -60,7 +65,7 @@
 (defthm succ-single
   "An integer `y` is the successor of *at most* another integer."
   [[y int]]
-  (q/single int (lambda [x int] (equal int (succ x) y))))
+  (q/single int (lambda [x int] (= (succ x) y))))
 
 (proof succ-single :term
   ((fun/injective-single int int succ)
@@ -70,7 +75,7 @@
 (defthm succ-unique
   "There is a unique successor to an integer `y`."
   [[y int]]
-  (q/unique int (lambda [x int] (equal int (succ x) y))))
+  (q/unique int (lambda [x int] (= (succ x) y))))
 
 (proof succ-unique :term
   ((fun/bijective-unique int int succ)
@@ -85,7 +90,7 @@
 (defthm succ-of-pred
   "The succesor of the predecessor of `y` is ... `y`."
   [[y int]]
-  (equal int (succ (pred y)) y))
+  (= (succ (pred y)) y))
 
 (proof succ-of-pred
     :term
@@ -95,7 +100,7 @@
 (defthm pred-of-succ
   "The predecessor of the successor of `y` is ... `y`."
   [[y int]]
-  (equal int (pred (succ y)) y))
+  (= (pred (succ y)) y))
 
 (proof pred-of-succ
     :term

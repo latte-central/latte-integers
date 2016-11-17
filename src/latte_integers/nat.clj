@@ -1,7 +1,7 @@
 (ns latte-integers.nat
   "The natural integers in ℕ as a subset of ℤ."
 
-  (:refer-clojure :exclude [and or not int])
+  (:refer-clojure :exclude [and or not int =])
 
   (:require [latte.core :as latte :refer [defaxiom defthm deflemma definition
                                           lambda forall proof assume have
@@ -11,7 +11,7 @@
 
             [latte.equal :as eq :refer [equal]]
 
-            [latte-integers.core :as int :refer [zero succ pred int]]
+            [latte-integers.core :as int :refer [zero succ pred int =]]
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
@@ -77,18 +77,18 @@ This is the first Peano 'axiom' (here theorem, based
   []
   (forall [x int]
     (==> (elem int x nat)
-         (not (equal int (succ x) zero)))))
+         (not (= (succ x) zero)))))
 
 (proof nat-zero-is-not-succ :script
   (assume [x int
            H (elem int x nat)]
-    (assume [H2 (equal int (succ x) zero)]
-      (have a (equal int (pred (succ x)) (pred zero))
+    (assume [H2 (= (succ x) zero)]
+      (have a (= (pred (succ x)) (pred zero))
             :by ((eq/eq-cong int int pred (succ x) zero) H2))
-      (have b (equal int x (pred (succ x)))
+      (have b (= x (pred (succ x)))
             :by ((eq/eq-sym int (pred (succ x)) x)
                  (int/pred-of-succ x)))
-      (have c (equal int x (pred zero))
+      (have c (= x (pred zero))
             :by ((eq/eq-trans int x (pred (succ x)) (pred zero))
                  b a))
       (have d (elem int (pred zero) nat)
@@ -104,16 +104,16 @@ here a simple consequence of [[succ-injective]]."
   (forall [x y int]
     (==> (elem int x nat)
          (elem int y nat)
-         (equal int (succ x) (succ y))
-         (equal int x y))))
+         (= (succ x) (succ y))
+         (= x y))))
 
 (proof nat-succ-injective :script
   (assume [x int
            y int
            H1 (elem int x nat)
            H2 (elem int y nat)
-           H3 (equal int (succ x) (succ y))]
-    (have a (equal int x y)
+           H3 (= (succ x) (succ y))]
+    (have a (= x y)
           :by (int/succ-injective x y H3))
     (qed a)))
 
@@ -172,18 +172,18 @@ derived from [[int-induct]]."
   "Any non-zero natural number is positive."
   []
   (forall-in [x int nat]
-    (==> (not (equal int x zero))
+    (==> (not (= x zero))
          (positive x))))
 
 (proof positive-nat-split
     :script
   (have P _ :by (lambda [x int]
-                  (==> (not (equal int x zero))
+                  (==> (not (= x zero))
                        (elem int (pred x) nat))))
   "Let's proceed by induction"
   "First with (P zero)"
-  (assume [Hnz (not (equal int zero zero))]
-    (have <a1> (equal int zero zero) :by (eq/eq-refl int zero))
+  (assume [Hnz (not (= zero zero))]
+    (have <a1> (= zero zero) :by (eq/eq-refl int zero))
     (have <a2> p/absurd :by (Hnz <a1>))
     (have <a> (elem int (pred zero) nat) :by (<a2> (elem int (pred zero) nat))))
   "Then the inductive case."
@@ -191,8 +191,8 @@ derived from [[int-induct]]."
            Hn (elem int n nat)
            Hind (P n)]
     "We aim to prove (P (succ n))"
-    (assume [Hs (not (equal int (succ n) zero))]
-      (have <b1> (equal int n (pred (succ n)))
+    (assume [Hs (not (= (succ n) zero))]
+      (have <b1> (= n (pred (succ n)))
             :by ((eq/eq-sym int (pred (succ n)) n) (int/pred-of-succ n)))
       (have <b> (elem int (pred (succ n)) nat)
             :by ((eq/eq-subst int nat n (pred (succ n)))
@@ -231,7 +231,7 @@ derived from [[int-induct]]."
 (proof positive-succ
     :script
   (assume [Hn (elem int n nat)]
-    (have <a> (not (equal int (succ n) zero))
+    (have <a> (not (= (succ n) zero))
           :by (nat-zero-is-not-succ n Hn))
     (have <b> (positive (succ n))
           :by (positive-nat-split (succ n)
@@ -260,15 +260,15 @@ derived from [[int-induct]]."
 (defthm positive-zero-conv
   "A positive or null number is ... natural"
   [[n int]]
-  (==> (or (equal int n zero)
+  (==> (or (= n zero)
            (positive n))
        (elem int n nat)))
 
 (proof positive-zero-conv
     :script
-  (assume [H (or (equal int n zero)
+  (assume [H (or (= n zero)
                  (positive n))]
-    (assume [H1 (equal int n zero)]
+    (assume [H1 (= n zero)]
       (have <a> (elem int n nat)
             :by ((eq/eq-subst int nat zero n)
                  ((eq/eq-sym int n zero) H1)
@@ -277,7 +277,7 @@ derived from [[int-induct]]."
       (have <b> (elem int n nat)
             :by ((positive-conv n) H2)))
     (have <c> (elem int n nat)
-          :by ((p/or-elim (equal int n zero)
+          :by ((p/or-elim (= n zero)
                           (positive n))
                H (elem int n nat)
                <a> <b>))
@@ -334,25 +334,25 @@ is (obiously) a natural number"
   "A natural number is either zero or it is positive"
   []
   (forall-in [n int nat] 
-    (or (equal int n zero)
+    (or (= n zero)
         (positive n))))
 
 (proof nat-split
     :script
   (have P _ :by (lambda [k int]
-                  (or (equal int k zero)
+                  (or (= k zero)
                       (positive k))))
   "We proceed by case analysis"
-  (have <a> (P zero) :by ((p/or-intro-left (equal int zero zero)
+  (have <a> (P zero) :by ((p/or-intro-left (= zero zero)
                                            (positive zero))
                           (eq/eq-refl int zero)))
   (assume [n int
            Hn (elem int n nat)]
     (have <b1> (positive (succ n))
           :by ((positive-succ n) Hn))
-    (have <b> (or (equal int (succ n) zero)
+    (have <b> (or (= (succ n) zero)
                   (positive (succ n)))
-          :by ((p/or-intro-right (equal int (succ n) zero)
+          :by ((p/or-intro-right (= (succ n) zero)
                                  (positive (succ n)))
                <b1>)))
   (have <c> (forall-in [n int nat] (P n))
@@ -363,7 +363,7 @@ is (obiously) a natural number"
   "A positive successor can split."
   [[n int]]
   (==> (positive (succ n))
-       (or (equal int n zero)
+       (or (= n zero)
            (positive n))))
 
 (proof positive-succ-split
@@ -371,7 +371,7 @@ is (obiously) a natural number"
   (assume [H (positive (succ n))]
     (have <a> (elem int n nat)
           :by ((positive-succ-conv n) H))
-    (have <b> (or (equal int n zero)
+    (have <b> (or (= n zero)
                   (positive n))
           :by (nat-split n <a>))
     (qed <b>)))
@@ -379,15 +379,15 @@ is (obiously) a natural number"
 (defthm positive-succ-split-conv
   "The converse of [[positive-succ-split]]."
   [[n int]]
-  (==> (or (equal int n zero)
+  (==> (or (= n zero)
            (positive n))
        (positive (succ n))))
 
 (proof positive-succ-split-conv
     :script
-  (assume [H (or (equal int n zero)
+  (assume [H (or (= n zero)
                  (positive n))]
-    (assume [H1 (equal int n zero)]
+    (assume [H1 (= n zero)]
       (have <a1> (elem int n nat)
             :by ((eq/eq-subst int nat zero n)
                  ((eq/eq-sym int n zero) H1)
@@ -398,7 +398,7 @@ is (obiously) a natural number"
       (have <b> (positive (succ n))
             :by ((positive-succ-strong n) H2)))
     (have <c> (positive (succ n))
-          :by ((p/or-elim (equal int n zero)
+          :by ((p/or-elim (= n zero)
                           (positive n))
                H (positive (succ n)) <a> <b>))
     (qed <c>)))
@@ -408,7 +408,7 @@ is (obiously) a natural number"
 and [[positive-succ-split-conv]]."
   [[n int]]
   (<=> (positive (succ n))
-       (or (equal int n zero)
+       (or (= n zero)
            (positive n))))
 
 (proof positive-succ-split-equiv
@@ -426,7 +426,7 @@ and [[positive-succ-split-conv]]."
 (defthm int-split
   "The tripartition property about integers."
   [[n int]]
-  (or (or (equal int n zero)
+  (or (or (= n zero)
           (positive n))
       (negative n)))
 
@@ -436,26 +436,26 @@ and [[positive-succ-split-conv]]."
                 (not (elem int n nat)))
         :by (classic/excluded-middle-ax (elem int n nat)))
   (assume [Hyes (elem int n nat)]
-    (have <b1> (or (equal int n zero)
+    (have <b1> (or (= n zero)
                    (positive n))
           :by ((nat-split n) Hyes))
-    (have <b> _ :by ((p/or-intro-left (or (equal int n zero)
+    (have <b> _ :by ((p/or-intro-left (or (= n zero)
                                            (positive n))
                                        (negative n))
                       <b1>)))
   (assume [Hno (not (elem int n nat))]
     (have <c1> (negative n) :by Hno)
-    (have <c> _ :by ((p/or-intro-right (or (equal int n zero)
+    (have <c> _ :by ((p/or-intro-right (or (= n zero)
                                            (positive n))
                                         (negative n))
                       <c1>)))
-  (have <d> (or (or (equal int n zero)
+  (have <d> (or (or (= n zero)
                     (positive n))
                 (negative n))
         :by ((p/or-elim (elem int n nat)
                         (not (elem int n nat)))
              <a>
-             (or (or (equal int n zero)
+             (or (or (= n zero)
                      (positive n))
                  (negative n))
              <b>
@@ -472,20 +472,20 @@ and [[positive-succ-split-conv]]."
 ;;   "The proof is by induction on n"
 
 ;;   (have P _ :by (lambda [x int]
-;;                   (or (or (equal int x zero)
+;;                   (or (or (= x zero)
 ;;                           (positive x))
 ;;                       (negative x))))
 
 ;;   "Base case: zero"
-;;   (have <a1> (equal int zero zero)
+;;   (have <a1> (= zero zero)
 ;;         :by (eq/eq-refl int zero))
-;;   (have <a2> (or (equal int zero zero)
+;;   (have <a2> (or (= zero zero)
 ;;                  (positive zero))
-;;         :by ((p/or-intro-left (equal int zero zero)
+;;         :by ((p/or-intro-left (= zero zero)
 ;;                               (positive zero))
 ;;              <a1>))
 ;;   (have <a> (P zero)
-;;         :by ((p/or-intro-left (or (equal int zero zero)
+;;         :by ((p/or-intro-left (or (= zero zero)
 ;;                                   (positive zero))
 ;;                               (negative zero))
 ;;              <a2>))
@@ -493,23 +493,23 @@ and [[positive-succ-split-conv]]."
 ;;   (assume [k int
 ;;            Hind (P k)]
 ;;     "Left-case"
-;;     (assume [Hl (or (equal int k zero)
+;;     (assume [Hl (or (= k zero)
 ;;                     (positive k))]
 ;;       "Left-left case"
-;;       (assume [Hll (equal int k zero)]
+;;       (assume [Hll (= k zero)]
 ;;         (have <lla1> (elem int k nat)
 ;;               :by ((eq/eq-subst int nat zero k)
 ;;                    ((eq/eq-sym int k zero) Hll)
 ;;                    nat-zero))
 ;;         (have <lla2> (positive (succ k))
 ;;               :by ((positive-succ k) <lla1>))
-;;         (have <lla3> (or (equal int (succ k) zero)
+;;         (have <lla3> (or (= (succ k) zero)
 ;;                          (positive (succ k)))
-;;               :by ((p/or-intro-right (equal int (succ k) zero)
+;;               :by ((p/or-intro-right (= (succ k) zero)
 ;;                                      (positive (succ k)))
 ;;                    <lla2>))
 ;;         (have <lla> (P (succ k))
-;;               :by ((p/or-intro-left (or (equal int (succ k) zero)
+;;               :by ((p/or-intro-left (or (= (succ k) zero)
 ;;                                         (positive (succ k)))
 ;;                                     (negative (succ k)))
 ;;                    <lla3>))
@@ -521,7 +521,7 @@ and [[positive-succ-split-conv]]."
 ;;                    ((eq/eq-sym int k zero) Hll)
 ;;                    nat-zero-has-no-pred))
 ;;         (have <llb> (P (pred k))
-;;               :by ((p/or-intro-right (or (equal int (pred k) zero)
+;;               :by ((p/or-intro-right (or (= (pred k) zero)
 ;;                                          (positive (pred k)))
 ;;                                      (negative (pred k)))
 ;;                    <llb1>))
@@ -532,21 +532,21 @@ and [[positive-succ-split-conv]]."
 ;;       (assume [Hlr (positive k)]
 ;;         (have <lra1> (positive (succ k))
 ;;               :by ((positive-succ-strong k) Hlr))
-;;         (have <lra2> (or (equal int (succ k) zero)
+;;         (have <lra2> (or (= (succ k) zero)
 ;;                          (positive (succ k)))
-;;               :by ((p/or-intro-right (equal int (succ k) zero)
+;;               :by ((p/or-intro-right (= (succ k) zero)
 ;;                                      (positive (succ k)))
 ;;                    <lra1>))
 ;;         (have <lra> (P (succ k))
-;;               :by ((p/or-intro-left (or (equal int (succ k) zero)
+;;               :by ((p/or-intro-left (or (= (succ k) zero)
 ;;                                         (positive (succ k)))
 ;;                                     (negative (succ k)))
 ;;                    <lra2>))
-;;         (have <lrb1> (or (equal int (pred k) zero)
+;;         (have <lrb1> (or (= (pred k) zero)
 ;;                          (positive (pred k)))
 ;;               :by (nat-split (pred k) Hlr))
 ;;         (have <lrb> (P (pred k))
-;;               :by ((p/or-intro-left (or (equal int (pred k) zero)
+;;               :by ((p/or-intro-left (or (= (pred k) zero)
 ;;                                         (positive (pred k)))
 ;;                                     (negative (pred k)))
 ;;                    <lrb1>))
@@ -556,7 +556,7 @@ and [[positive-succ-split-conv]]."
 ;;         (have <lr> _ :discharge [Hlr <lrc>]))
 ;;       (have <l1> (and (P (succ k))
 ;;                       (P (pred k)))
-;;             :by ((p/or-elim (equal int k zero)
+;;             :by ((p/or-elim (= k zero)
 ;;                             (positive k))
 ;;                  Hl (and (P (succ k))
 ;;                          (P (pred k))) <ll> <lr>))
@@ -588,10 +588,10 @@ and [[positive-succ-split-conv]]."
 
 (proof int-split-alt
     :script
-  (have <or> (or (or (equal int n zero)
+  (have <or> (or (or (= n zero)
                      (positive n))
                  (negative n)) :by (int-split n))
-  (assume [H1 (or (equal int n zero)
+  (assume [H1 (or (= n zero)
                   (positive n))]
     (have <a1> (elem int n nat)
           :by ((positive-zero-conv n) H1))
@@ -607,7 +607,7 @@ and [[positive-succ-split-conv]]."
                <b1>)))
   (have <c> (or (elem int n nat)
                 (not (elem int n nat)))
-        :by ((p/or-elim (or (equal int n zero)
+        :by ((p/or-elim (or (= n zero)
                             (positive n))
                         (negative n))
              <or> (or (elem int n nat)
@@ -659,15 +659,15 @@ and [[positive-succ-split-conv]]."
 (defthm negative-pred-split-conv
   "An auxiliary theorem for the predecessor."
   [[n int]]
-  (==> (or (equal int n zero)
+  (==> (or (= n zero)
            (negative n))
        (negative (pred n))))
 
 (proof negative-pred-split-conv
     :script
-  (assume [H (or (equal int n zero)
+  (assume [H (or (= n zero)
                  (negative n))]
-    (assume [H1 (equal int n zero)]
+    (assume [H1 (= n zero)]
       (have <a> (negative (pred n))
             :by ((eq/eq-subst int (lambda [k int] (negative (pred k))) zero n)
                  ((eq/eq-sym int n zero) H1)
@@ -676,7 +676,7 @@ and [[positive-succ-split-conv]]."
       (have <b> (negative (pred n))
             :by ((negative-pred n) H2)))
     (have <c> (negative (pred n))
-          :by ((p/or-elim (equal int n zero)
+          :by ((p/or-elim (= n zero)
                           (negative n))
                H (negative (pred n)) <a> <b>))
     (qed <c>)))
@@ -686,47 +686,47 @@ and [[positive-succ-split-conv]]."
   "Splitting of a predecessor."
   [[n int]]
   (==> (negative (pred n))
-       (or (equal int n zero)
+       (or (= n zero)
            (negative n))))
 
 (proof negative-pred-split
     :script
   (assume [H (negative (pred n))]
-    (have <split> (or (or (equal int n zero)
+    (have <split> (or (or (= n zero)
                           (positive n))
                       (negative n))
           :by (int-split n))
-    (assume [H1 (or (equal int n zero)
+    (assume [H1 (or (= n zero)
                     (positive n))]
-      (assume [Hz (equal int n zero)]
-        (have <a> (or (equal int n zero)
+      (assume [Hz (= n zero)]
+        (have <a> (or (= n zero)
                       (negative n))
-              :by ((p/or-intro-left (equal int n zero)
+              :by ((p/or-intro-left (= n zero)
                                     (negative n)) Hz)))
       (assume [Hpos (positive n)]
         (have <b1> p/absurd :by (H Hpos))
-        (have <b> (or (equal int n zero)
+        (have <b> (or (= n zero)
                        (negative n))
-              :by (<b1> (or (equal int n zero)
+              :by (<b1> (or (= n zero)
                             (negative n)))))
-      (have <c> (or (equal int n zero)
+      (have <c> (or (= n zero)
                     (negative n))
-            :by ((p/or-elim (equal int n zero)
+            :by ((p/or-elim (= n zero)
                             (positive n))
-                 H1 (or (equal int n zero)
+                 H1 (or (= n zero)
                         (negative n)) <a> <b>)))
     (assume [H2 (negative n)]
-      (have <d> (or (equal int n zero)
+      (have <d> (or (= n zero)
                      (negative n))
-            :by ((p/or-intro-right (equal int n zero)
+            :by ((p/or-intro-right (= n zero)
                                    (negative n))
                  H2)))
-    (have <e> (or (equal int n zero)
+    (have <e> (or (= n zero)
                   (negative n))
-          :by ((p/or-elim (or (equal int n zero)
+          :by ((p/or-elim (or (= n zero)
                               (positive n))
                           (negative n))
-               <split> (or (equal int n zero)
+               <split> (or (= n zero)
                            (negative n))
                <c> <d>))
     (qed <e>)))
@@ -736,14 +736,14 @@ and [[positive-succ-split-conv]]."
 and [[negative-pred-split-conv]]."
   [[n int]]
   (<=> (negative (pred n))
-       (or (equal int n zero)
+       (or (= n zero)
            (negative n))))
 
 (proof negative-pred-split-equiv
     :term
   ((p/iff-intro
        (negative (pred n))
-     (or (equal int n zero)
+     (or (= n zero)
          (negative n)))
    (negative-pred-split n)
    (negative-pred-split-conv n)))

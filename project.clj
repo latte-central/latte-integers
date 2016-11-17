@@ -1,4 +1,4 @@
-(defproject latte-integers "0.1.0-SNAPSHOT"
+(defproject latte-integers "0.1.1-SNAPSHOT"
   :description "A formalization of integers in LaTTe."
   :url "https://github.com/fredokun/latte-integers.git"
   :license {:name "MIT Licence"
@@ -9,6 +9,6 @@
   :codox {:output-path "docs/"
           :metadata {:doc/format :markdown}
           :namespaces [latte-integers.core latte-integers.nat
-                       latte-integers.arith]}
+                       latte-integers.rec latte-integers.plus]}
   :plugins [[lein-codox "0.10.1"]])
 

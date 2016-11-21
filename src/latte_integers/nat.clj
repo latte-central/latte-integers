@@ -277,10 +277,9 @@ derived from [[int-induct]]."
       (have <b> (elem int n nat)
             :by ((positive-conv n) H2)))
     (have <c> (elem int n nat)
-          :by ((p/or-elim (= n zero)
-                          (positive n))
-               H (elem int n nat)
-               <a> <b>))
+          :by (p/or-elim% H
+                          (elem int n nat)
+                          <a> <b>))
     (qed <c>)))
 
 (defthm positive-succ-conv
@@ -398,8 +397,7 @@ is (obiously) a natural number"
       (have <b> (positive (succ n))
             :by ((positive-succ-strong n) H2)))
     (have <c> (positive (succ n))
-          :by ((p/or-elim (= n zero)
-                          (positive n))
+          :by (p/or-elim% 
                H (positive (succ n)) <a> <b>))
     (qed <c>)))
 
@@ -452,8 +450,7 @@ and [[positive-succ-split-conv]]."
   (have <d> (or (or (= n zero)
                     (positive n))
                 (negative n))
-        :by ((p/or-elim (elem int n nat)
-                        (not (elem int n nat)))
+        :by (p/or-elim%
              <a>
              (or (or (= n zero)
                      (positive n))
@@ -607,11 +604,9 @@ and [[positive-succ-split-conv]]."
                <b1>)))
   (have <c> (or (elem int n nat)
                 (not (elem int n nat)))
-        :by ((p/or-elim (or (= n zero)
-                            (positive n))
-                        (negative n))
+        :by (p/or-elim% 
              <or> (or (elem int n nat)
-                     (not (elem int n nat)))
+                      (not (elem int n nat)))
              <a> <b>))
   (qed <c>))
 
@@ -641,8 +636,7 @@ and [[positive-succ-split-conv]]."
     (assume [H2 (not (elem int (pred n) nat))]
       (have <b> (negative (pred n)) :by H2))
     (have <c> (negative (pred n))
-          :by ((p/or-elim (elem int (pred n) nat)
-                          (not (elem int (pred n) nat)))
+          :by (p/or-elim%
                <split>
                (negative (pred n))
                <a> <b>))
@@ -676,8 +670,7 @@ and [[positive-succ-split-conv]]."
       (have <b> (negative (pred n))
             :by ((negative-pred n) H2)))
     (have <c> (negative (pred n))
-          :by ((p/or-elim (= n zero)
-                          (negative n))
+          :by (p/or-elim% 
                H (negative (pred n)) <a> <b>))
     (qed <c>)))
 
@@ -711,8 +704,7 @@ and [[positive-succ-split-conv]]."
                             (negative n)))))
       (have <c> (or (= n zero)
                     (negative n))
-            :by ((p/or-elim (= n zero)
-                            (positive n))
+            :by (p/or-elim%
                  H1 (or (= n zero)
                         (negative n)) <a> <b>)))
     (assume [H2 (negative n)]
@@ -723,9 +715,7 @@ and [[positive-succ-split-conv]]."
                  H2)))
     (have <e> (or (= n zero)
                   (negative n))
-          :by ((p/or-elim (or (= n zero)
-                              (positive n))
-                          (negative n))
+          :by (p/or-elim%
                <split> (or (= n zero)
                            (negative n))
                <c> <d>))

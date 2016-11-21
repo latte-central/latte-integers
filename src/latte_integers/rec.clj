@@ -105,8 +105,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
       (assume [Hnat (or (= y zero)
                         (positive y))]
         (have <c> (equal T (g (succ y)) (f (g y)))
-              :by ((p/or-elim (= y zero)
-                              (positive y))
+              :by (p/or-elim% 
                    Hnat
                    (equal T (g (succ y)) (f (g y)))
                    <b> <a>)))
@@ -134,9 +133,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
                     <d4> <d5>))))
       "We regroup the cases (or elimination)"
       (have <e> (equal T (g (succ y)) (f (g y)))
-            :by ((p/or-elim (or (= y zero)
-                                (positive y))
-                            (negative y))
+            :by (p/or-elim% 
                  (nat/int-split y)
                  (equal T (g (succ y)) (f (g y)))
                  <c> <d>))

@@ -124,4 +124,48 @@
                               (+ m (pred n))) <d>))
   (qed <e>))
 
+(defthm plus-zero-sym
+  [[m int]]
+  (= (+ zero m) m))
+
+(proof plus-zero-sym
+    :script
+  "We proceed by induction on `m`."
+  "First the case for m=0"
+  (have <a> (= (+ zero zero) zero)
+        :by (plus-zero zero))
+  "Then the inductive case, we assume `(P m)` for some `m`."
+  (assume [m int
+           Hind (= (+ zero m) m)]
+    "We must show `(P (pred m))`."
+    (have <b1> (= (+ zero (pred m))
+                  (pred (+ zero m)))
+          :by (plus-pred zero m))
+    (have <b> (= (+ zero (pred m))
+                 (pred m))
+          :by ((eq/eq-subst int
+                            (lambda [k int]
+                              (= (+ zero (pred m))
+                                 (pred k)))
+                            (+ zero m)
+                            m)
+               Hind <b1>))
+    "and also  and `(P (succ m))`."
+    (have <c1> (= (+ zero (succ m))
+                  (succ (+ zero m)))
+          :by (plus-succ zero m))
+    (have <c> (= (+ zero (succ m))
+                 (succ m))
+          :by ((eq/eq-subst int
+                            (lambda [k int]
+                              (= (+ zero (succ m))
+                                 (succ k)))
+                            (+ zero m)
+                            m)
+               Hind <c1>))
+    (have <d> _ :by (p/and-intro% <c> <b>)))
+  (qed (((int/int-induct (lambda [m int]
+                           (= (+ zero m) m)))
+         <a> <d>) m)))
+
 

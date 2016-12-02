@@ -168,4 +168,159 @@
                            (= (+ zero m) m)))
          <a> <d>) m)))
 
+(defthm plus-succ-sym
+  [[m int] [n int]]
+  (= (+ (succ m) n)
+     (succ (+ m n))))
+
+(proof plus-succ-sym
+    :script
+  (have <a1> (= (+ (succ m) zero)
+                (succ m))
+        :by (plus-zero (succ m)))
+  (have <a2> (= (succ m)
+                (succ (+ m zero)))
+        :by ((eq/eq-cong int int succ m (+ m zero))
+             ((eq/eq-sym int (+ m zero) m) (plus-zero m))))
+  (have <a> (= (+ (succ m) zero)
+               (succ (+ m zero)))
+        :by ((eq/eq-trans int
+                          (+ (succ m) zero)
+                          (succ m)
+                          (succ (+ m zero)))
+             <a1> <a2>))
+  (assume [n int
+           Hind (= (+ (succ m) n)
+                   (succ (+ m n)))]
+    "We first show `(P (pred n))`."
+    (have <b1> (= (+ (succ m) (pred n))
+                  (pred (+ (succ m) n)))
+          :by (plus-pred (succ m) n))
+    (have <b2> (= (pred (+ (succ m) n))
+                  (pred (succ (+ m n))))
+          :by ((eq/eq-cong int int pred
+                           (+ (succ m) n)
+                           (succ (+ m n)))
+               Hind))
+    (have <b3> (= (+ (succ m) (pred n))
+                  (pred (succ (+ m n))))
+          :by ((eq/eq-trans int
+                            (+ (succ m) (pred n))
+                            (pred (+ (succ m) n))
+                            (pred (succ (+ m n))))
+               <b1> <b2>))
+    (have <b4> (= (+ (succ m) (pred n))
+                  (+ m n))
+          :by ((eq/eq-subst int
+                            (lambda [k int]
+                              (= (+ (succ m) (pred n))
+                                 k))
+                            (pred (succ (+ m n)))
+                            (+ m n))
+               (int/pred-of-succ (+ m n))
+               <b3>))
+    (have <b5> (= (+ m (succ (pred n)))
+                  (succ (+ m (pred n))))
+          :by (plus-succ m (pred n)))
+    (have <b6> (= (+ m n)
+                  (+ m (succ (pred n))))
+          :by ((eq/eq-subst int
+                            (lambda [k int]
+                              (= (+ m n)
+                                 (+ m k)))
+                            n
+                            (succ (pred n)))
+               ((eq/eq-sym int (succ (pred n)) n)
+                (int/succ-of-pred n))
+               (eq/eq-refl int (+ m n))))
+    (have <b7> (= (+ m n)
+                  (succ (+ m (pred n))))
+          :by ((eq/eq-trans int
+                            (+ m n)
+                            (+ m (succ (pred n)))
+                            (succ (+ m (pred n))))
+               <b6> <b5>))
+    (have <b> (= (+ (succ m) (pred n))
+                 (succ (+ m (pred n))))
+          :by ((eq/eq-trans int
+                            (+ (succ m) (pred n))
+                            (+ m n)
+                            (succ (+ m (pred n))))
+               <b4> <b7>))
+    "And then `P (succ n)`."
+    (have <c1> (= (+ (succ m) (succ n))
+                  (succ (+ (succ m) n)))
+          :by (plus-succ (succ m) n))
+    (have <c2> (= (succ (+ (succ m) n))
+                  (succ (succ (+ m n))))
+          :by ((eq/eq-cong int int succ
+                           (+ (succ m) n)
+                           (succ (+ m n))) Hind))
+    (have <c3> (= (+ (succ m) (succ n))
+                  (succ (succ (+ m n))))
+          :by ((eq/eq-trans int
+                            (+ (succ m) (succ n))
+                            (succ (+ (succ m) n))
+                            (succ (succ (+ m n))))
+               <c1> <c2>))
+    (have <c4> (= (succ (succ (+ m n)))
+                  (succ (+ m (succ n))))
+          :by ((eq/eq-cong int int succ
+                           (succ (+ m n))
+                           (+ m (succ n)))
+               ((eq/eq-sym int (+ m (succ n)) (succ (+ m n)))
+                (plus-succ m n))))
+    (have <c> (= (+ (succ m) (succ n))
+                 (succ (+ m (succ n))))
+          :by ((eq/eq-trans int
+                            (+ (succ m) (succ n))
+                            (succ (succ (+ m n)))
+                            (succ (+ m (succ n))))
+               <c3> <c4>))
+    "Let's conjunct the two sides."
+    (have <d> _ :by (p/and-intro% <c> <b>)))
+  (qed (((int/int-induct (lambda [n int]
+                           (= (+ (succ m) n)
+                              (succ (+ m n)))))
+         <a> <d>) n)))
+
+(defthm plus-pred-sym
+  [[m int] [n int]]
+  (= (+ (pred m) n)
+     (pred (+ m n))))
+
+(proof plus-pred-sym
+    :script
+  (have <a> (= (+ (succ (pred m)) n)
+               (succ (+ (pred m) n)))
+        :by (plus-succ-sym (pred m) n))
+  (have <b> (= (+ m n)
+               (succ (+ (pred m) n)))
+        :by ((eq/eq-subst int
+                          (lambda [k int]
+                            (= (+ k n)
+                               (succ (+ (pred m) n))))
+                          (succ (pred m))
+                          m)
+             (int/succ-of-pred m)
+             <a>))
+  (have <c> (= (pred (+ m n))
+               (pred (succ (+ (pred m) n))))
+        :by ((eq/eq-cong int int pred
+                         (+ m n)
+                         (succ (+ (pred m) n)))
+             <b>))
+  (have <d> (= (pred (+ m n))
+               (+ (pred m) n))
+        :by ((eq/eq-subst int
+                          (lambda [k int]
+                            (= (pred (+ m n))
+                               k))
+                          (pred (succ (+ (pred m) n)))
+                          (+ (pred m) n))
+             (int/pred-of-succ (+ (pred m) n))
+             <c>))
+  (qed ((eq/eq-sym int (pred (+ m n))
+                   (+ (pred m) n)) <d>)))
+
 

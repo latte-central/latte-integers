@@ -84,6 +84,44 @@
   (qed <a>))
 
 
+(defthm plus-pred
+  [[m int] [n int]]
+  (= (+ m (pred n))
+     (pred (+ m n))))
 
+(proof plus-pred
+    :script
+  (have <a> (= (+ m (succ (pred n)))
+               (succ (+ m (pred n))))
+        :by (plus-succ m (pred n)))
+  (have <b> (= (+ m n)
+               (succ (+ m (pred n))))
+        :by ((eq/eq-subst
+              int
+              (lambda [k int]
+                (= (+ m k)
+                   (succ (+ m (pred n)))))
+              (succ (pred n))
+              n)
+             (int/succ-of-pred n)
+             <a>))
+  (have <c> (= (pred (+ m n))
+               (pred (succ (+ m (pred n)))))
+        :by ((eq/eq-cong int int pred
+                         (+ m n) (succ (+ m (pred n))))
+             <b>))
+  (have <d> (= (pred (+  m n))
+               (+ m (pred n)))
+        :by ((eq/eq-subst int
+                          (lambda [k int]
+                            (= (pred (+ m n)) k))
+                          (pred (succ (+ m (pred n))))
+                          (+ m (pred n)))
+             (int/pred-of-succ (+ m (pred n)))
+             <c>))
+  (have <e> _ :by ((eq/eq-sym int
+                              (pred (+ m n))
+                              (+ m (pred n))) <d>))
+  (qed <e>))
 
 

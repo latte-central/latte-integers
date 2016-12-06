@@ -104,9 +104,7 @@
              <a>))
   (have <c> (= (pred (+ m n))
                (pred (succ (+ m (pred n)))))
-        :by ((eq/eq-cong int int pred
-                         (+ m n) (succ (+ m (pred n))))
-             <b>))
+        :by (eq/eq-cong% pred <b>))
   (have <d> (= (pred (+  m n))
                (+ m (pred n)))
         :by (eq/eq-subst% (lambda [k int]
@@ -180,10 +178,7 @@
           :by (plus-pred (succ m) n))
     (have <b2> (= (pred (+ (succ m) n))
                   (pred (succ (+ m n))))
-          :by ((eq/eq-cong int int pred
-                           (+ (succ m) n)
-                           (succ (+ m n)))
-               Hind))
+          :by (eq/eq-cong% pred Hind))
     (have <b3> (= (+ (succ m) (pred n))
                   (pred (succ (+ m n))))
           :by (eq/eq-trans% <b1> <b2>))
@@ -219,9 +214,7 @@
           :by (plus-succ (succ m) n))
     (have <c2> (= (succ (+ (succ m) n))
                   (succ (succ (+ m n))))
-          :by ((eq/eq-cong int int succ
-                           (+ (succ m) n)
-                           (succ (+ m n))) Hind))
+          :by (eq/eq-cong% succ Hind))
     (have <c3> (= (+ (succ m) (succ n))
                   (succ (succ (+ m n))))
           :by (eq/eq-trans% <c1> <c2>))
@@ -260,10 +253,7 @@
                           <a>))
   (have <c> (= (pred (+ m n))
                (pred (succ (+ (pred m) n))))
-        :by ((eq/eq-cong int int pred
-                         (+ m n)
-                         (succ (+ (pred m) n)))
-             <b>))
+        :by (eq/eq-cong% pred <b>))
   (have <d> (= (pred (+ m n))
                (+ (pred m) n))
         :by (eq/eq-subst% (lambda [k int]

@@ -96,13 +96,10 @@
         :by (plus-succ m (pred n)))
   (have <b> (= (+ m n)
                (succ (+ m (pred n))))
-        :by ((eq/eq-subst
-              int
-              (lambda [k int]
-                (= (+ m k)
-                   (succ (+ m (pred n)))))
-              (succ (pred n))
-              n)
+        :by (eq/eq-subst%
+             (lambda [k int]
+               (= (+ m k)
+                  (succ (+ m (pred n)))))
              (int/succ-of-pred n)
              <a>))
   (have <c> (= (pred (+ m n))
@@ -112,13 +109,10 @@
              <b>))
   (have <d> (= (pred (+  m n))
                (+ m (pred n)))
-        :by ((eq/eq-subst int
-                          (lambda [k int]
+        :by (eq/eq-subst% (lambda [k int]
                             (= (pred (+ m n)) k))
-                          (pred (succ (+ m (pred n))))
-                          (+ m (pred n)))
-             (int/pred-of-succ (+ m (pred n)))
-             <c>))
+                          (int/pred-of-succ (+ m (pred n)))
+                          <c>))
   (have <e> _ :by (eq/eq-sym% <d>))
   (qed <e>))
 
@@ -141,26 +135,20 @@
           :by (plus-pred zero m))
     (have <b> (= (+ zero (pred m))
                  (pred m))
-          :by ((eq/eq-subst int
-                            (lambda [k int]
+          :by (eq/eq-subst% (lambda [k int]
                               (= (+ zero (pred m))
                                  (pred k)))
-                            (+ zero m)
-                            m)
-               Hind <b1>))
+                            Hind <b1>))
     "and also  and `(P (succ m))`."
     (have <c1> (= (+ zero (succ m))
                   (succ (+ zero m)))
           :by (plus-succ zero m))
     (have <c> (= (+ zero (succ m))
                  (succ m))
-          :by ((eq/eq-subst int
-                            (lambda [k int]
-                              (= (+ zero (succ m))
-                                 (succ k)))
-                            (+ zero m)
-                            m)
-               Hind <c1>))
+          :by (eq/eq-subst% (lambda [k int]
+                             (= (+ zero (succ m))
+                                (succ k)))
+                            Hind <c1>))
     (have <d> _ :by (p/and-intro% <c> <b>)))
   (qed (((int/int-induct (lambda [m int]
                            (= (+ zero m) m)))
@@ -201,14 +189,11 @@
           :by (eq/eq-trans% <b1> <b2>))
     (have <b4> (= (+ (succ m) (pred n))
                   (+ m n))
-          :by ((eq/eq-subst int
-                            (lambda [k int]
+          :by (eq/eq-subst% (lambda [k int]
                               (= (+ (succ m) (pred n))
                                  k))
-                            (pred (succ (+ m n)))
-                            (+ m n))
-               (int/pred-of-succ (+ m n))
-               <b3>))
+                            (int/pred-of-succ (+ m n))
+                        <b3>))
     (have <b5> (= (+ m (succ (pred n)))
                   (succ (+ m (pred n))))
           :by (plus-succ m (pred n)))
@@ -268,14 +253,11 @@
         :by (plus-succ-sym (pred m) n))
   (have <b> (= (+ m n)
                (succ (+ (pred m) n)))
-        :by ((eq/eq-subst int
-                          (lambda [k int]
+        :by (eq/eq-subst% (lambda [k int]
                             (= (+ k n)
                                (succ (+ (pred m) n))))
-                          (succ (pred m))
-                          m)
-             (int/succ-of-pred m)
-             <a>))
+                          (int/succ-of-pred m)
+                          <a>))
   (have <c> (= (pred (+ m n))
                (pred (succ (+ (pred m) n))))
         :by ((eq/eq-cong int int pred
@@ -284,14 +266,13 @@
              <b>))
   (have <d> (= (pred (+ m n))
                (+ (pred m) n))
-        :by ((eq/eq-subst int
-                          (lambda [k int]
+        :by (eq/eq-subst% (lambda [k int]
                             (= (pred (+ m n))
                                k))
-                          (pred (succ (+ (pred m) n)))
-                          (+ (pred m) n))
-             (int/pred-of-succ (+ (pred m) n))
-             <c>))
+                          (int/pred-of-succ (+ (pred m) n))
+                          <c>))
   (qed ((eq/eq-sym int (pred (+ m n))
                    (+ (pred m) n)) <d>)))
+
+
 

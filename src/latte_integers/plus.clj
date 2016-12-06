@@ -119,9 +119,7 @@
                           (+ m (pred n)))
              (int/pred-of-succ (+ m (pred n)))
              <c>))
-  (have <e> _ :by ((eq/eq-sym int
-                              (pred (+ m n))
-                              (+ m (pred n))) <d>))
+  (have <e> _ :by (eq/eq-sym% <d>))
   (qed <e>))
 
 (defthm plus-zero-sym
@@ -322,5 +320,4 @@
              <c>))
   (qed ((eq/eq-sym int (pred (+ m n))
                    (+ (pred m) n)) <d>)))
-
 

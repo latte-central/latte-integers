@@ -179,14 +179,10 @@
   (have <a2> (= (succ m)
                 (succ (+ m zero)))
         :by ((eq/eq-cong int int succ m (+ m zero))
-             ((eq/eq-sym int (+ m zero) m) (plus-zero m))))
+             (eq/eq-sym% (plus-zero m))))
   (have <a> (= (+ (succ m) zero)
                (succ (+ m zero)))
-        :by ((eq/eq-trans int
-                          (+ (succ m) zero)
-                          (succ m)
-                          (succ (+ m zero)))
-             <a1> <a2>))
+        :by (eq/eq-trans% <a1> <a2>))
   (assume [n int
            Hind (= (+ (succ m) n)
                    (succ (+ m n)))]
@@ -202,11 +198,7 @@
                Hind))
     (have <b3> (= (+ (succ m) (pred n))
                   (pred (succ (+ m n))))
-          :by ((eq/eq-trans int
-                            (+ (succ m) (pred n))
-                            (pred (+ (succ m) n))
-                            (pred (succ (+ m n))))
-               <b1> <b2>))
+          :by (eq/eq-trans% <b1> <b2>))
     (have <b4> (= (+ (succ m) (pred n))
                   (+ m n))
           :by ((eq/eq-subst int
@@ -228,23 +220,14 @@
                                  (+ m k)))
                             n
                             (succ (pred n)))
-               ((eq/eq-sym int (succ (pred n)) n)
-                (int/succ-of-pred n))
+               (eq/eq-sym% (int/succ-of-pred n))
                (eq/eq-refl int (+ m n))))
     (have <b7> (= (+ m n)
                   (succ (+ m (pred n))))
-          :by ((eq/eq-trans int
-                            (+ m n)
-                            (+ m (succ (pred n)))
-                            (succ (+ m (pred n))))
-               <b6> <b5>))
+          :by (eq/eq-trans% <b6> <b5>))
     (have <b> (= (+ (succ m) (pred n))
                  (succ (+ m (pred n))))
-          :by ((eq/eq-trans int
-                            (+ (succ m) (pred n))
-                            (+ m n)
-                            (succ (+ m (pred n))))
-               <b4> <b7>))
+          :by (eq/eq-trans% <b4> <b7>))
     "And then `P (succ n)`."
     (have <c1> (= (+ (succ m) (succ n))
                   (succ (+ (succ m) n)))
@@ -256,25 +239,16 @@
                            (succ (+ m n))) Hind))
     (have <c3> (= (+ (succ m) (succ n))
                   (succ (succ (+ m n))))
-          :by ((eq/eq-trans int
-                            (+ (succ m) (succ n))
-                            (succ (+ (succ m) n))
-                            (succ (succ (+ m n))))
-               <c1> <c2>))
+          :by (eq/eq-trans% <c1> <c2>))
     (have <c4> (= (succ (succ (+ m n)))
                   (succ (+ m (succ n))))
           :by ((eq/eq-cong int int succ
                            (succ (+ m n))
                            (+ m (succ n)))
-               ((eq/eq-sym int (+ m (succ n)) (succ (+ m n)))
-                (plus-succ m n))))
+               (eq/eq-sym% (plus-succ m n))))
     (have <c> (= (+ (succ m) (succ n))
                  (succ (+ m (succ n))))
-          :by ((eq/eq-trans int
-                            (+ (succ m) (succ n))
-                            (succ (succ (+ m n)))
-                            (succ (+ m (succ n))))
-               <c3> <c4>))
+          :by (eq/eq-trans% <c3> <c4>))
     "Let's conjunct the two sides."
     (have <d> _ :by (p/and-intro% <c> <b>)))
   (qed (((int/int-induct (lambda [n int]

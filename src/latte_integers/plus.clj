@@ -265,4 +265,47 @@
                    (+ (pred m) n)) <d>)))
 
 
+(defthm plus-commute
+  [[n int] [m int]]
+  (= (+ n m)
+     (+ m n)))
+
+(proof plus-commute
+    :script
+  "We proceed by induction on `n`."
+  (have P _ :by (lambda [k int] (= (+ k m) (+ m k))))
+  "First let's prove `(P zero)`."
+  (have <a1> (= m (+ m zero))
+        :by (eq/eq-sym% (plus-zero m)))
+  (have <a> (P zero) :by (eq/eq-trans% (plus-zero-sym m) <a1>))
+  "Now the inductive cases."
+  (assume [k int
+           Hind (P k)]
+    "First the succesor case, we show `(P (succ k))`."
+    (have <b1> (= (+ (succ k) m)
+                  (succ (+ k m)))
+          :by (plus-succ-sym k m))
+    (have <b2> (= (succ (+ k m))
+                  (succ (+ m k)))
+          :by ((eq/eq-cong int int succ (+ k m) (+ m k)) Hind))
+    (have <b3> (= (+ (succ k) m)
+                  (succ (+ m k))) :by (eq/eq-trans% <b1> <b2>))
+    (have <b4> (= (succ (+ m k))
+                  (+ m (succ k))) :by (eq/eq-sym% (plus-succ m k)))
+    (have <b> (P (succ k)) :by (eq/eq-trans% <b3> <b4>))
+    "Second the predecessor case, we show `(P (pred k))`."
+    (have <c1> (= (+ (pred k) m)
+                  (pred (+ k m))) :by (plus-pred-sym k m))
+    (have <c2> (= (pred (+ k m))
+                  (pred (+ m k)))
+          :by ((eq/eq-cong int int pred (+ k m) (+ m k)) Hind))
+    (have <c3> (= (+ (pred k) m)
+                  (pred (+ m k))) :by (eq/eq-trans% <c1> <c2>))
+    (have <c4> (= (pred (+ m k))
+                  (+ m (pred k))) :by (eq/eq-sym% (plus-pred m k)))
+    (have <c> (P (pred k)) :by (eq/eq-trans% <c3> <c4>))
+    (have <d> _ :by (p/and-intro% <b> <c>)))
+  "Now we apply integer induction."
+  (have <e> (P n) :by ((int/int-induct P) <a> <d> n))
+  (qed <e>))
 

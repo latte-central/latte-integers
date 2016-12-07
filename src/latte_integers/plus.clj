@@ -309,3 +309,122 @@
   (have <e> (P n) :by ((int/int-induct P) <a> <d> n))
   (qed <e>))
 
+(defthm plus-pred-succ
+  [[n int] [m int]]
+  (= (+ (pred n) (succ m))
+     (+ n m)))
+
+(proof plus-pred-succ
+    :script
+  (have <a> (= (+ (pred n) (succ m))
+               (pred (+ n (succ m))))
+        :by (plus-pred-sym n (succ m)))
+  (have <b> (= (+ n (succ m))
+               (succ (+ n m))) :by (plus-succ n m))
+  (have <c> (= (+ (pred n) (succ m))
+               (pred (succ (+ n m))))
+        :by (eq/eq-subst%
+             (lambda [k int]
+               (= (+ (pred n) (succ m))
+                  (pred k)))
+             <b> <a>))
+  (have <d> (= (pred (succ (+ n m)))
+               (+ n m))
+        :by (int/pred-of-succ (+ n m)))
+  (have <e> (= (+ (pred n) (succ m))
+               (+ n m)) :by (eq/eq-trans% <c> <d>))
+  (qed <e>))
+
+(defthm plus-succ-pred
+  [[n int] [m int]]
+  (= (+ (succ n) (pred m))
+     (+ n m)))
+
+(proof plus-succ-pred
+    :script
+  (have <a> (= (+ (succ n) (pred m))
+               (+ (pred m) (succ n)))
+        :by (plus-commute (succ n) (pred m)))
+  (have <b> (= (+ (pred m) (succ n))
+               (+ m n)) :by (plus-pred-succ m n))
+  (have <c> (= (+ (succ n) (pred m))
+               (+ m n)) :by (eq/eq-trans% <a> <b>))
+  (have <d> (= (+ m n) (+ n m))
+        :by (plus-commute m n))
+  (have <e> (= (+ (succ n) (pred m))
+               (+ n m)) :by (eq/eq-trans% <c> <d>))
+  (qed <e>))
+
+(defthm plus-assoc
+  [[n int] [m int] [p int]]
+  (= (+ n (+ m p))
+     (+ (+ n m) p)))
+
+(proof plus-assoc
+    :script
+  (have P _ :by (lambda [k int]
+                  (= (+ n (+ m k))
+                     (+ (+ n m) k))))
+  "We prove `P` by induction on `k`."
+  "First `(P zero)`"
+  (have <a1> (= (+ n (+ m zero))
+                (+ n m))
+        :by (eq/eq-cong% (lambda [k int] (+ n k))
+                         (plus-zero m)))
+  (have <a2> (= (+ n m)
+                (+ (+ n m) zero))
+        :by (eq/eq-sym% (plus-zero (+ n m))))
+  (have <a> (P zero) :by (eq/eq-trans% <a1> <a2>))
+  "Then the inductive cases."
+  (assume [p int
+           Hind (= (+ n (+ m p))
+                   (+ (+ n m) p))]
+    "Let's prove `(P (succ p))`."
+    (have <b1> (= (+ n (+ m (succ p)))
+                  (+ n (succ (+ m p))))
+          :by (eq/eq-cong% (lambda [k int] (+ n k))
+                           (plus-succ m p)))
+    (have <b2>  (= (+ n (succ (+ m p)))
+                   (succ (+ n (+ m p))))
+          :by (plus-succ n (+ m p)))
+    (have <b3> (= (+ n (+ m (succ p)))
+                  (succ (+ n (+ m p))))
+          :by (eq/eq-trans% <b1> <b2>))
+    (have <b4> (= (succ (+ n (+ m p)))
+                  (succ (+ (+ n m) p)))
+          :by (eq/eq-cong% succ Hind))
+    (have <b5> (= (+ n (+ m (succ p)))
+                  (succ (+ (+ n m) p)))
+          :by (eq/eq-trans% <b3> <b4>))
+    ;; = (+ (+ n m) (succ p))
+    (have <b6> (= (succ (+ (+ n m) p))
+                  (+ (+ n m) (succ p)))
+          :by (eq/eq-sym% (plus-succ (+ n m) p)))
+    (have <b> (P (succ p))
+          :by (eq/eq-trans% <b5> <b6>))
+    "and next prove `(P (pred p))`."
+    (have <c1> (= (+ n (+ m (pred p)))
+                  (+ n (pred (+ m p))))
+          :by (eq/eq-cong% (lambda [k int] (+ n k))
+                           (plus-pred m p)))
+    (have <c2> (= (+ n (pred (+ m p)))
+                  (pred (+ n (+ m p))))
+          :by (plus-pred n (+ m p)))
+    (have <c3> (= (+ n (+ m (pred p)))
+                  (pred (+ n (+ m p))))
+          :by (eq/eq-trans% <c1> <c2>))
+    (have <c4> (= (pred (+ n (+ m p)))
+                  (pred (+ (+ n m) p)))
+          :by (eq/eq-cong% pred Hind))
+    (have <c5> (= (+ n (+ m (pred p)))
+                   (pred (+ (+ n m) p)))
+           :by (eq/eq-trans% <c3> <c4>))
+    ;; = (+ (+ n m) (pred p))
+    (have <c6> (= (pred (+ (+ n m) p))
+                  (+ (+ n m) (pred p)))
+          :by (eq/eq-sym% (plus-pred (+ n m) p)))
+    (have <c> (P (pred p)) :by (eq/eq-trans% <c5> <c6>))
+    (have <d> _ :by (p/and-intro% <b> <c>)))
+  "Now we apply the integer induction."
+  (have <e> (P p) :by ((int/int-induct P) <a> <d> p))
+  (qed <e>))

@@ -482,3 +482,50 @@
                                      (==> (= (+ n k) (+ m k))
                                           (= n m)))) <a> <d> p))
   (qed <e>))
+
+(defthm plus-left-cancel
+  [[n int] [m int] [p int]]
+  (==>  (= (+ p n) (+ p m))
+        (= n m)))
+
+(proof plus-left-cancel
+    :script
+  (assume [H (= (+ p n) (+ p m))]
+    (have <a> (= (+ n p) (+ p m))
+          :by (eq/eq-subst% (lambda [k int] (= k (+ p m)))
+                            (plus-commute p n)
+                            H))
+    (have <b> (= (+ n p) (+ m p))
+          :by (eq/eq-subst% (lambda [k int] (= (+ n p) k))
+                            (plus-commute p m)
+                            <a>))
+    (have <c> (= n m) :by ((plus-right-cancel n m p) <b>)))
+  (qed <c>))
+
+(defthm plus-right-cancel-conv
+  [[n int] [m int] [p int]]
+  (==> (= n m)
+       (= (+ n p) (+ m p))))
+
+(proof plus-right-cancel-conv
+    :script
+  (assume [H (= n m)]
+    (have <a> (= (+ n p) (+ m p))
+          :by (eq/eq-cong% (lambda [k int] (+ k p))
+                           H)))
+  (qed <a>))
+
+(defthm plus-left-cancel-conv
+  [[n int] [m int] [p int]]
+  (==> (= n m)
+       (= (+ p n) (+ p m))))
+
+(proof plus-left-cancel-conv
+    :script
+  (assume [H (= n m)]
+    (have <a> (= (+ p n) (+ p m))
+          :by (eq/eq-cong% (lambda [k int] (+ p k))
+                           H)))
+  (qed <a>))
+
+

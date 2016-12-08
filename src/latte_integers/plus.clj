@@ -17,7 +17,7 @@
             [latte-sets.core :as set :refer [elem forall-in]]
 
             [latte-integers.core :as int :refer [zero succ pred int =]]
-            [latte-integers.nat :as nat :refer [positive negative]]
+            [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]))
 
 (definition add-prop
@@ -527,5 +527,47 @@
           :by (eq/eq-cong% (lambda [k int] (+ p k))
                            H)))
   (qed <a>))
+
+
+(defthm plus-nat-closed
+  "The addition is closed for natural integers."
+  []
+  (forall-in [n int nat]
+    (forall-in [m int nat]
+      (elem int (+ n m) nat))))
+
+(proof plus-nat-closed
+    :script
+  (assume [n int
+           Hn (elem int n nat)]
+    (have P _ :by (lambda [m int]
+                    (elem int (+ n m) nat)))
+    "We prove `P` by natural induction."
+    "First let's prove `(P zero)`."
+    (have <a> (P zero)
+          :by ((eq/eq-subst int
+                            (lambda [k int]
+                              (elem int k nat))
+                            n
+                            (+ n zero))
+               (eq/eq-sym% (plus-zero n))
+               Hn))
+    (assume [k int
+             Hk (elem int k nat)
+             Hind (elem int (+ n k) nat)]
+      ;; proove: (elem int (+ n (succ k) nat))
+      (have <b1> (elem int (succ (+ n k)) nat)
+            :by ((nat/nat-succ (+ n k)) Hind))
+      (have <b> (P (succ k))
+            :by ((eq/eq-subst int
+                              (lambda [i int] (elem int i nat))
+                              (succ (+ n k))
+                              (+ n (succ k)))
+                 (eq/eq-sym% (plus-succ n k))
+                 <b1>)))
+    (have <c> (forall-in [m int nat]
+                (elem int (+ n m) nat))
+          :by ((nat/nat-induct P) <a> <b>)))
+  (qed <c>))
 
 

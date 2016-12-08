@@ -552,6 +552,7 @@
                             (+ n zero))
                (eq/eq-sym% (plus-zero n))
                Hn))
+    "Then the inductive case."
     (assume [k int
              Hk (elem int k nat)
              Hind (elem int (+ n k) nat)]
@@ -565,9 +566,12 @@
                               (+ n (succ k)))
                  (eq/eq-sym% (plus-succ n k))
                  <b1>)))
+    "And finally we apply the induction principle."
     (have <c> (forall-in [m int nat]
                 (elem int (+ n m) nat))
           :by ((nat/nat-induct P) <a> <b>)))
   (qed <c>))
+
+
 
 

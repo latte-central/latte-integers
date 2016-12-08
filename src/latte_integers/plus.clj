@@ -428,3 +428,57 @@
   "Now we apply the integer induction."
   (have <e> (P p) :by ((int/int-induct P) <a> <d> p))
   (qed <e>))
+
+(defthm plus-right-cancel
+  [[n int] [m int] [p int]]
+  (==> (= (+ n p) (+ m p))
+       (= n m)))
+
+(proof plus-right-cancel
+    :script
+  "We proceed by induction."
+  "Base case."
+  (assume [Hz (= (+ n zero) (+ m zero))]
+    (have <a1> (= n (+ m zero))
+          :by (eq/eq-subst% (lambda [k int] (= k (+ m zero)))
+                            (plus-zero n)
+                            Hz))
+    (have <a> (= n m)
+          :by (eq/eq-subst% (lambda [k int] (= n k))
+                            (plus-zero m)
+                            <a1>)))
+  "Inductive cases."
+  (assume [k int
+           Hk (==> (= (+ n k) (+ m k))
+                   (= n m))]
+    "Successor case."
+    (assume [Hsucc (= (+ n (succ k)) (+ m (succ k)))]
+      (have <b1> (= (succ (+ n k)) (+ m (succ k)))
+            :by (eq/eq-subst% (lambda [i int] (= i (+ m (succ k))))
+                              (plus-succ n k)
+                              Hsucc))
+      (have <b2> (= (succ (+ n k)) (succ (+ m k)))
+            :by (eq/eq-subst% (lambda [i int] (= (succ (+ n k)) i))
+                              (plus-succ m k)
+                              <b1>))
+      (have <b3> (= (+ n k) (+ m k)) :by (int/succ-injective (+ n k) (+ m k) <b2>))
+      (have <b> (= n m) :by (Hk <b3>)))
+    "Predecessor case."
+    (assume [Hpred (= (+ n (pred k)) (+ m (pred k)))]
+      (have <c1> (= (pred (+ n k)) (+ m (pred k)))
+            :by (eq/eq-subst% (lambda [i int] (= i (+ m (pred k))))
+                              (plus-pred n k)
+                              Hpred))
+      (have <c2> (= (pred (+ n k)) (pred (+ m k)))
+            :by (eq/eq-subst% (lambda [i int] (= (pred (+ n k)) i))
+                              (plus-pred m k)
+                              <c1>))
+      (have <c3> (= (+ n k) (+ m k))
+            :by (int/pred-injective (+ n k) (+ m k) <c2>))
+      (have <c> (= n m) :by (Hk <c3>)))
+    (have <d> _ :by (p/and-intro% <b> <c>)))
+  "We apply the induction principle."
+  (have <e> _ :by ((int/int-induct (lambda [k int]
+                                     (==> (= (+ n k) (+ m k))
+                                          (= n m)))) <a> <d> p))
+  (qed <e>))

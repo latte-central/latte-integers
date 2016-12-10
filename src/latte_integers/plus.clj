@@ -11,7 +11,7 @@
 
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
-            [latte.quant :as q]
+            [latte.quant :as q :refer [exists]]
             [latte.fun :as fun]
 
             [latte-sets.core :as set :refer [elem forall-in]]
@@ -573,5 +573,57 @@
   (qed <c>))
 
 
+(defthm negative-plus
+  []
+  (forall [n int]
+    (==> (nat/negative n)
+         (exists [m int]
+           (and (nat/positive m)
+                (= (+ n m) zero))))))
 
+;; (proof negative-plus
+;;     :script
+;;   "We prove this by integer induction."
+;;   "Base case: `zero`"
+;;   (assume [Hcontra (negative zero)]
+;;     "We proceed by contradiction."
+;;     (have <a1> p/absurd :by (Hcontra (nat/nat-zero)))
+;;     (have <a> _
+;;           :by (<a1> (exists [m int]
+;;                       (and (positive m)
+;;                            (= (+ n m) zero))))))
+;;   "Inductive cases."
+;;   (assume [n int
+;;            Hind (==> (nat/negative n)
+;;                      (exists [m int]
+;;                        (and (positive m)
+;;                             (= (+ n m) zero))))]
+;;     "First, let's show the case for `(succ n)`."
+;;     (assume [Hsucc (negative (succ n))]
+;;       (have <b1> (negative (pred (succ n)))
+;;             :by ((nat/negative-pred (succ n))
+;;                  Hsucc))
+;;       (have <b2> (negative n)
+;;             :by (eq/eq-subst% negative
+;;                               (int/pred-of-succ n)
+;;                               <b1>))
+;;       (have <b3> (exists [m int]
+;;                    (and (positive m)
+;;                         (= (+ n m) zero)))
+;;             :by (Hind <b2>))
+;;       (assume [m int
+;;                Hm (and (positive m)
+;;                        (= (+ n m) zero))]
+;;         (have <b4> (or (= (pred m) zero)
+;;                        (positive (pred m)))
+;;               :by (nat/nat-split (pred m) (p/and-elim-left% Hm)))
+;;         (assume [Hmz (= (pred m) zero)]
+;;           (have <c1> (= (succ (pred m)) (succ zero))
+;;                 :by (eq/eq-cong% succ Hmz))
+;;           (have <c2> (= m (succ zero))
+;;                 :by (eq/eq-subst% (lambda [k int] (= k (succ zero)))
+;;                                   (int/succ-of-pred m)
+;;                                   <c1>))
+;;           (have <c3> (= (+ n (succ zero)) zero)
+;;                 :by ))))))
 

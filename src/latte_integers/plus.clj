@@ -591,7 +591,7 @@
 ;;     (have <a> _
 ;;           :by (<a1> (exists [m int]
 ;;                       (and (positive m)
-;;                            (= (+ n m) zero))))))
+;;                            (= (+ zero m) zero))))))
 ;;   "Inductive cases."
 ;;   (assume [n int
 ;;            Hind (==> (nat/negative n)
@@ -625,5 +625,15 @@
 ;;                                   (int/succ-of-pred m)
 ;;                                   <c1>))
 ;;           (have <c3> (= (+ n (succ zero)) zero)
-;;                 :by ))))))
+;;                 :by ((eq/eq-subst int
+;;                                   (lambda [k int]
+;;                                     (= (+ n k) zero))
+;;                                   m
+;;                                   (succ zero))
+;;                      <c2> (p/and-elim-right% Hm)))
+;;           (have <c4> (= (succ (+ n zero)) zero)
+;;                 :by (eq/eq-subst% (lambda [k int]
+;;                                     (= k zero))
+;;                                   (plus-succ n zero)
+;;                                   <c3>)))))))
 

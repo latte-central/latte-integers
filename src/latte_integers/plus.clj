@@ -581,59 +581,237 @@
            (and (nat/positive m)
                 (= (+ n m) zero))))))
 
-;; (proof negative-plus
-;;     :script
-;;   "We prove this by integer induction."
-;;   "Base case: `zero`"
-;;   (assume [Hcontra (negative zero)]
-;;     "We proceed by contradiction."
-;;     (have <a1> p/absurd :by (Hcontra (nat/nat-zero)))
-;;     (have <a> _
-;;           :by (<a1> (exists [m int]
-;;                       (and (positive m)
-;;                            (= (+ zero m) zero))))))
-;;   "Inductive cases."
-;;   (assume [n int
-;;            Hind (==> (nat/negative n)
-;;                      (exists [m int]
-;;                        (and (positive m)
-;;                             (= (+ n m) zero))))]
-;;     "First, let's show the case for `(succ n)`."
-;;     (assume [Hsucc (negative (succ n))]
-;;       (have <b1> (negative (pred (succ n)))
-;;             :by ((nat/negative-pred (succ n))
-;;                  Hsucc))
-;;       (have <b2> (negative n)
-;;             :by (eq/eq-subst% negative
-;;                               (int/pred-of-succ n)
-;;                               <b1>))
-;;       (have <b3> (exists [m int]
-;;                    (and (positive m)
-;;                         (= (+ n m) zero)))
-;;             :by (Hind <b2>))
-;;       (assume [m int
-;;                Hm (and (positive m)
-;;                        (= (+ n m) zero))]
-;;         (have <b4> (or (= (pred m) zero)
-;;                        (positive (pred m)))
-;;               :by (nat/nat-split (pred m) (p/and-elim-left% Hm)))
-;;         (assume [Hmz (= (pred m) zero)]
-;;           (have <c1> (= (succ (pred m)) (succ zero))
-;;                 :by (eq/eq-cong% succ Hmz))
-;;           (have <c2> (= m (succ zero))
-;;                 :by (eq/eq-subst% (lambda [k int] (= k (succ zero)))
-;;                                   (int/succ-of-pred m)
-;;                                   <c1>))
-;;           (have <c3> (= (+ n (succ zero)) zero)
-;;                 :by ((eq/eq-subst int
-;;                                   (lambda [k int]
-;;                                     (= (+ n k) zero))
-;;                                   m
-;;                                   (succ zero))
-;;                      <c2> (p/and-elim-right% Hm)))
-;;           (have <c4> (= (succ (+ n zero)) zero)
-;;                 :by (eq/eq-subst% (lambda [k int]
-;;                                     (= k zero))
-;;                                   (plus-succ n zero)
-;;                                   <c3>)))))))
+(proof negative-plus
+    :script
+  "We prove this by integer induction."
+  "Base case: `zero`"
+  (assume [Hcontra (negative zero)]
+    "We proceed by contradiction."
+    (have <a1> p/absurd :by (Hcontra (nat/nat-zero)))
+    (have <a> _
+          :by (<a1> (exists [m int]
+                      (and (positive m)
+                           (= (+ zero m) zero))))))
+  "Inductive cases."
+  (assume [n int
+           Hind (==> (negative n)
+                     (exists [m int]
+                       (and (positive m)
+                            (= (+ n m) zero))))]
+    "First, let's show the case for `(succ n)`."
+    (assume [Hsucc (negative (succ n))]
+      (have <b1> (negative (pred (succ n)))
+            :by ((nat/negative-pred (succ n))
+                 Hsucc))
+      (have <b2> (negative n)
+            :by (eq/eq-subst% negative
+                              (int/pred-of-succ n)
+                              <b1>))
+      (have <b3> (exists [m int]
+                   (and (positive m)
+                        (= (+ n m) zero)))
+            :by (Hind <b2>))
+      (assume [m int
+               Hm (and (positive m)
+                       (= (+ n m) zero))]
+        "We proceed by case analysis of `(pred n)`."
+        (have <b4> (or (= (pred m) zero)
+                       (positive (pred m)))
+              :by (nat/nat-split (pred m) (p/and-elim-left% Hm)))
+        "First case: `(pred n)` is `zero`."
+        (assume [Hmz (= (pred m) zero)]
+          (have <c1> (= (succ (pred m)) (succ zero))
+                :by (eq/eq-cong% succ Hmz))
+          (have <c2> (= m (succ zero))
+                :by (eq/eq-subst% (lambda [k int] (= k (succ zero)))
+                                  (int/succ-of-pred m)
+                                  <c1>))
+          (have <c3> (= (+ n (succ zero)) zero)
+                :by ((eq/eq-subst int
+                                  (lambda [k int]
+                                    (= (+ n k) zero))
+                                  m
+                                  (succ zero))
+                     <c2> (p/and-elim-right% Hm)))
+          (have <c4> (= (succ (+ n zero)) zero)
+                :by (eq/eq-subst% (lambda [k int]
+                                    (= k zero))
+                                  (plus-succ n zero)
+                                  <c3>))
+          (have <c5> (= (pred (succ (+ n zero))) (pred zero))
+                :by (eq/eq-cong% pred <c4>))
+          (have <c6> (= (+ n zero) (pred zero))
+                :by (eq/eq-subst% (lambda [k int] (= k (pred zero)))
+                                  (int/pred-of-succ (+ n zero))
+                                  <c5>))
+          (have <c7> (= n (pred zero))
+                :by (eq/eq-subst% (lambda [k int] (= k (pred zero)))
+                                  (plus-zero n)
+                                  <c6>))
+          (have <c8> (= (succ n) (succ (pred zero)))
+                :by (eq/eq-cong% succ <c7>))
+          (have <c9> (= (succ n) zero)
+                :by (eq/eq-subst% (lambda [k int] (= (succ n) k))
+                                  (int/succ-of-pred zero)
+                                  <c8>))
+          (have <c10> (elem int (succ n) nat)
+                :by ((eq/eq-subst int
+                                  (lambda [k int] (elem int k nat))
+                                  zero
+                                  (succ n))
+                     ((eq/eq-sym int (succ n) zero)
+                      <c9>)
+                     (nat/nat-zero)))
+          (have <c11> p/absurd :by (Hsucc <c10>))
+          (have <c> _
+                :by (<c11> (and (positive (pred m))
+                                (= (+ (succ n) (pred m)) zero)))))
+        "Second case: `(pred n)` is (strictly) positive."
+        (assume [Hmpos (positive (pred m))]
+          (have <d1> (= (+ (succ n) (pred m))
+                        (+ n m))
+                :by (plus-succ-pred n m))
+          (have <d2> (= (+ (succ n) (pred m))
+                        zero)
+                :by ((eq/eq-trans int
+                                  (+ (succ n) (pred m))
+                                  (+ n m)
+                                  zero)
+                     <d1>
+                     ((p/and-elim-right (positive m)
+                                        (= (+ n m) zero))
+                      Hm)))
+          (have <d> (and (positive (pred m))
+                         (= (+ (succ n) (pred m)) zero))
+                :by (p/and-intro% Hmpos <d2>)))
+        "Apply or-elimation."
+        (have <e1> (and (positive (pred m))
+                        (= (+ (succ n) (pred m)) zero))
+              :by (p/or-elim% <b4>
+                              (and (positive (pred m))
+                                   (= (+ (succ n) (pred m)) zero))
+                              <c> <d>))
+        (have <e> (exists [p int]
+                    (and (positive p)
+                         (= (+ (succ n) p) zero)))
+              :by ((q/ex-intro int
+                               (lambda [p int]
+                                 (and (positive p)
+                                      (= (+ (succ n) p) zero)))
+                               (pred m))
+                   <e1>)))
+      "The seeked propery hold for `(succ n)` (at last!)."
+      (have <f> (exists [p int]
+                    (and (positive p)
+                         (= (+ (succ n) p) zero)))
+            :by ((q/ex-elim int
+                            (lambda [m int]
+                              (and (positive m)
+                                   (= (+ n m) zero)))
+                            (exists [p int]
+                              (and (positive p)
+                                   (= (+ (succ n) p) zero))))
+                 <b3> <e>)))
+    "Second inductive case for `(pred n)`."
+    (assume [Hpred (negative (pred n))]
+      (have <g> (or (= n zero)
+                    (negative n))
+            :by ((nat/negative-pred-split n) Hpred))
+      "We proceed by case."
+      "First if `n` is `zero`."
+      (assume [Hnz (= n zero)]
+        (have <h1> (= (+ (pred zero) (succ zero))
+                      (+ zero zero))
+              :by (plus-pred-succ zero zero))
+        (have <h2> (= (+ (pred zero) (succ zero))
+                      zero)
+              :by (eq/eq-subst% (lambda [k int]
+                                  (= (+ (pred zero) (succ zero))
+                                     k))
+                                (plus-zero zero)
+                                <h1>))
+        (have <h3> (= (+ (pred n) (succ zero))
+                      zero)
+              :by ((eq/eq-subst int
+                                (lambda [k int]
+                                  (= (+ (pred k) (succ zero)) zero))
+                                zero
+                                n)
+                   ((eq/eq-sym int n zero) Hnz)
+                   <h2>))
+        (have <h4> (positive (succ zero))
+              :by ((nat/positive-succ zero)
+                   (nat/nat-zero)))
+        (have <h> (exists [p int]
+                    (and (positive p)
+                         (= (+ (pred n) p) zero)))
+              :by ((q/ex-intro int
+                               (lambda [p int]
+                                 (and (positive p)
+                                      (= (+ (pred n) p) zero)))
+                               (succ zero))
+                   (p/and-intro% <h4> <h3>))))
+      "Second if `n` is negative."
+      (assume [Hnneg (negative n)]
+        (have <i1> (exists [m int]
+                       (and (positive m)
+                            (= (+ n m) zero)))
+              :by (Hind Hnneg))
+        (assume [m int
+                 Hm (and (positive m)
+                         (= (+ n m) zero))]
+          (have <i2> (= (+ (pred n) (succ m))
+                        (+ n m))
+                :by (plus-pred-succ n m))
+          (have <i3> (= (+ (pred n) (succ m))
+                        zero)
+                :by ((eq/eq-trans int
+                                  (+ (pred n) (succ m))
+                                  (+ n m)
+                                  zero)
+                     <i2> (p/and-elim-right% Hm)))
+          (have <i4> (positive (succ m))
+                :by ((nat/positive-succ-strong m)
+                     (p/and-elim-left% Hm)))
+          (have <i5> (exists [p int]
+                      (and (positive p)
+                           (= (+ (pred n) p) zero)))
+                :by ((q/ex-intro int
+                                 (lambda [p int]
+                                   (and (positive p)
+                                        (= (+ (pred n) p) zero)))
+                                 (succ m))
+                     (p/and-intro% <i4> <i3>))))
+        (have <i> (exists [p int]
+                      (and (positive p)
+                           (= (+ (pred n) p) zero)))
+              :by ((q/ex-elim int
+                              (lambda [m int]
+                                (and (positive m)
+                                     (= (+ n m) zero)))
+                              (exists [p int]
+                                (and (positive p)
+                                     (= (+ (pred n) p) zero))))
+                   <i1> <i5>)))
+      "or-elimination follows."
+      (have <j> (exists [p int]
+                      (and (positive p)
+                           (= (+ (pred n) p) zero)))
+            :by (p/or-elim% <g> (exists [p int]
+                                  (and (positive p)
+                                       (= (+ (pred n) p) zero)))
+                            <h> <i>)))
+    (have <k> _ :by (p/and-intro% <f> <j>)))
+  "We can finally apply the induction principle."
+  (have <j> _ :by ((int/int-induct
+                    (lambda [n int]
+                      (==> (nat/negative n)
+                           (exists [m int]
+                             (and (nat/positive m)
+                                  (= (+ n m) zero))))))
+                   <a> <k>))
+  (qed <j>))
+
+
+                   
 

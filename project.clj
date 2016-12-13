@@ -10,5 +10,9 @@
           :metadata {:doc/format :markdown}
           :namespaces [latte-integers.core latte-integers.nat
                        latte-integers.rec latte-integers.plus]}
-  :plugins [[lein-codox "0.10.1"]])
+  :plugins [[lein-codox "0.10.1"]]
+  :profiles {:prof {:jvm-opts ["-Dcom.sun.management.jmxremote"
+                               "-Dcom.sun.management.jmxremote.ssl=false"
+                               "-Dcom.sun.management.jmxremote.authenticate=false"
+                               "-Dcom.sun.management.jmxremote.port=43210"]}})
 

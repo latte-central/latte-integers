@@ -578,7 +578,7 @@
   (forall [n int]
     (==> (nat/negative n)
          (exists [m int]
-           (and (nat/positive m)
+           (and (positive m)
                 (= (+ n m) zero))))))
 
 (proof negative-plus
@@ -813,5 +813,33 @@
   (qed <j>))
 
 
-                   
+(defthm negative-plus-conv
+  []
+  (forall [n int]
+    (==> (exists [m int]
+           (and (positive m)
+                (= (+ n m) zero)))
+         (nat/negative n))))
 
+(proof negative-plus-conv
+    :script
+  (assume [n int
+           Hex (exists [m int]
+                 (and (positive m)
+                      (= (+ n m) zero)))]
+    (assume [m int
+             Hm (and (positive m)
+                     (= (+ n m) zero))]
+      (have <a> (or (or (= n zero) (positive n))
+                    (negative n)) :by (nat/int-split n))
+      "First case: `n` is zero or positive."
+      (assume [Hnl (or (= n zero) (positive n))]
+        "Subcase: `n` is zero."
+        (assume [Hnl1 (= n zero)]
+          (have <b1> (= (+ zero m) zero)
+                :by ((eq/eq-subst int
+                                  (lambda [k int]
+                                    (= (+ k m) zero))
+                                  n
+                                  zero)
+                     Hnl1 (p/and-elim-right% Hm))))))))

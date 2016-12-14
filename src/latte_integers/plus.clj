@@ -572,6 +572,38 @@
           :by ((nat/nat-induct P) <a> <b>)))
   (qed <c>))
 
+(defthm positive-plus
+  []
+  (forall [n m int]
+    (==> (positive n)
+         (positive m)
+         (positive (+ n m)))))
+
+(proof positive-plus
+    :script
+  (assume [n int
+           m int
+           Hn (positive n)
+           Hm (positive m)]
+    (have <a> (elem int (+ (pred n) (pred m)) nat)
+          :by (plus-nat-closed (pred n) Hn (pred m) Hm))
+    (have <b> (elem int (pred (+ (pred n) m)) nat)
+          :by (eq/eq-subst% nat
+                            (plus-pred (pred n) m)
+                            <a>))
+    (have <c> (positive (pred (+ n m)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (elem int (pred k) nat))
+                            (plus-pred-sym n m)
+                            <b>))
+    (have <d> (positive (succ (pred (+ n m))))
+          :by ((nat/positive-succ-strong (pred (+ n m)))
+               <c>))
+    (have <e> (positive (+ n m))
+          :by (eq/eq-subst% positive
+                            (int/succ-of-pred (+ n m))
+                            <d>))
+    (qed <e>)))
 
 (defthm negative-plus
   []
@@ -819,7 +851,7 @@
     (==> (exists [m int]
            (and (positive m)
                 (= (+ n m) zero)))
-         (nat/negative n))))
+         (negative n))))
 
 (proof negative-plus-conv
     :script
@@ -842,4 +874,64 @@
                                     (= (+ k m) zero))
                                   n
                                   zero)
-                     Hnl1 (p/and-elim-right% Hm))))))))
+                     Hnl1 (p/and-elim-right% Hm)))
+          (have <b2> (= m zero)
+                :by ((eq/eq-subst int
+                                  (lambda [k int]
+                                    (= k zero))
+                                  (+ zero m)
+                                  m)
+                     (plus-zero-sym m)
+                     <b1>))
+          (have <b3> (not (positive m))
+                :by ((eq/eq-subst int 
+                                  (lambda [k int] (not (positive k)))
+                                  zero m)
+                     (eq/eq-sym% <b2>)
+                     nat/nat-zero-has-no-pred))
+          (have <b4> p/absurd :by (<b3> (p/and-elim-left% Hm)))
+          (have <b> (negative n) :by (<b4> (negative n))))
+        "Subcase: `n` is positive."
+        (assume [Hnl2 (positive n)]
+          (have <c1> (positive (+ n m))
+                :by (positive-plus n m Hnl2 (p/and-elim-left% Hm)))
+          (have <c2> (not (positive (+ n m)))
+                :by ((eq/eq-subst int
+                                  (lambda [k int] (not (positive k)))
+                                  zero
+                                  (+ n m))
+                     ((eq/eq-sym int (+ n m) zero) (p/and-elim-right% Hm))
+                     nat/nat-zero-has-no-pred))
+          (have <c3> p/absurd :by (<c2> <c1>))
+          (have <c> (negative n) :by (<c3> (negative n))))
+        "Regroup the two subcases."
+        (have <d> (negative n)
+              :by (p/or-elim% Hnl (negative n) <b> <c>)))
+      "Second case: `n` is negative"
+      (assume [Hnr (negative n)]
+        (have <e> (negative n) :by Hnr))
+      "Regroup all the cases."
+      (have <f> (negative n)
+            :by (p/or-elim% <a> (negative n) <d> <e>)))
+    (have <g> (negative n)
+          :by ((q/ex-elim int
+                          (lambda [k int]
+                            (and (positive k)
+                                 (= (+ n k) zero)))
+                          (negative n))
+               Hex <f>))
+    (qed <g>)))
+
+(defthm negative-plus-equiv
+  [[n int]]
+  (<=> (exists [m int]
+         (and (positive m)
+              (= (+ n m) zero)))
+       (negative n)))
+
+(proof negative-plus-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (negative-plus-conv n) (negative-plus n)))
+  (qed <a>))
+
+

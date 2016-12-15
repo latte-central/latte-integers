@@ -605,7 +605,7 @@
                             <d>))
     (qed <e>)))
 
-(defthm negative-plus
+(defthm negative-pos-plus
   []
   (forall [n int]
     (==> (nat/negative n)
@@ -613,7 +613,7 @@
            (and (positive m)
                 (= (+ n m) zero))))))
 
-(proof negative-plus
+(proof negative-pos-plus
     :script
   "We prove this by integer induction."
   "Base case: `zero`"
@@ -845,7 +845,7 @@
   (qed <j>))
 
 
-(defthm negative-plus-conv
+(defthm negative-pos-plus-conv
   []
   (forall [n int]
     (==> (exists [m int]
@@ -853,7 +853,7 @@
                 (= (+ n m) zero)))
          (negative n))))
 
-(proof negative-plus-conv
+(proof negative-pos-plus-conv
     :script
   (assume [n int
            Hex (exists [m int]
@@ -922,16 +922,105 @@
                Hex <f>))
     (qed <g>)))
 
-(defthm negative-plus-equiv
+(defthm negative-pos-plus-equiv
   [[n int]]
   (<=> (exists [m int]
          (and (positive m)
               (= (+ n m) zero)))
        (negative n)))
 
-(proof negative-plus-equiv
+(proof negative-pos-plus-equiv
     :script
-  (have <a> _ :by (p/and-intro% (negative-plus-conv n) (negative-plus n)))
+  (have <a> _ :by (p/and-intro% (negative-pos-plus-conv n)
+                                (negative-pos-plus n)))
   (qed <a>))
+
+(defthm negative-plus
+  [[n int] [m int]]
+  (==> (negative n)
+       (negative m)
+       (negative (+ n m))))
+
+(proof negative-plus
+    :script
+  (assume [Hn (negative n)
+           Hm (negative m)]
+    (assume [p int
+             Hp (and (positive p)
+                     (= (+ n p) zero))]
+      (assume [q int
+               Hq (and (positive q)
+                       (= (+ m q) zero))]
+        (have <a> (positive (+ p q))
+              :by (positive-plus p q
+                                 (p/and-elim-left% Hp)
+                                 (p/and-elim-left% Hq)))
+        (have <b> (= (+ (+ n p) (+ m q)) (+ zero (+ m q)))
+              :by ((plus-right-cancel-conv (+ n p) zero (+ m q))
+                   (p/and-elim-right% Hp)))
+        (have <c> (= (+ (+ n p) (+ m q)) (+ zero zero))
+              :by ((eq/eq-subst int
+                                (lambda [k int] (= (+ (+ n p) (+ m q)) (+ zero k)))
+                                (+ m q) zero)
+                   (p/and-elim-right% Hq)
+                   <b>))
+        (have <d> (= (+ (+ n p) (+ m q)) zero)
+              :by (eq/eq-subst% (lambda [k int] (= (+ (+ n p) (+ m q)) k))
+                                (plus-zero zero)
+                                <c>))
+        (have <e> (= (+ (+ (+ n p) m) q) zero)
+              :by (eq/eq-subst% (lambda [k int] (= k zero))
+                                (plus-assoc (+ n p) m q)
+                                <d>))
+        (have <f> (= (+ (+ n (+ p m)) q) zero)
+              :by ((eq/eq-subst int
+                                (lambda [k int] (= (+ k q) zero))
+                                (+ (+ n p) m)
+                                (+ n (+ p m)))
+                   (eq/eq-sym% (plus-assoc n p m))
+                   <e>))
+        (have <g> (= (+ (+ n (+ m p)) q) zero)
+              :by (eq/eq-subst% (lambda [k int] (= (+ (+ n k) q) zero))
+                                (plus-commute p m)
+                                <f>))
+        (have <h> (= (+ (+ (+ n m) p) q) zero)
+              :by (eq/eq-subst% (lambda [k int] (= (+ k q) zero))
+                                (plus-assoc n m p)
+                                <g>))
+        (have <i> (= (+ (+ n m) (+ p q)) zero)
+              :by ((eq/eq-subst int
+                                (lambda [k int] (= k zero))
+                                (+ (+ (+ n m) p) q)
+                                (+ (+ n m) (+ p q)))
+                   (eq/eq-sym% (plus-assoc (+ n m) p q))
+                   <h>))
+        (have <j> (exists [r int]
+                    (and (positive r)
+                         (= (+ (+ n m) r) zero)))
+              :by ((q/ex-intro int
+                               (lambda [r int]
+                                 (and (positive r)
+                                      (= (+ (+ n m) r) zero)))
+                               (+ p q))
+                   (p/and-intro% <a> <i>)))
+        (have <k> (negative (+ n m))
+              :by (negative-pos-plus-conv (+ n m) <j>)))
+      (have <l> (negative (+ n m))
+            :by ((q/ex-elim int
+                            (lambda [k int]
+                              (and (positive k)
+                                   (= (+ m k) zero)))
+                            (negative (+ n m)))
+                 (negative-pos-plus m Hm)
+                 <k>)))
+    (have <m> (negative (+ n m))
+          :by ((q/ex-elim int
+                          (lambda [k int]
+                            (and (positive k)
+                                 (= (+ n k) zero)))
+                          (negative (+ n m)))
+               (negative-pos-plus n Hn)
+               <l>))
+    (qed <m>)))
 
 

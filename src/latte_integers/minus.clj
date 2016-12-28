@@ -131,4 +131,58 @@
     :term
   (q/the-prop int (lambda [p int] (= (+ p m) n)) (minus-unique n m)))
 
+(defthm minus-prop-cons
+  "A consequence of [[minus-prop]]."
+  [[n int] [m int]]
+  (= (- (+ n m) m) n))
+
+(proof minus-prop-cons
+    :script
+  (have <a> (= (+ (- (+ n m) m) m)
+               (+ n m))
+        :by (minus-prop (+ n m) m))
+  (have <b> (= (- (+ n m) m) n)
+        :by ((plus/plus-right-cancel (- (+ n m) m)
+                                     n
+                                     m)
+             <a>))
+  (qed <b>))
+
+(defthm minus-cancel
+  [[n int]]
+  (= (- n n) zero))
+
+(proof minus-cancel
+    :script
+  (have <a> (= (+ (- n n) n) n)
+        :by (minus-prop n n))
+  (have <b> (= n (+ zero n))
+        :by (eq/eq-sym% (plus/plus-zero-sym n)))
+  (have <c> (= (+ (- n n) n)
+               (+ zero n))
+        :by (eq/eq-trans% <a> <b>))
+  (have <d> (= (- n n) zero)
+        :by ((plus/plus-right-cancel (- n n) zero n)
+             <c>))
+  (qed <d>))
+
+(defthm minus-zero
+  [[n int]]
+  (= (- n zero) n))
+
+(proof minus-zero
+    :script
+  (have <a> (= (- (+ n zero) zero) n)
+        :by (minus-prop-cons n zero))
+  (have <b> (= (- n zero) n)
+        :by (eq/eq-subst% (lambda [k int] (= (- k zero) n))
+                          (plus/plus-zero n)
+                          <a>))
+  (qed <b>))
+
+(definition opp
+  "The opposite of an integer."
+  [[n int]]
+  (- zero n))
+
 

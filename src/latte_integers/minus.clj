@@ -419,6 +419,32 @@
                                      p) <f>))
   (qed <g>))
 
+(defthm assoc-minus-plus
+  [[n int] [m int] [p int]]
+  (= (- n (+ m p))
+     (- (- n m) p)))
+
+;;(proof assoc-minus-plus
+;;    :script
+
+  ;; (+ (- n (+ m p)) p)
+  ;; = (+ p (- n (+ m p)))
+  ;; = (- (+ p n) (+ m p))
+  ;; = (- (+ n p) (+ m p))  ;; n = n , m = p , p = (+ m p)
+  
+  
+  
+  
+  ;; (+ p (- n (+ m p)))
+  ;; = (- (+ p n) (+ m p))
+  ;; = (- (+ n p) (+ m p))
+  ;; = (- n m)
+
+  ;; (+ (- (- n m) p) p)
+  ;; = (- n m)
+;;  )
+
+
 (definition opp
   "The opposite of an integer."
   [[n int]]

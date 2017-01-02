@@ -243,6 +243,46 @@
                                      (pred m)) <f>))
   (qed <g>))
 
+(defthm minus-succ
+  [[n int] [m int]]
+  (= (- (succ n) m)
+     (succ (- n m))))
+
+
+(proof minus-succ
+    :script
+  (have <a> (= (+ (- (succ n) m) m)
+               (succ n))
+        :by (minus-prop (succ n) m))
+
+  ;; (succ (+ (- n m) m))
+  ;; = (succ n)
+  (have <b> (= (succ (+ (- n m) m))
+               (succ n))
+        :by (eq/eq-cong% succ (minus-prop n m)))
+
+  (have <c> (= (+ (succ (- n m)) m)
+               (succ (+ (- n m) m)))
+        :by (plus/plus-succ-sym (- n m) m))
+  
+  (have <e> (= (+ (succ (- n m)) m)
+               (succ n))
+        :by (eq/eq-trans% <c> <b>))
+
+  (have <f> (= (succ n)
+               (+ (succ (- n m)) m))
+        :by (eq/eq-sym% <e>))
+
+  (have <g> (= (+ (- (succ n) m) m)
+               (+ (succ (- n m)) m))
+        :by (eq/eq-trans% <a> <f>))
+  (have <h> (= (- (succ n) m)
+               (succ (- n m)))
+        :by ((plus/plus-right-cancel (- (succ n) m)
+                                     (succ (- n m))
+                                     m) <g>))
+  (qed <h>))
+
 (definition opp
   "The opposite of an integer."
   [[n int]]

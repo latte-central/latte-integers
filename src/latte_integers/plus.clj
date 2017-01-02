@@ -1024,3 +1024,20 @@
     (qed <m>)))
 
 
+(defthm plus-one
+  [[n int]]
+  (= (+ n (succ zero))
+     (succ n)))
+
+(proof plus-one
+    :script
+  (have <a> (= (+ n (succ zero))
+               (succ (+ n zero)))
+        :by (plus-succ n zero))
+  (have <b> (= (succ (+ n zero))
+               (succ n))
+        :by (eq/eq-cong% succ (plus-zero n)))
+  (have <c> (= (+ n (succ zero))
+               (succ n))
+        :by (eq/eq-trans% <a> <b>))
+  (qed <c>))

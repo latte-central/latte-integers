@@ -254,9 +254,6 @@
   (have <a> (= (+ (- (succ n) m) m)
                (succ n))
         :by (minus-prop (succ n) m))
-
-  ;; (succ (+ (- n m) m))
-  ;; = (succ n)
   (have <b> (= (succ (+ (- n m) m))
                (succ n))
         :by (eq/eq-cong% succ (minus-prop n m)))
@@ -264,24 +261,53 @@
   (have <c> (= (+ (succ (- n m)) m)
                (succ (+ (- n m) m)))
         :by (plus/plus-succ-sym (- n m) m))
-  
-  (have <e> (= (+ (succ (- n m)) m)
+  (have <d> (= (+ (succ (- n m)) m)
                (succ n))
         :by (eq/eq-trans% <c> <b>))
-
-  (have <f> (= (succ n)
+  (have <e> (= (succ n)
                (+ (succ (- n m)) m))
-        :by (eq/eq-sym% <e>))
-
-  (have <g> (= (+ (- (succ n) m) m)
+        :by (eq/eq-sym% <d>))
+  (have <f> (= (+ (- (succ n) m) m)
                (+ (succ (- n m)) m))
-        :by (eq/eq-trans% <a> <f>))
-  (have <h> (= (- (succ n) m)
+        :by (eq/eq-trans% <a> <e>))
+  (have <g> (= (- (succ n) m)
                (succ (- n m)))
         :by ((plus/plus-right-cancel (- (succ n) m)
                                      (succ (- n m))
-                                     m) <g>))
-  (qed <h>))
+                                     m) <f>))
+  (qed <g>))
+
+(defthm minus-pred
+  [[n int] [m int]]
+  (= (- (pred n) m)
+     (pred (- n m))))
+
+(proof minus-pred
+    :script
+  (have <a> (= (+ (- (pred n) m) m)
+               (pred n))
+        :by (minus-prop (pred n) m))
+  (have <b> (= (pred (+ (- n m) m))
+               (pred n))
+        :by (eq/eq-cong% pred (minus-prop n m)))
+  (have <c> (= (+ (pred (- n m)) m)
+               (pred (+ (- n m) m)))
+        :by (plus/plus-pred-sym (- n m) m))
+  (have <d> (= (+ (pred (- n m)) m)
+               (pred n))
+        :by (eq/eq-trans% <c> <b>))
+  (have <e> (= (pred n)
+               (+ (pred (- n m)) m))
+        :by (eq/eq-sym% <d>))
+  (have <f> (= (+ (- (pred n) m) m)
+               (+ (pred (- n m)) m))
+        :by (eq/eq-trans% <a> <e>))
+  (have <g> (= (- (pred n) m)
+               (pred (- n m)))
+        :by ((plus/plus-right-cancel (- (pred n) m)
+                                     (pred (- n m))
+                                     m) <f>))
+  (qed <g>))
 
 (definition opp
   "The opposite of an integer."

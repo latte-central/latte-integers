@@ -309,6 +309,24 @@
                                      m) <f>))
   (qed <g>))
 
+
+(defthm minus-one
+  [[n int]]
+  (= (- n (succ zero)) (pred n)))
+
+(proof minus-one
+    :script
+  (have <a> (= (- n (succ zero))
+               (pred (- n zero)))
+        :by (minus-succ-pred n zero))
+  (have <b> (= (pred (- n zero))
+               (pred n))
+        :by (eq/eq-cong% pred (minus-zero n)))
+  (have <c> (= (- n (succ zero))
+               (pred n))
+        :by (eq/eq-trans% <a> <b>))
+  (qed <c>))
+
 (definition opp
   "The opposite of an integer."
   [[n int]]

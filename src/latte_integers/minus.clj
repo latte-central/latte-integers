@@ -180,12 +180,12 @@
                           <a>))
   (qed <b>))
 
-(defthm minus-succ-prev
+(defthm minus-succ-pred
   [[n int] [m int]]
   (= (- n (succ m))
      (pred (- n m))))
 
-(proof minus-succ-prev
+(proof minus-succ-pred
     :script
   (have <a> (= (+ (- n (succ m)) (succ m))
                n)
@@ -209,6 +209,38 @@
         :by ((plus/plus-right-cancel (- n (succ m))
                                      (pred (- n m))
                                      (succ m)) <f>))
+  (qed <g>))
+
+(defthm minus-pred-succ
+  [[n int] [m int]]
+  (= (- n (pred m))
+     (succ (- n m))))
+
+(proof minus-pred-succ
+    :script
+  (have <a> (= (+ (- n (pred m)) (pred m))
+               n)
+        :by (minus-prop n (pred m)))
+  (have <b> (= (+ (succ (- n m)) (pred m))
+               (+ (- n m) m))
+        :by (plus/plus-succ-pred (- n m) m))
+  (have <c> (= (+ (- n m) m)
+               n)
+        :by (minus-prop n m))
+  (have <d> (= (+ (succ (- n m)) (pred m))
+               n)
+        :by (eq/eq-trans% <b> <c>))
+  (have <e> (= n
+               (+ (succ (- n m)) (pred m)))
+        :by (eq/eq-sym% <d>))
+  (have <f> (= (+ (- n (pred m)) (pred m))
+               (+ (succ (- n m)) (pred m)))
+        :by (eq/eq-trans% <a> <e>))
+  (have <g> (= (- n (pred m))
+               (succ (- n m)))
+        :by ((plus/plus-right-cancel (- n (pred m))
+                                     (succ (- n m))
+                                     (pred m)) <f>))
   (qed <g>))
 
 (definition opp

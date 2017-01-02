@@ -387,6 +387,38 @@
     (have <h> (= m p) :by (eq/eq-sym% <g>))
     (qed <h>)))
 
+(defthm assoc-plus-minus
+  [[n int] [m int] [p int]]
+  (= (+ n (- m p))
+     (- (+ n m) p)))
+
+(proof assoc-plus-minus
+    :script
+  (have <a> (= (+ (+ n (- m p)) p)
+               (+ n (+ (- m p) p)))
+        :by (eq/eq-sym% (plus/plus-assoc n (- m p) p)))
+  (have <b> (= (+ n (+ (- m p) p))
+               (+ n m))
+        :by (eq/eq-cong% (lambda [k int] (+ n k))
+                         (minus-prop m p)))
+  (have <c> (= (+ (+ n (- m p)) p)
+               (+ n m))
+        :by (eq/eq-trans% <a> <b>))
+  (have <d> (= (+ (- (+ n m) p) p)
+               (+ n m)) :by (minus-prop (+ n m) p))
+  (have <e> (= (+ n m)
+               (+ (- (+ n m) p) p))
+        :by (eq/eq-sym% <d>))
+  (have <f> (= (+ (+ n (- m p)) p)
+               (+ (- (+ n m) p) p))
+        :by (eq/eq-trans% <c> <e>))
+  (have <g> (= (+ n (- m p))
+               (- (+ n m) p))
+        :by ((plus/plus-right-cancel (+ n (- m p))
+                                     (- (+ n m) p)
+                                     p) <f>))
+  (qed <g>))
+
 (definition opp
   "The opposite of an integer."
   [[n int]]

@@ -429,6 +429,16 @@
   (have <e> (P p) :by ((int/int-induct P) <a> <d> p))
   (qed <e>))
 
+(defthm plus-assoc-sym
+  [[n int] [m int] [p int]]
+  (= (+ (+ n m) p)
+     (+ n (+ m p))))
+
+(proof plus-assoc-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (plus-assoc n m p)))
+  (qed <a>))
+
 (defthm plus-right-cancel
   [[n int] [m int] [p int]]
   (==> (= (+ n p) (+ m p))

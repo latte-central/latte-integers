@@ -424,25 +424,123 @@
   (= (- n (+ m p))
      (- (- n m) p)))
 
-;;(proof assoc-minus-plus
-;;    :script
+(proof assoc-minus-plus
+    :script
 
-  ;; (+ (- n (+ m p)) p)
-  ;; = (+ p (- n (+ m p)))
-  ;; = (- (+ p n) (+ m p))
-  ;; = (- (+ n p) (+ m p))  ;; n = n , m = p , p = (+ m p)
-  
-  
-  
-  
-  ;; (+ p (- n (+ m p)))
-  ;; = (- (+ p n) (+ m p))
-  ;; = (- (+ n p) (+ m p))
-  ;; = (- n m)
+  (have <a> (= (+ (- n (+ m p)) (+ m p))
+               n)
+        :by (minus-prop n (+ m p)))
 
-  ;; (+ (- (- n m) p) p)
-  ;; = (- n m)
-;;  )
+  (have <b> (= (+ (- (- n m) p) (+ m p))
+               (+ (+ m p) (- (- n m) p)))
+        :by (plus/plus-commute (- (- n m) p)
+                               (+ m p)))
+
+  (have <c1> (= (+ (+ m p) (- (- n m) p))
+                (- (+ (+ m p) (- n m)) p))
+        :by (assoc-plus-minus (+ m p) (- n m) p))
+
+  (have <c> (= (+ (- (- n m) p) (+ m p))
+               (- (+ (+ m p) (- n m)) p))
+        :by (eq/eq-trans% <b> <c1>))
+
+  (have <d1> (= (- (+ (+ m p) (- n m)) p)
+                (- (- (+ (+ m p) n) m) p))
+        :by (eq/eq-cong% (lambda [k int] (- k p))
+                         (assoc-plus-minus (+ m p) n m)))
+
+  (have <d> (= (+ (- (- n m) p) (+ m p))
+               (- (- (+ (+ m p) n) m) p))
+        :by (eq/eq-trans% <c> <d1>))
+
+  (have <e1> (= (- (+ (+ m p) n) m)
+                (- (+ (+ p m) n) m))
+        :by (eq/eq-cong% (lambda [k int] (- (+ k n) m))
+                         (plus/plus-commute m p)))
+  
+  (have <e2> (= (- (+ (+ p m) n) m)
+                (- (+ p (+ m n)) m))
+        :by (eq/eq-cong% (lambda [k int] (- k m))
+                         (plus/plus-assoc-sym p m n)))
+
+  (have <e3> (= (- (+ (+ m p) n) m)
+                (- (+ p (+ m n)) m))
+        :by (eq/eq-trans% <e1> <e2>))
+  
+  (have <e4> (= (- (+ p (+ m n)) m)
+                (- (+ p (+ n m)) m))
+        :by (eq/eq-cong% (lambda [k int] (- (+ p k) m))
+                         (plus/plus-commute m n)))
+
+  (have <e5> (= (- (+ (+ m p) n) m)
+                (- (+ p (+ n m)) m))
+        :by (eq/eq-trans% <e3> <e4>))
+  
+  
+  (have <e6> (= (- (+ p (+ n m)) m)
+                (- (+ (+ p n) m) m))
+        :by (eq/eq-cong% (lambda [k int] (- k m))
+                         (plus/plus-assoc p n m)))
+
+  (have <e7> (= (- (+ (+ m p) n) m)
+                (- (+ (+ p n) m) m))
+        :by (eq/eq-trans% <e5> <e6>))
+  
+  (have <e8> (= (- (+ (+ p n) m) m)
+                (+ p n))
+        :by (minus-prop-cons (+ p n) m))
+
+  (have <e9> (= (- (+ (+ m p) n) m)
+                (+ p n))
+        :by (eq/eq-trans% <e7> <e8>))
+ 
+  ;; hence (- (- (+ (+ p m) n) m) p)
+  ;;      = (- (+ p n) p)
+
+  (have <e10> (= (- (- (+ (+ m p) n) m) p)
+                 (- (+ p n) p))
+        :by (eq/eq-cong% (lambda [k int] (- k p))
+                         <e9>))
+
+  ;;      = (- (+ n p) p)   by plus-commute
+
+  (have <e11> (= (- (+ p n) p)
+               (- (+ n p) p))
+        :by (eq/eq-cong% (lambda [k int] (- k p))
+                         (plus/plus-commute p n)))
+
+  (have <e12> (= (- (+ n p) p)
+                 n) :by (minus-prop-cons n p))
+
+  (have <e13> (= (- (+ p n) p)
+                 n) :by (eq/eq-trans% <e11> <e12>))
+
+  (have <e> (= (- (- (+ (+ m p) n) m) p)
+               n)
+        :by (eq/eq-subst% (lambda [k int] (= (- (- (+ (+ m p) n) m) p)
+                                             k))
+                          <e13> <e10>))
+
+  (have <f1> (= (+ (- (- n m) p) (+ m p))
+                n)
+        :by (eq/eq-trans% <d> <e>))
+
+  (have <f> (= n (+ (- (- n m) p) (+ m p)))
+        :by (eq/eq-sym% <f1>))
+  
+
+  (have <g> (= (+ (- n (+ m p)) (+ m p))
+               (+ (- (- n m) p) (+ m p)))
+        :by (eq/eq-trans% <a> <f>))
+
+  (have <h> (= (- n (+ m p))
+               (- (- n m) p))
+        :by ((plus/plus-right-cancel (- n (+ m p))
+                                     (- (- n m) p)
+                                     (+ m p))
+             <g>))
+
+  (qed <h>))
 
 
 (definition opp

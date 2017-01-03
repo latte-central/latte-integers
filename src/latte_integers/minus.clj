@@ -542,6 +542,67 @@
 
   (qed <h>))
 
+(defthm assoc-minus-minus
+  [[n int] [m int] [p int]]
+  (= (- n (- m p))
+     (+ (- n m) p)))
+
+(proof assoc-minus-minus
+    :script
+  (have <a> (= (+ (- n (- m p)) (- m p))
+               n) :by (minus-prop n (- m p)))
+  (have <b> (= (+ (+ (- n m) p) (- m p))
+               (+ (- m p) (+ (- n m) p)))
+        :by (plus/plus-commute (+ (- n m) p) (- m p)))
+  (have <c1> (= (+ (- m p) (+ (- n m) p))
+                (+ (+ (- m p) (- n m)) p))
+        :by (plus/plus-assoc (- m p) (- n m) p))
+  (have <c> (= (+ (+ (- n m) p) (- m p))
+               (+ (+ (- m p) (- n m)) p))
+        :by (eq/eq-trans% <b> <c1>))
+
+  (have <d1> (= (+ (- m p) (- n m))
+                (+ (- n m) (- m p)))
+        :by (plus/plus-commute (- m p) (- n m)))
+  (have <d2> (= (+ (- n m) (- m p))
+                (- (+ (- n m) m) p))
+        :by (assoc-plus-minus (- n m) m p))
+  (have <d3> (= (+ (- m p) (- n m))
+                (- (+ (- n m) m) p))
+        :by (eq/eq-trans% <d1> <d2>))
+  (have <d> (= (+ (- m p) (- n m))
+               (- n p))
+        :by (eq/eq-subst% (lambda [k int] (= (+ (- m p) (- n m))
+                                             (- k p)))
+                          (minus-prop n m)
+                          <d3>))
+
+  (have <e1> (= (+ (+ (- n m) p) (- m p))
+                (+ (- n p) p))
+        :by (eq/eq-subst% (lambda [k int] (= (+ (+ (- n m) p) (- m p))
+                                             (+ k p)))
+                          <d>
+                          <c>))
+
+  (have <e2> (= (+ (+ (- n m) p) (- m p))
+               n)
+        :by (eq/eq-subst% (lambda [k int] (= (+ (+ (- n m) p) (- m p))
+                                             k))
+                          (minus-prop n p)
+                          <e1>))
+  (have <e> (= n (+ (+ (- n m) p) (- m p)))
+        :by (eq/eq-sym% <e2>))
+
+  (have <f> (= (+ (- n (- m p)) (- m p))
+               (+ (+ (- n m) p) (- m p)))
+        :by (eq/eq-trans% <a> <e>))
+
+  (have <g> (= (- n (- m p))
+               (+ (- n m) p))
+        :by ((plus/plus-right-cancel (- n (- m p))
+                                     (+ (- n m) p)
+                                     (- m p)) <f>))
+  (qed <g>))
 
 (definition opp
   "The opposite of an integer."

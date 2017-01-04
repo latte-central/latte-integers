@@ -604,6 +604,140 @@
                                      (- m p)) <f>))
   (qed <g>))
 
+(defthm minus-pos-neg
+  [[n int] [m int]]
+  (==> (positive (- n m))
+       (negative (- m n))))
+
+
+(proof minus-pos-neg
+    :script
+  (assume [Hpos (positive (- n m))]
+    (assume [Hnat (elem int (- m n) nat)]
+      (have <a> (elem int (+ (pred (- n m)) (- m n)) nat)
+            :by (plus/plus-nat-closed (pred (- n m)) Hpos
+                                      (- m n) Hnat))
+      (have <b1> (= (+ (pred (- n m)) (- m n))
+                    (pred (+ (- n m) (- m n))))
+            :by (plus/plus-pred-sym (- n m) (- m n)))
+
+      (have <b2> (= (pred (+ (- n m) (- m n)))
+                    (pred (- (+ (- n m) m) n)))
+            :by (eq/eq-cong% pred
+                             (assoc-plus-minus (- n m) m n)))
+      (have <b3> (= (+ (pred (- n m)) (- m n))
+                    (pred (- (+ (- n m) m) n)))
+            :by (eq/eq-trans% <b1> <b2>))
+
+      (have <b4> (= (pred (- (+ (- n m) m) n))
+                    (pred (- n n)))
+            :by (eq/eq-cong% (lambda [k int] (pred (- k n)))
+                             (minus-prop n m)))
+
+      (have <b5> (= (+ (pred (- n m)) (- m n))
+                    (pred (- n n)))
+            :by (eq/eq-trans% <b3> <b4>))
+
+      (have <b6> (= (+ (pred (- n m)) (- m n))
+                    (pred zero))
+            :by (eq/eq-subst% (lambda [k int] (= (+ (pred (- n m)) (- m n))
+                                                 (pred k)))
+                              (minus-cancel n)
+                              <b5>))
+
+      (have <b> (elem int (pred zero) nat)
+            :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                              <b6>
+                              <a>))
+
+      (have <c> p/absurd :by (nat/negative-pred-zero <b>)))
+    (qed <c>)))
+
+(defthm plus-zero-minus
+  [[n int] [m int]]
+  (= (+ (- zero n) m)
+     (- m n)))
+
+(proof plus-zero-minus
+    :script
+  (have <a> (= (+ (- zero n) m)
+               (+ m (- zero n)))
+        :by (plus/plus-commute (- zero n) m))
+  (have <b> (= (+ m (- zero n))
+               (- (+ m zero) n)) :by (assoc-plus-minus m zero n))
+  (have <c> (= (+ (- zero n) m)
+               (- (+ m zero) n)) :by (eq/eq-trans% <a> <b>))
+  (have <d> (= (- (+ m zero) n)
+               (- m n))
+        :by (eq/eq-cong% (lambda [k int] (- k n))
+                         (plus/plus-zero m)))
+  (have <e> (= (+ (- zero n) m)
+               (- m n)) :by (eq/eq-trans% <c> <d>))
+  (qed <e>))
+
+(defthm minus-pos-neg-conv
+  [[n int] [m int]]
+  (==> (negative (- m n))
+       (positive (- n m))))
+
+(proof minus-pos-neg-conv
+    :script
+  (assume [Hneg (negative (- m n))]
+    (have <a> (exists [p int]
+                (and (positive p) (= (+ (- m n) p) zero)))
+          :by ((plus/negative-pos-plus (- m n))
+               Hneg))
+    (assume [p int
+             Hp (and (positive p)
+                     (= (+ (- m n) p) zero))]
+      (have <b> (positive p) :by (p/and-elim-left% Hp))
+      (have <c> (= (+ (- m n) p) zero) :by (p/and-elim-right% Hp))
+
+      (have <d> (= (+ p (- m n)) zero)
+            :by (eq/eq-subst% (lambda [k int] (= k zero))
+                              (plus/plus-commute (- m n) p)
+                              <c>))
+      (have <e> (= (- (+ p (- m n)) (- m n))
+                   (- zero (- m n)))
+            :by (eq/eq-cong% (lambda [k int] (- k (- m n)))
+                             <d>))
+
+      (have <f> (= p (- zero (- m n)))
+            :by (eq/eq-subst% (lambda [k int] (= k (- zero (- m n))))
+                              (minus-prop-cons p (- m n))
+                              <e>))
+
+      (have <g> (= p (+ (- zero m) n))
+            :by (eq/eq-subst% (lambda [k int] (= p k))
+                              (assoc-minus-minus zero m n)
+                              <f>))
+      (have <h> (= p (- n m))
+            :by (eq/eq-subst% (lambda [k int] (= p k))
+                              (plus-zero-minus m n)
+                              <g>))
+      (have <i> (positive (- n m))
+            :by (eq/eq-subst% (lambda [k int] (positive k))
+                              <h>
+                              <b>)))
+    (have <j> (positive (- n m))
+          :by ((q/ex-elim int (lambda [k int]
+                                (and (positive k) (= (+ (- m n) k) zero)))
+                          (positive (- n m)))
+               <a> <i>))
+    (qed <j>)))
+
+(defthm minus-pos-neg-equiv
+  [[n int] [m int]]
+  (<=> (positive (- n m))
+       (negative (- m n))))
+
+(proof minus-pos-neg-equiv
+    :script
+  (have <a> _
+        :by (p/and-intro% (minus-pos-neg n m) (minus-pos-neg-conv n m)))
+
+  (qed <a>))
+
 (definition opp
   "The opposite of an integer."
   [[n int]]

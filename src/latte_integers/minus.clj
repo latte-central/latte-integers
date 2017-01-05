@@ -964,5 +964,19 @@
                             <a>)))
   (qed <b>))
 
+(defthm opp-pos-neg-equiv
+  [[n int]]
+  (<=> (positive n)
+       (negative (-- n))))
+
+(proof opp-pos-neg-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (opp-pos-neg n)
+                                (opp-pos-neg-conv n)))
+  (qed <a>))
+
+
+
+
 
 

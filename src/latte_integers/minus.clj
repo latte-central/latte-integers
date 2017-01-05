@@ -738,9 +738,231 @@
 
   (qed <a>))
 
-(definition opp
+
+(definition --
   "The opposite of an integer."
   [[n int]]
   (- zero n))
+
+(defthm opp-plus-opp
+  [[n int]]
+  (= (+ (-- n) n)
+     zero))
+
+(proof opp-plus-opp
+    :script
+
+  (have <a> (= (+ (-- n) n)
+               (+ n (- zero n)))
+        :by (plus/plus-commute (-- n) n))
+
+  (have <b1> (= (+ n (- zero n))
+                (- (+ n zero) n))
+        :by (assoc-plus-minus n zero n))
+
+  (have <b> (= (+ (-- n) n)
+               (- (+ n zero) n))
+        :by (eq/eq-trans% <a> <b1>))
+
+  (have <c1> (= (- (+ n zero) n)
+                (- n n))
+        :by (eq/eq-cong% (lambda [k int] (- k n))
+                         (plus/plus-zero n)))
+
+  (have <c> (= (+ (-- n) n)
+               (- n n))
+        :by (eq/eq-trans% <b> <c1>))
+
+  (have <d> (= (+ (-- n) n)
+               zero)
+        :by (eq/eq-subst% (lambda [k int] (= (+ (-- n) n)
+                                             k))
+                          (minus-cancel n)
+                          <c>))
+  (qed <d>))
+
+(defthm plus-opp-minus
+  [[n int] [m int]]
+  (= (+ n (-- m))
+     (- n m)))
+
+(proof plus-opp-minus
+    :script
+  (have <a> (= (+ n (- zero m))
+               (- (+ n zero) m))
+        :by (assoc-plus-minus n zero m))
+
+  (have <b> (= (+ n (-- m))
+               (- n m))
+        :by (eq/eq-subst% (lambda [k int] (= (+ n (-- m))
+                                             (- k m)))
+                          (plus/plus-zero n)
+                          <a>))
+  (qed <b>))
+
+(defthm opp-plus
+  [[n int] [m int]]
+  (= (-- (+ n m))
+     (- (-- n) m)))
+
+(proof opp-plus
+    :script
+  (have <a> (= (- zero (+ n m))
+               (- (- zero n) m))
+        :by (assoc-minus-plus zero n m))
+  (qed <a>))
+
+
+(defthm opp-zero
+  []
+  (= (-- zero) zero))
+
+(proof opp-zero
+    :script
+  (have <a> (= (- zero zero)
+               zero)
+        :by (minus-zero zero))
+  (qed <a>))
+
+(defthm opp-opp
+  [[n int]]
+  (= (-- (-- n))
+     n))
+
+(proof opp-opp
+    :script
+  (have <a> (= (- zero (- zero n))
+               (+ (- zero zero) n))
+        :by (assoc-minus-minus zero zero n))
+  (have <b> (= (-- (-- n))
+               (+ zero n))
+        :by (eq/eq-subst% (lambda [k int] (= (-- (-- n))
+                                             (+ k n)))
+                          (minus-zero zero)
+                          <a>))
+  (have <c> (= (-- (-- n))
+               n)
+        :by (eq/eq-subst% (lambda [k int] (= (-- (-- n))
+                                             k))
+                          (plus/plus-zero-sym n)
+                          <b>))
+  (qed <c>))
+
+
+(defthm zero-opp-zero
+  [[n int]]
+  (==> (= n zero)
+       (= (-- n) zero)))
+
+(proof zero-opp-zero
+    :script
+  (assume [H (= n zero)]
+    (have <a> (= (-- n) (-- zero))
+          :by (eq/eq-cong% (lambda [k int] (-- k))
+                           H))
+    (have <b> (= (-- n) zero)
+          :by (eq/eq-subst% (lambda [k int] (= (-- n) k))
+                            (opp-zero)
+                            <a>)))
+  (qed <b>))
+
+(defthm zero-opp-zero-conv
+  [[n int]]
+  (==> (= (-- n) zero)
+       (= n zero)))
+
+(proof zero-opp-zero-conv
+    :script
+  (assume [H (= (-- n) zero)]
+    (have <a> (= (+ (-- n) n)
+                 (+ zero n))
+          :by ((plus/plus-right-cancel-conv (-- n) zero n)
+               H))
+    (have <b> (= zero
+                 (+ zero n))
+          :by (eq/eq-subst% (lambda [k int] (= k (+ zero n)))
+                            (opp-plus-opp n)
+                            <a>))
+
+    (have <c> (= zero n)
+          :by (eq/eq-subst% (lambda [k int] (= zero k))
+                            (plus/plus-zero-sym n)
+                            <b>))
+
+    (have <d> (= n zero) :by (eq/eq-sym% <c>)))
+  (qed <d>))
+
+
+(defthm zero-opp-zero-equiv
+  [[n int]]
+  (<=> (= n zero)
+       (= (-- n) zero)))
+
+(proof zero-opp-zero-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (zero-opp-zero n)
+                                (zero-opp-zero-conv n)))
+  (qed <a>))
+
+
+(defthm opp-succ-pred
+  [[n int]]
+  (= (-- (succ n))
+     (pred (-- n))))
+
+(proof opp-succ-pred
+    :script
+  (have <a> (= (- zero (succ n))
+               (pred (- zero n)))
+        :by (minus-succ-pred zero n))
+  (qed <a>))
+
+(defthm opp-pred-succ
+  [[n int]]
+  (= (-- (pred n))
+     (succ (-- n))))
+
+(proof opp-pred-succ
+    :script
+  (have <a> (= (- zero (pred n))
+               (succ (- zero n)))
+        :by (minus-pred-succ zero n))
+  (qed <a>))
+
+(defthm opp-pos-neg
+  [[n int]]
+  (==> (positive n)
+       (negative (-- n))))
+
+(proof opp-pos-neg
+    :script
+  (assume [H (positive n)]
+    (have <a> (positive (- n zero))
+          :by ((eq/eq-subst int
+                            (lambda [k int] (positive k))
+                            n (- n zero))
+               ((eq/eq-sym int (- n zero) n)
+                (minus-zero n))
+               H))
+    (have <b> (negative (- zero n))
+          :by ((minus-pos-neg n zero) <a>)))
+  (qed <b>))
+
+(defthm opp-pos-neg-conv
+  [[n int]]
+  (==> (negative (-- n))
+       (positive n)))
+
+(proof opp-pos-neg-conv
+    :script
+  (assume [H (negative (-- n))]
+    (have <a> (positive (- n zero))
+          :by ((minus-pos-neg-conv n zero) H))
+    (have <b> (positive n)
+          :by (eq/eq-subst% positive
+                            (minus-zero n)
+                            <a>)))
+  (qed <b>))
+
 
 

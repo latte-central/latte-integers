@@ -976,6 +976,131 @@
   (qed <a>))
 
 
+(defthm opp-neg-pos
+  [[n int]]
+  (==> (negative n)
+       (positive (-- n))))
+
+(proof opp-neg-pos
+    :script
+  (assume [H (negative n)]
+    (have <a> (negative (-- (-- n)))
+          :by ((eq/eq-subst int negative
+                           n (-- (-- n)))
+               (eq/eq-sym% (opp-opp n))
+               H))
+    (have <b> (positive (-- n))
+          :by ((opp-pos-neg-conv (-- n)) <a>)))
+  (qed <b>))
+
+(defthm opp-neg-pos-conv
+  [[n int]]
+  (==> (positive (-- n))
+       (negative n)))
+
+(proof opp-neg-pos-conv
+    :script
+  (assume [H (positive (-- n))]
+    (have <a> (negative (-- (-- n)))
+          :by ((opp-pos-neg (-- n)) H))
+    (have <b> (negative n)
+          :by (eq/eq-subst% negative
+                            (opp-opp n)
+                            <a>)))
+  (qed <b>))
+
+(defthm opp-neg-pos-equiv
+  [[n int]]
+  (<=> (negative n)
+       (positive (-- n))))
+
+(proof opp-neg-pos-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (opp-neg-pos n)
+                                (opp-neg-pos-conv n)))
+  (qed <a>))
+
+(defthm opp-pos-split
+  "A split for integers using the opposite, using [[nat/positive]]."
+  [[n int]]
+  (or (or (= n zero)
+          (positive n))
+      (positive (-- n))))
+
+(proof opp-pos-split
+    :script
+  (assume [H1 (or (= n zero)
+                  (positive n))]
+    (have <a> (or (or (= n zero)
+                      (positive n))
+                  (positive (-- n)))
+          :by (p/or-intro-left% H1
+                                (positive (-- n)))))
+  (assume [H2 (negative n)]
+    (have <b1> (positive (-- n))
+          :by ((opp-neg-pos n) H2))
+    (have <b> (or (or (= n zero)
+                      (positive n))
+                  (positive (-- n)))
+          :by (p/or-intro-right% (or (= n zero)
+                                     (positive n))
+                                 <b1>)))
+  (have <c> _ :by (p/or-elim% (nat/int-split n)
+                              (or (or (= n zero)
+                                      (positive n))
+                                  (positive (-- n)))
+                              <a> <b>))
+  (qed <c>))
+
+(defthm opp-neg-split
+  "A split for integers using the opposite, using [[nat/negative]]."
+  [[n int]]
+  (or (or (= n zero)
+          (negative n))
+      (negative (-- n))))
+
+(proof opp-neg-split
+    :script
+  (assume [H1 (or (= n zero)
+                  (positive n))]
+    (assume [H2 (= n zero)]
+      (have <a1> (or (= n zero)
+                     (negative n))
+            :by (p/or-intro-left% H2 (negative n)))
+      (have <a> (or (or (= n zero)
+                        (negative n))
+                    (negative (-- n)))
+            :by (p/or-intro-left% <a1> (negative (-- n)))))
+    (assume [H3 (positive n)]
+      (have <b> (or (or (= n zero)
+                        (negative n))
+                    (negative (-- n)))
+            :by (p/or-intro-right% (or (= n zero)
+                                       (negative n))
+                                   ((opp-pos-neg n) H3))))
+    (have <c> _ :by (p/or-elim% H1 (or (or (= n zero)
+                                           (negative n))
+                                       (negative (-- n)))
+                                <a> <b>)))
+  (assume [H4 (positive (-- n))]
+    (have <d1> (or (= n zero)
+                   (negative n))
+          :by (p/or-intro-right% (= n zero)
+                                 ((opp-neg-pos-conv n) H4)))
+    (have <d> (or (or (= n zero)
+                      (negative n))
+                  (negative (-- n)))
+          :by (p/or-intro-left% <d1> (negative (-- n)))))
+  (have <e> _ :by (p/or-elim% (opp-pos-split n)
+                              (or (or (= n zero)
+                                      (negative n))
+                                  (negative (-- n)))
+                              <c> <d>))
+  (qed <e>))
+
+
+
+
 
 
 

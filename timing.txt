@@ -1,0 +1,3996 @@
+- check step step
+  => handling specials (0.129999 ms)
+  => unfolding local definitions (0.105904 ms)
+  => compute step type (0.039775 ms)
+  => compare with specified type (0.052973 ms)
+=== Checking proof of theorem impl-refl (timing enabled) ===
+- check step concl
+  => handling specials (0.00396 ms)
+  => unfolding local definitions (0.003503 ms)
+  => compute step type (0.031853 ms)
+  => compare with specified type (0.024796 ms)
+- infer proof type (0.078258 ms)
+- check proof type against theorem type (0.08269 ms)
+==================================================================
+- infer proof type (0.231904 ms)
+- check proof type against theorem type (0.153104 ms)
+==================================================================
+=== Checking proof of theorem impl-trans (timing enabled) ===
+- check step <a>
+  => handling specials (0.017438 ms)
+  => unfolding local definitions (0.005528 ms)
+  => compute step type (0.23 ms)
+  => compare with specified type (0.017604 ms)
+- check step <b>
+  => handling specials (0.408172 ms)
+  => unfolding local definitions (0.160782 ms)
+  => compute step type (0.5748 ms)
+  => compare with specified type (0.032709 ms)
+- infer proof type (0.760633 ms)
+- check proof type against theorem type (0.28891 ms)
+==================================================================
+=== Checking proof of theorem ex-falso (timing enabled) ===
+- check step a
+  => handling specials (0.103195 ms)
+  => unfolding local definitions (0.00552 ms)
+  => compute step type (0.680029 ms)
+  => compare with specified type (0.016746 ms)
+- infer proof type (0.507468 ms)
+- check proof type against theorem type (0.335443 ms)
+==================================================================
+=== Checking proof of theorem absurd-intro (timing enabled) ===
+- check step a
+  => handling specials (0.004111 ms)
+  => unfolding local definitions (0.079315 ms)
+  => compute step type (0.873404 ms)
+  => compare with specified type (0.112291 ms)
+- infer proof type (1.159776 ms)
+- check proof type against theorem type (0.801335 ms)
+==================================================================
+=== Checking proof of theorem impl-not-not (timing enabled) ===
+- check step a
+  => handling specials (0.004785 ms)
+  => unfolding local definitions (0.004686 ms)
+  => compute step type (1.056134 ms)
+  => compare with specified type (0.185436 ms)
+- infer proof type (1.011616 ms)
+- check proof type against theorem type (0.879162 ms)
+==================================================================
+=== Checking proof of theorem truth-is-true (timing enabled) ===
+- check step a
+  => handling specials (0.039242 ms)
+  => unfolding local definitions (0.027059 ms)
+  => compute step type (0.392652 ms)
+  => compare with specified type (0.65428 ms)
+- infer proof type (0.19299 ms)
+- check proof type against theorem type (0.629483 ms)
+==================================================================
+=== Checking proof of theorem and-intro (timing enabled) ===
+- check step a
+  => handling specials (0.014551 ms)
+  => unfolding local definitions (0.005706 ms)
+  => compute step type (0.363992 ms)
+  => compare with specified type (0.06434 ms)
+- check step b
+  => handling specials (0.028264 ms)
+  => unfolding local definitions (0.183188 ms)
+  => compute step type (0.322833 ms)
+  => compare with specified type (0.021268 ms)
+- infer proof type (1.261311 ms)
+- check proof type against theorem type (0.404449 ms)
+==================================================================
+=== Checking proof of theorem and-elim-left (timing enabled) ===
+- check step a
+  => handling specials (0.005042 ms)
+  => unfolding local definitions (0.004282 ms)
+  => compute step type (0.690921 ms)
+  => compare with specified type (0.110917 ms)
+- check step b
+  => handling specials (0.033805 ms)
+  => unfolding local definitions (0.026579 ms)
+  => compute step type (0.237854 ms)
+  => compare with specified type (0.108843 ms)
+- check step c
+  => handling specials (0.019887 ms)
+  => unfolding local definitions (0.116771 ms)
+  => compute step type (0.848357 ms)
+  => compare with specified type (0.011219 ms)
+- infer proof type (1.297491 ms)
+- check proof type against theorem type (0.523641 ms)
+==================================================================
+=== Checking proof of theorem and-elim-right (timing enabled) ===
+- check step a
+  => handling specials (0.005154 ms)
+  => unfolding local definitions (0.004528 ms)
+  => compute step type (0.511966 ms)
+  => compare with specified type (0.236847 ms)
+- check step b
+  => handling specials (0.008457 ms)
+  => unfolding local definitions (0.008404 ms)
+  => compute step type (0.150096 ms)
+  => compare with specified type (0.07485 ms)
+- check step c
+  => handling specials (0.018561 ms)
+  => unfolding local definitions (0.092875 ms)
+  => compute step type (0.779356 ms)
+  => compare with specified type (0.01043 ms)
+- infer proof type (1.253926 ms)
+- check proof type against theorem type (0.470932 ms)
+==================================================================
+=== Checking proof of theorem and-sym (timing enabled) ===
+- check step <a>
+  => handling specials (0.658788 ms)
+  => unfolding local definitions (0.021104 ms)
+  => compute step type (1.121875 ms)
+  => compare with specified type (0.019016 ms)
+- check step <b>
+  => handling specials (0.501386 ms)
+  => unfolding local definitions (0.023228 ms)
+  => compute step type (0.976467 ms)
+  => compare with specified type (0.018073 ms)
+- check step <c>
+  => handling specials (0.031907 ms)
+  => unfolding local definitions (0.02691 ms)
+  => compute step type (0.218511 ms)
+  => compare with specified type (0.487444 ms)
+- check step <d>
+  => handling specials (0.021846 ms)
+  => unfolding local definitions (0.18381 ms)
+  => compute step type (2.309619 ms)
+  => compare with specified type (0.153321 ms)
+- infer proof type (2.068666 ms)
+- check proof type against theorem type (0.522455 ms)
+==================================================================
+=== Checking proof of theorem or-intro-left (timing enabled) ===
+- check step a
+  => handling specials (0.004554 ms)
+  => unfolding local definitions (0.004844 ms)
+  => compute step type (0.129154 ms)
+  => compare with specified type (0.005608 ms)
+- infer proof type (0.344102 ms)
+- check proof type against theorem type (0.234949 ms)
+==================================================================
+=== Checking proof of theorem or-intro-right (timing enabled) ===
+- check step a
+  => handling specials (0.005026 ms)
+  => unfolding local definitions (0.0042 ms)
+  => compute step type (0.126001 ms)
+  => compare with specified type (0.005502 ms)
+- infer proof type (0.552507 ms)
+- check proof type against theorem type (0.366502 ms)
+==================================================================
+=== Checking proof of theorem or-elim (timing enabled) ===
+- check step a
+  => handling specials (0.004704 ms)
+  => unfolding local definitions (0.004314 ms)
+  => compute step type (0.384494 ms)
+  => compare with specified type (0.118125 ms)
+- check step b
+  => handling specials (0.015415 ms)
+  => unfolding local definitions (0.043852 ms)
+  => compute step type (0.426427 ms)
+  => compare with specified type (0.049409 ms)
+- check step c
+  => handling specials (0.013145 ms)
+  => unfolding local definitions (0.047138 ms)
+  => compute step type (0.390918 ms)
+  => compare with specified type (0.005876 ms)
+- infer proof type (1.15171 ms)
+- check proof type against theorem type (0.482175 ms)
+==================================================================
+=== Checking proof of theorem or-not-elim-left (timing enabled) ===
+- check step <a>
+  => handling specials (0.005564 ms)
+  => unfolding local definitions (0.00481 ms)
+  => compute step type (0.60722 ms)
+  => compare with specified type (0.131541 ms)
+- check step <b>
+  => handling specials (0.040129 ms)
+  => unfolding local definitions (0.020868 ms)
+  => compute step type (0.085379 ms)
+  => compare with specified type (0.027341 ms)
+- check step <c>
+  => handling specials (0.003797 ms)
+  => unfolding local definitions (0.005255 ms)
+  => compute step type (0.521815 ms)
+  => compare with specified type (0.100408 ms)
+- check step <d>
+  => handling specials (0.017401 ms)
+  => unfolding local definitions (0.049799 ms)
+  => compute step type (0.792652 ms)
+  => compare with specified type (0.009111 ms)
+- check step <e>
+  => handling specials (0.032113 ms)
+  => unfolding local definitions (0.132276 ms)
+  => compute step type (1.132696 ms)
+  => compare with specified type (0.005949 ms)
+- infer proof type (1.089621 ms)
+- check proof type against theorem type (0.504846 ms)
+==================================================================
+=== Checking proof of theorem or-not-elim-right (timing enabled) ===
+- check step <a>
+  => handling specials (0.00489 ms)
+  => unfolding local definitions (0.004235 ms)
+  => compute step type (0.358074 ms)
+  => compare with specified type (0.086591 ms)
+- check step <b>
+  => handling specials (0.023214 ms)
+  => unfolding local definitions (0.019476 ms)
+  => compute step type (0.067532 ms)
+  => compare with specified type (0.026011 ms)
+- check step <c>
+  => handling specials (0.003597 ms)
+  => unfolding local definitions (0.003478 ms)
+  => compute step type (0.285856 ms)
+  => compare with specified type (0.066121 ms)
+- check step <d>
+  => handling specials (0.019176 ms)
+  => unfolding local definitions (0.031753 ms)
+  => compute step type (0.523436 ms)
+  => compare with specified type (0.016636 ms)
+- check step <e>
+  => handling specials (0.019225 ms)
+  => unfolding local definitions (0.137456 ms)
+  => compute step type (1.331582 ms)
+  => compare with specified type (0.007206 ms)
+- infer proof type (1.542736 ms)
+- check proof type against theorem type (0.508267 ms)
+==================================================================
+=== Checking proof of theorem or-sym (timing enabled) ===
+- check step a
+  => handling specials (0.015678 ms)
+  => unfolding local definitions (0.006981 ms)
+  => infer step type (0.767203 ms)
+- check step b
+  => handling specials (0.017123 ms)
+  => unfolding local definitions (0.049771 ms)
+  => compute step type (0.896605 ms)
+  => compare with specified type (0.007475 ms)
+- infer proof type (0.838269 ms)
+- check proof type against theorem type (0.419548 ms)
+==================================================================
+=== Checking proof of theorem or-not-impl-elim (timing enabled) ===
+- check step a
+  => handling specials (0.004819 ms)
+  => unfolding local definitions (0.004373 ms)
+  => compute step type (0.422906 ms)
+  => compare with specified type (0.101379 ms)
+- check step b
+  => handling specials (0.024481 ms)
+  => unfolding local definitions (0.057196 ms)
+  => compute step type (0.600723 ms)
+  => compare with specified type (0.015359 ms)
+- check step c
+  => handling specials (0.022208 ms)
+  => unfolding local definitions (0.017596 ms)
+  => compute step type (0.13399 ms)
+  => compare with specified type (0.043705 ms)
+- check step d
+  => handling specials (0.005402 ms)
+  => unfolding local definitions (0.005189 ms)
+  => compute step type (0.764614 ms)
+  => compare with specified type (0.108679 ms)
+- check step e
+  => handling specials (0.031381 ms)
+  => unfolding local definitions (0.156484 ms)
+  => compute step type (1.429793 ms)
+  => compare with specified type (0.004633 ms)
+- infer proof type (1.20077 ms)
+- check proof type against theorem type (0.842079 ms)
+==================================================================
+=== Checking proof of theorem or-assoc (timing enabled) ===
+- check step <a>
+  => handling specials (0.3976 ms)
+  => unfolding local definitions (0.040567 ms)
+  => compute step type (0.719139 ms)
+  => compare with specified type (0.482947 ms)
+- check step <b1>
+  => handling specials (0.049193 ms)
+  => unfolding local definitions (0.012781 ms)
+  => compute step type (0.298531 ms)
+  => compare with specified type (0.16072 ms)
+- check step <b>
+  => handling specials (0.233992 ms)
+  => unfolding local definitions (0.079827 ms)
+  => compute step type (0.954293 ms)
+  => compare with specified type (0.3161 ms)
+- check step <c>
+  => handling specials (0.451575 ms)
+  => unfolding local definitions (0.329332 ms)
+  => infer step type (5.177738 ms)
+- check step <d1>
+  => handling specials (0.075113 ms)
+  => unfolding local definitions (0.022267 ms)
+  => compute step type (0.265987 ms)
+  => compare with specified type (0.160778 ms)
+- check step <d>
+  => handling specials (0.09191 ms)
+  => unfolding local definitions (0.070795 ms)
+  => compute step type (1.066987 ms)
+  => compare with specified type (0.297302 ms)
+- check step <e>
+  => handling specials (0.558194 ms)
+  => unfolding local definitions (0.325267 ms)
+  => infer step type (10.876894 ms)
+- infer proof type (7.934092 ms)
+- check proof type against theorem type (0.807019 ms)
+==================================================================
+=== Checking proof of theorem or-assoc-conv (timing enabled) ===
+- check step <a1>
+  => handling specials (0.063882 ms)
+  => unfolding local definitions (0.013272 ms)
+  => compute step type (0.313396 ms)
+  => compare with specified type (0.162031 ms)
+- check step <a>
+  => handling specials (0.134567 ms)
+  => unfolding local definitions (0.126677 ms)
+  => compute step type (1.605533 ms)
+  => compare with specified type (0.512937 ms)
+- check step <b1>
+  => handling specials (0.071228 ms)
+  => unfolding local definitions (0.014266 ms)
+  => compute step type (0.454939 ms)
+  => compare with specified type (0.253293 ms)
+- check step <b>
+  => handling specials (0.154654 ms)
+  => unfolding local definitions (0.084274 ms)
+  => compute step type (1.488377 ms)
+  => compare with specified type (0.706305 ms)
+- check step <c>
+  => handling specials (0.42309 ms)
+  => unfolding local definitions (0.019813 ms)
+  => compute step type (0.79488 ms)
+  => compare with specified type (0.477064 ms)
+- check step <d>
+  => handling specials (0.386588 ms)
+  => unfolding local definitions (0.259171 ms)
+  => infer step type (4.395594 ms)
+- check step <e>
+  => handling specials (0.421397 ms)
+  => unfolding local definitions (0.465971 ms)
+  => infer step type (8.065189 ms)
+- infer proof type (10.208684 ms)
+- check proof type against theorem type (0.693008 ms)
+==================================================================
+=== Checking proof of theorem iff-refl (timing enabled) ===
+- check step a
+  => handling specials (0.016254 ms)
+  => unfolding local definitions (0.020913 ms)
+  => compute step type (0.132912 ms)
+  => compare with specified type (0.055169 ms)
+- check step b
+  => handling specials (0.031405 ms)
+  => unfolding local definitions (0.029267 ms)
+  => compute step type (0.244747 ms)
+  => compare with specified type (0.632553 ms)
+- check step c
+  => handling specials (0.021141 ms)
+  => unfolding local definitions (0.160229 ms)
+  => compute step type (0.960499 ms)
+  => compare with specified type (0.263706 ms)
+- infer proof type (0.553748 ms)
+- check proof type against theorem type (0.217651 ms)
+==================================================================
+=== Checking proof of theorem iff-intro (timing enabled) ===
+- check step a
+  => handling specials (0.035808 ms)
+  => unfolding local definitions (0.032559 ms)
+  => compute step type (0.164835 ms)
+  => compare with specified type (0.384252 ms)
+- check step b
+  => handling specials (0.009744 ms)
+  => unfolding local definitions (0.059144 ms)
+  => compute step type (0.517493 ms)
+  => compare with specified type (0.210184 ms)
+- infer proof type (1.095751 ms)
+- check proof type against theorem type (0.301411 ms)
+==================================================================
+=== Checking proof of theorem iff-elim-if (timing enabled) ===
+- check step a
+  => handling specials (0.029634 ms)
+  => unfolding local definitions (0.026584 ms)
+  => compute step type (0.15582 ms)
+  => compare with specified type (0.363993 ms)
+- check step b
+  => handling specials (0.008638 ms)
+  => unfolding local definitions (0.062762 ms)
+  => compute step type (0.687387 ms)
+  => compare with specified type (0.02434 ms)
+- infer proof type (0.769884 ms)
+- check proof type against theorem type (0.373867 ms)
+==================================================================
+=== Checking proof of theorem iff-elim-only-if (timing enabled) ===
+- check step a
+  => handling specials (0.019955 ms)
+  => unfolding local definitions (0.017836 ms)
+  => compute step type (0.145888 ms)
+  => compare with specified type (0.344908 ms)
+- check step b
+  => handling specials (0.009238 ms)
+  => unfolding local definitions (0.058547 ms)
+  => compute step type (0.687058 ms)
+  => compare with specified type (0.023532 ms)
+- infer proof type (0.778648 ms)
+- check proof type against theorem type (0.371285 ms)
+==================================================================
+=== Checking proof of theorem iff-sym (timing enabled) ===
+- check step a
+  => handling specials (0.584237 ms)
+  => unfolding local definitions (0.019212 ms)
+  => compute step type (0.682791 ms)
+  => compare with specified type (0.033138 ms)
+- check step b
+  => handling specials (0.398891 ms)
+  => unfolding local definitions (0.008947 ms)
+  => compute step type (0.666094 ms)
+  => compare with specified type (0.032486 ms)
+- check step c
+  => handling specials (0.008948 ms)
+  => unfolding local definitions (0.008216 ms)
+  => compute step type (0.115142 ms)
+  => compare with specified type (0.426784 ms)
+- check step d
+  => handling specials (0.021937 ms)
+  => unfolding local definitions (0.093929 ms)
+  => compute step type (1.905861 ms)
+  => compare with specified type (0.205353 ms)
+- infer proof type (2.028155 ms)
+- check proof type against theorem type (0.551234 ms)
+==================================================================
+=== Checking proof of theorem iff-trans (timing enabled) ===
+- check step a
+  => handling specials (0.377511 ms)
+  => unfolding local definitions (0.019114 ms)
+  => compute step type (0.675449 ms)
+  => compare with specified type (0.032781 ms)
+- check step b
+  => handling specials (0.307913 ms)
+  => unfolding local definitions (0.008611 ms)
+  => compute step type (0.675261 ms)
+  => compare with specified type (0.033051 ms)
+- check step c
+  => handling specials (0.009156 ms)
+  => unfolding local definitions (0.008632 ms)
+  => infer step type (0.176084 ms)
+- check step d
+  => handling specials (0.013197 ms)
+  => unfolding local definitions (0.093465 ms)
+  => compute step type (1.694079 ms)
+  => compare with specified type (0.023137 ms)
+- check step e
+  => handling specials (0.295974 ms)
+  => unfolding local definitions (0.009123 ms)
+  => compute step type (0.715509 ms)
+  => compare with specified type (0.02322 ms)
+- check step f
+  => handling specials (0.295044 ms)
+  => unfolding local definitions (0.008554 ms)
+  => compute step type (0.703322 ms)
+  => compare with specified type (0.023077 ms)
+- check step g
+  => handling specials (0.009731 ms)
+  => unfolding local definitions (0.00862 ms)
+  => infer step type (0.139392 ms)
+- check step h
+  => handling specials (0.013686 ms)
+  => unfolding local definitions (0.092173 ms)
+  => compute step type (1.735405 ms)
+  => compare with specified type (0.023276 ms)
+- check step i
+  => handling specials (0.009533 ms)
+  => unfolding local definitions (0.008161 ms)
+  => infer step type (0.11505 ms)
+- check step k
+  => handling specials (0.013549 ms)
+  => unfolding local definitions (0.147857 ms)
+  => compute step type (3.935742 ms)
+  => compare with specified type (0.206227 ms)
+- infer proof type (4.092709 ms)
+- check proof type against theorem type (0.852471 ms)
+==================================================================
+=== Checking proof of theorem eq-refl (timing enabled) ===
+- check step a
+  => handling specials (0.015286 ms)
+  => unfolding local definitions (0.012533 ms)
+  => compute step type (0.159862 ms)
+  => compare with specified type (0.611938 ms)
+- infer proof type (0.319362 ms)
+- check proof type against theorem type (0.479466 ms)
+==================================================================
+=== Checking proof of theorem eq-sym (timing enabled) ===
+- check step a
+  => handling specials (0.004034 ms)
+  => unfolding local definitions (0.012952 ms)
+  => compute step type (0.903759 ms)
+  => compare with specified type (0.255113 ms)
+- check step b
+  => handling specials (0.023965 ms)
+  => unfolding local definitions (0.038774 ms)
+  => compute step type (1.455601 ms)
+  => compare with specified type (0.253242 ms)
+- infer proof type (2.204956 ms)
+- check proof type against theorem type (0.966767 ms)
+==================================================================
+=== Checking proof of theorem eq-trans (timing enabled) ===
+- check step a
+  => handling specials (0.004811 ms)
+  => unfolding local definitions (0.004598 ms)
+  => compute step type (0.875582 ms)
+  => compare with specified type (0.256267 ms)
+- check step b
+  => handling specials (0.00305 ms)
+  => unfolding local definitions (0.003098 ms)
+  => compute step type (0.701924 ms)
+  => compare with specified type (0.260628 ms)
+- check step c
+  => handling specials (0.028399 ms)
+  => unfolding local definitions (0.065919 ms)
+  => compute step type (2.65707 ms)
+  => compare with specified type (0.242561 ms)
+- infer proof type (3.737523 ms)
+- check proof type against theorem type (1.40274 ms)
+==================================================================
+=== Checking proof of theorem eq-subst (timing enabled) ===
+- check step a
+  => handling specials (0.005794 ms)
+  => unfolding local definitions (0.005892 ms)
+  => compute step type (0.694735 ms)
+  => compare with specified type (0.23723 ms)
+- check step b
+  => handling specials (0.02327 ms)
+  => unfolding local definitions (0.047873 ms)
+  => compute step type (1.323031 ms)
+  => compare with specified type (0.016675 ms)
+- infer proof type (1.547364 ms)
+- check proof type against theorem type (0.587142 ms)
+==================================================================
+=== Checking proof of theorem eq-cong (timing enabled) ===
+- check step a1
+  => handling specials (0.025521 ms)
+  => unfolding local definitions (0.023559 ms)
+  => infer step type (0.346462 ms)
+- check step a
+  => handling specials (0.013105 ms)
+  => unfolding local definitions (0.071014 ms)
+  => compute step type (1.617416 ms)
+  => compare with specified type (0.023518 ms)
+- check step b
+  => handling specials (0.015361 ms)
+  => unfolding local definitions (0.013865 ms)
+  => compute step type (1.366298 ms)
+  => compare with specified type (0.324435 ms)
+- check step c1
+  => handling specials (0.020879 ms)
+  => unfolding local definitions (0.020843 ms)
+  => infer step type (0.331943 ms)
+- check step c
+  => handling specials (0.017604 ms)
+  => unfolding local definitions (0.09773 ms)
+  => compute step type (2.308682 ms)
+  => compare with specified type (0.023235 ms)
+- check step d
+  => handling specials (0.027464 ms)
+  => unfolding local definitions (0.183396 ms)
+  => compute step type (5.1423 ms)
+  => compare with specified type (0.265817 ms)
+- infer proof type (6.109202 ms)
+- check proof type against theorem type (0.961217 ms)
+==================================================================
+=== Checking proof of theorem ex-elim (timing enabled) ===
+- check step a
+  => handling specials (0.006818 ms)
+  => unfolding local definitions (0.006372 ms)
+  => compute step type (0.367345 ms)
+  => compare with specified type (0.074344 ms)
+- check step b
+  => handling specials (0.013703 ms)
+  => unfolding local definitions (0.038441 ms)
+  => compute step type (0.532709 ms)
+  => compare with specified type (0.007545 ms)
+- infer proof type (0.84678 ms)
+- check proof type against theorem type (0.306743 ms)
+==================================================================
+=== Checking proof of theorem ex-intro (timing enabled) ===
+- check step a
+  => handling specials (0.006405 ms)
+  => unfolding local definitions (0.005618 ms)
+  => compute step type (0.165214 ms)
+  => compare with specified type (0.04421 ms)
+- check step b
+  => handling specials (0.015855 ms)
+  => unfolding local definitions (0.045316 ms)
+  => compute step type (0.262076 ms)
+  => compare with specified type (0.006925 ms)
+- infer proof type (0.575121 ms)
+- check proof type against theorem type (0.164079 ms)
+==================================================================
+=== Checking proof of theorem the-lemma (timing enabled) ===
+- check step a
+  => handling specials (0.863351 ms)
+  => unfolding local definitions (0.024891 ms)
+  => compute step type (2.832943 ms)
+  => compare with specified type (0.491515 ms)
+- check step b
+  => handling specials (0.016121 ms)
+  => unfolding local definitions (0.012605 ms)
+  => compute step type (2.198308 ms)
+  => compare with specified type (0.423567 ms)
+- check step c
+  => handling specials (0.024672 ms)
+  => unfolding local definitions (0.091086 ms)
+  => compute step type (5.378361 ms)
+  => compare with specified type (0.644129 ms)
+- check step d
+  => handling specials (0.02159 ms)
+  => unfolding local definitions (0.105665 ms)
+  => compute step type (7.9343 ms)
+  => compare with specified type (0.507896 ms)
+- infer proof type (17.328571 ms)
+- check proof type against theorem type (0.628618 ms)
+==================================================================
+=== Checking proof of theorem bijective-is-surjective (timing enabled) ===
+- check step a
+  => handling specials (1.718576 ms)
+  => unfolding local definitions (0.025571 ms)
+  => compute step type (5.72602 ms)
+  => compare with specified type (0.751078 ms)
+- infer proof type (6.269202 ms)
+- check proof type against theorem type (4.072776 ms)
+==================================================================
+=== Checking proof of theorem bijective-is-injective (timing enabled) ===
+- check step a
+  => handling specials (1.698703 ms)
+  => unfolding local definitions (0.025764 ms)
+  => compute step type (5.960394 ms)
+  => compare with specified type (0.798039 ms)
+- infer proof type (6.794975 ms)
+- check proof type against theorem type (4.42558 ms)
+==================================================================
+=== Checking proof of theorem compose-injective (timing enabled) ===
+- check step <a>
+  => handling specials (0.004075 ms)
+  => unfolding local definitions (0.004408 ms)
+  => compute step type (1.358895 ms)
+  => compare with specified type (1.00486 ms)
+- check step <b>
+  => handling specials (0.016104 ms)
+  => unfolding local definitions (0.032574 ms)
+  => compute step type (4.206355 ms)
+  => compare with specified type (0.392106 ms)
+- check step <c>
+  => handling specials (0.014986 ms)
+  => unfolding local definitions (0.046727 ms)
+  => compute step type (6.360349 ms)
+  => compare with specified type (0.351558 ms)
+- infer proof type (11.784412 ms)
+- check proof type against theorem type (5.156948 ms)
+==================================================================
+=== Checking proof of theorem injective-single (timing enabled) ===
+- check step <a>
+  => handling specials (0.031613 ms)
+  => unfolding local definitions (0.027631 ms)
+  => compute step type (4.064595 ms)
+  => compare with specified type (0.389635 ms)
+- check step <b>
+  => handling specials (0.0161 ms)
+  => unfolding local definitions (0.102933 ms)
+  => compute step type (6.215223 ms)
+  => compare with specified type (0.384157 ms)
+- infer proof type (9.884969 ms)
+- check proof type against theorem type (3.746922 ms)
+==================================================================
+=== Checking proof of theorem bijective-unique (timing enabled) ===
+- check step <a>
+  => handling specials (0.020955 ms)
+  => unfolding local definitions (0.021395 ms)
+  => compute step type (6.429423 ms)
+  => compare with specified type (0.857756 ms)
+- check step <b>
+  => handling specials (0.016737 ms)
+  => unfolding local definitions (0.01476 ms)
+  => compute step type (6.126005 ms)
+  => compare with specified type (0.786133 ms)
+- check step <c>
+  => handling specials (0.012583 ms)
+  => unfolding local definitions (0.054229 ms)
+  => compute step type (6.32872 ms)
+  => compare with specified type (0.691908 ms)
+- check step <d>
+  => handling specials (0.023289 ms)
+  => unfolding local definitions (0.064279 ms)
+  => compute step type (9.808656 ms)
+  => compare with specified type (1.606153 ms)
+- check step <e>
+  => handling specials (0.366769 ms)
+  => unfolding local definitions (0.164604 ms)
+  => compute step type (22.79187 ms)
+  => compare with specified type (2.588161 ms)
+- infer proof type (25.956795 ms)
+- check proof type against theorem type (7.109422 ms)
+==================================================================
+=== Checking proof of theorem inverse-prop (timing enabled) ===
+- check step <a>
+  => handling specials (0.036863 ms)
+  => unfolding local definitions (0.031152 ms)
+  => compute step type (10.492914 ms)
+  => compare with specified type (2.908698 ms)
+- infer proof type (20.959318 ms)
+- check proof type against theorem type (2.822058 ms)
+==================================================================
+=== Checking proof of theorem inverse-prop-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.022407 ms)
+  => unfolding local definitions (0.018851 ms)
+  => compute step type (6.846065 ms)
+  => compare with specified type (2.085066 ms)
+- check step <b>
+  => handling specials (0.028374 ms)
+  => unfolding local definitions (0.079856 ms)
+  => compute step type (22.794685 ms)
+  => compare with specified type (2.010915 ms)
+- infer proof type (44.106762 ms)
+- check proof type against theorem type (2.062563 ms)
+==================================================================
+=== Checking proof of theorem inverse-surjective (timing enabled) ===
+- check step <a>
+  => handling specials (0.025816 ms)
+  => unfolding local definitions (0.020305 ms)
+  => compute step type (6.294453 ms)
+  => compare with specified type (0.824 ms)
+- check step inv-f
+  => handling specials (0.015795 ms)
+  => unfolding local definitions (0.014497 ms)
+  => compute step type (6.621684 ms)
+  => compare with specified type (0.034369 ms)
+- check step y
+  => handling specials (0.00586 ms)
+  => unfolding local definitions (0.005001 ms)
+  => compute step type (0.070333 ms)
+  => compare with specified type (0.006838 ms)
+- check step <b>
+  => handling specials (0.016715 ms)
+  => unfolding local definitions (0.01508 ms)
+  => compute step type (6.760065 ms)
+  => compare with specified type (2.163002 ms)
+- check step <c>
+  => handling specials (0.024623 ms)
+  => unfolding local definitions (0.125723 ms)
+  => compute step type (22.393114 ms)
+  => compare with specified type (2.220161 ms)
+- check step <d>
+  => handling specials (0.037336 ms)
+  => unfolding local definitions (0.187274 ms)
+  => compute step type (31.952282 ms)
+  => compare with specified type (2.562894 ms)
+- infer proof type (52.755447 ms)
+- check proof type against theorem type (2.433921 ms)
+==================================================================
+=== Checking proof of theorem inverse-injective (timing enabled) ===
+- check step inv-f
+  => handling specials (0.021396 ms)
+  => unfolding local definitions (0.015857 ms)
+  => compute step type (4.825884 ms)
+  => compare with specified type (0.033468 ms)
+- check step <a>
+  => handling specials (0.02724 ms)
+  => unfolding local definitions (0.086013 ms)
+  => compute step type (21.951757 ms)
+  => compare with specified type (3.52348 ms)
+- check step <b>
+  => handling specials (0.028906 ms)
+  => unfolding local definitions (0.066427 ms)
+  => compute step type (15.271075 ms)
+  => compare with specified type (1.982087 ms)
+- check step <c>
+  => handling specials (0.019907 ms)
+  => unfolding local definitions (0.016662 ms)
+  => compute step type (6.627996 ms)
+  => compare with specified type (1.977005 ms)
+- check step <d>
+  => handling specials (0.031285 ms)
+  => unfolding local definitions (0.220917 ms)
+  => compute step type (55.878067 ms)
+  => compare with specified type (2.002139 ms)
+- check step <e>
+  => handling specials (0.030842 ms)
+  => unfolding local definitions (0.272789 ms)
+  => compute step type (72.61556 ms)
+  => compare with specified type (0.33422 ms)
+- infer proof type (110.77321 ms)
+- check proof type against theorem type (6.511649 ms)
+==================================================================
+=== Checking proof of theorem inverse-bijective (timing enabled) ===
+- check step <a>
+  => handling specials (10.54662 ms)
+  => unfolding local definitions (0.044842 ms)
+  => infer step type (38.001278 ms)
+- infer proof type (40.989517 ms)
+- check proof type against theorem type (6.877375 ms)
+==================================================================
+=== Checking proof of theorem subset-refl (timing enabled) ===
+- check step a
+  => handling specials (0.006077 ms)
+  => unfolding local definitions (0.005742 ms)
+  => compute step type (0.661661 ms)
+  => compare with specified type (0.189244 ms)
+- infer proof type (2.828973 ms)
+- check proof type against theorem type (0.588179 ms)
+==================================================================
+=== Checking proof of theorem subset-trans (timing enabled) ===
+- check step a
+  => handling specials (0.010349 ms)
+  => unfolding local definitions (0.006571 ms)
+  => compute step type (1.475132 ms)
+  => compare with specified type (0.212301 ms)
+- check step b
+  => handling specials (0.008642 ms)
+  => unfolding local definitions (0.004961 ms)
+  => compute step type (1.464185 ms)
+  => compare with specified type (0.210649 ms)
+- check step c
+  => handling specials (0.051364 ms)
+  => unfolding local definitions (0.132596 ms)
+  => compute step type (5.335811 ms)
+  => compare with specified type (0.206349 ms)
+- infer proof type (8.809681 ms)
+- check proof type against theorem type (1.568969 ms)
+==================================================================
+=== Checking proof of theorem subset-prop (timing enabled) ===
+- check step <a>
+  => handling specials (0.007724 ms)
+  => unfolding local definitions (0.006409 ms)
+  => compute step type (1.825076 ms)
+  => compare with specified type (0.077992 ms)
+- check step <b>
+  => handling specials (0.013296 ms)
+  => unfolding local definitions (0.048276 ms)
+  => compute step type (2.655366 ms)
+  => compare with specified type (0.016453 ms)
+- infer proof type (4.088714 ms)
+- check proof type against theorem type (0.675065 ms)
+==================================================================
+=== Checking proof of theorem seteq-refl (timing enabled) ===
+- check step a
+  => handling specials (0.014783 ms)
+  => unfolding local definitions (0.020548 ms)
+  => compute step type (0.294483 ms)
+  => compare with specified type (0.368275 ms)
+- check step b
+  => handling specials (0.033666 ms)
+  => unfolding local definitions (0.088367 ms)
+  => compute step type (2.696637 ms)
+  => compare with specified type (0.534023 ms)
+- infer proof type (2.65705 ms)
+- check proof type against theorem type (0.588547 ms)
+==================================================================
+=== Checking proof of theorem seteq-sym (timing enabled) ===
+- check step a
+  => handling specials (1.015559 ms)
+  => unfolding local definitions (0.027029 ms)
+  => compute step type (2.885772 ms)
+  => compare with specified type (0.210762 ms)
+- check step b
+  => handling specials (0.978427 ms)
+  => unfolding local definitions (0.026741 ms)
+  => compute step type (2.863662 ms)
+  => compare with specified type (0.210213 ms)
+- check step c
+  => handling specials (0.117298 ms)
+  => unfolding local definitions (0.155652 ms)
+  => compute step type (7.76629 ms)
+  => compare with specified type (0.632242 ms)
+- infer proof type (8.821586 ms)
+- check proof type against theorem type (1.669118 ms)
+==================================================================
+=== Checking proof of theorem seteq-trans (timing enabled) ===
+- check step a1
+  => handling specials (1.02834 ms)
+  => unfolding local definitions (0.026572 ms)
+  => compute step type (2.886165 ms)
+  => compare with specified type (0.198732 ms)
+- check step b1
+  => handling specials (0.994423 ms)
+  => unfolding local definitions (0.033409 ms)
+  => compute step type (2.873714 ms)
+  => compare with specified type (0.225174 ms)
+- check step c1
+  => handling specials (0.024487 ms)
+  => unfolding local definitions (0.127902 ms)
+  => compute step type (7.119443 ms)
+  => compare with specified type (0.197315 ms)
+- check step a2
+  => handling specials (1.008043 ms)
+  => unfolding local definitions (0.023878 ms)
+  => compute step type (2.875239 ms)
+  => compare with specified type (0.203579 ms)
+- check step b2
+  => handling specials (0.958303 ms)
+  => unfolding local definitions (0.024279 ms)
+  => compute step type (3.007209 ms)
+  => compare with specified type (0.196781 ms)
+- check step c2
+  => handling specials (0.025152 ms)
+  => unfolding local definitions (0.12688 ms)
+  => compute step type (7.117901 ms)
+  => compare with specified type (0.202719 ms)
+- check step d
+  => handling specials (0.108684 ms)
+  => unfolding local definitions (0.261048 ms)
+  => compute step type (16.245388 ms)
+  => compare with specified type (0.582047 ms)
+- infer proof type (18.640997 ms)
+- check proof type against theorem type (2.650669 ms)
+==================================================================
+=== Checking proof of theorem set-equal-refl (timing enabled) ===
+- check step a
+  => handling specials (0.017972 ms)
+  => unfolding local definitions (0.01749 ms)
+  => compute step type (0.354727 ms)
+  => compare with specified type (0.405119 ms)
+- infer proof type (1.033065 ms)
+- check proof type against theorem type (0.5892 ms)
+==================================================================
+=== Checking proof of theorem set-equal-sym (timing enabled) ===
+- check step a
+  => handling specials (0.005947 ms)
+  => unfolding local definitions (0.005566 ms)
+  => compute step type (1.207525 ms)
+  => compare with specified type (0.25566 ms)
+- check step b
+  => handling specials (0.024333 ms)
+  => unfolding local definitions (0.046155 ms)
+  => compute step type (2.33692 ms)
+  => compare with specified type (0.253287 ms)
+- infer proof type (5.140261 ms)
+- check proof type against theorem type (1.127599 ms)
+==================================================================
+=== Checking proof of theorem set-equal-trans (timing enabled) ===
+- check step a
+  => handling specials (0.005451 ms)
+  => unfolding local definitions (0.005315 ms)
+  => compute step type (1.205721 ms)
+  => compare with specified type (0.255066 ms)
+- check step b
+  => handling specials (0.004324 ms)
+  => unfolding local definitions (0.004112 ms)
+  => compute step type (1.1955 ms)
+  => compare with specified type (0.254237 ms)
+- check step c
+  => handling specials (0.025529 ms)
+  => unfolding local definitions (0.061721 ms)
+  => compute step type (4.336574 ms)
+  => compare with specified type (0.252253 ms)
+- infer proof type (9.153235 ms)
+- check proof type against theorem type (1.775338 ms)
+==================================================================
+=== Checking proof of theorem set-equal-implies-subset (timing enabled) ===
+- check step Qx
+  => handling specials (0.028118 ms)
+  => unfolding local definitions (0.022331 ms)
+  => infer step type (0.315126 ms)
+- check step a
+  => handling specials (0.011459 ms)
+  => unfolding local definitions (0.064303 ms)
+  => compute step type (1.479413 ms)
+  => compare with specified type (0.748552 ms)
+- check step b
+  => handling specials (0.027631 ms)
+  => unfolding local definitions (0.086895 ms)
+  => compute step type (2.852938 ms)
+  => compare with specified type (0.118896 ms)
+- infer proof type (3.814105 ms)
+- check proof type against theorem type (6.04995 ms)
+==================================================================
+=== Checking proof of theorem set-equal-implies-seteq (timing enabled) ===
+- check step a
+  => handling specials (0.017164 ms)
+  => unfolding local definitions (0.01542 ms)
+  => compute step type (1.82881 ms)
+  => compare with specified type (0.184404 ms)
+- check step b1
+  => handling specials (0.015243 ms)
+  => unfolding local definitions (0.013699 ms)
+  => compute step type (1.98293 ms)
+  => compare with specified type (0.361948 ms)
+- check step b
+  => handling specials (0.020481 ms)
+  => unfolding local definitions (0.056175 ms)
+  => compute step type (2.923808 ms)
+  => compare with specified type (0.184044 ms)
+- check step c
+  => handling specials (0.103145 ms)
+  => unfolding local definitions (0.110915 ms)
+  => compute step type (6.504931 ms)
+  => compare with specified type (0.527009 ms)
+- infer proof type (7.515618 ms)
+- check proof type against theorem type (1.185505 ms)
+==================================================================
+=== Checking proof of theorem set-equal-seteq (timing enabled) ===
+- check step a
+  => handling specials (0.022552 ms)
+  => unfolding local definitions (0.017179 ms)
+  => compute step type (0.476687 ms)
+  => compare with specified type (1.532916 ms)
+- check step b
+  => handling specials (0.014505 ms)
+  => unfolding local definitions (0.012037 ms)
+  => compute step type (0.401294 ms)
+  => compare with specified type (1.480098 ms)
+- infer proof type (7.418816 ms)
+- check proof type against theorem type (1.923072 ms)
+==================================================================
+=== Checking proof of theorem union-commute (timing enabled) ===
+- check step a1
+  => handling specials (0.004051 ms)
+  => unfolding local definitions (0.004035 ms)
+  => compute step type (0.847299 ms)
+  => compare with specified type (0.513099 ms)
+- check step a2
+  => handling specials (0.023431 ms)
+  => unfolding local definitions (0.020934 ms)
+  => infer step type (0.538406 ms)
+- check step a3
+  => handling specials (0.014927 ms)
+  => unfolding local definitions (0.074117 ms)
+  => compute step type (2.088613 ms)
+  => compare with specified type (0.209684 ms)
+- check step a
+  => handling specials (0.009643 ms)
+  => unfolding local definitions (0.067236 ms)
+  => compute step type (2.106647 ms)
+  => compare with specified type (0.394429 ms)
+- check step b
+  => handling specials (0.026489 ms)
+  => unfolding local definitions (0.022094 ms)
+  => compute step type (2.05571 ms)
+  => compare with specified type (0.393316 ms)
+- check step c
+  => handling specials (0.208086 ms)
+  => unfolding local definitions (0.290289 ms)
+  => compute step type (14.178905 ms)
+  => compare with specified type (2.035936 ms)
+- infer proof type (14.189827 ms)
+- check proof type against theorem type (2.011159 ms)
+==================================================================
+=== Checking proof of theorem intersection-elim-left (timing enabled) ===
+- check step a
+  => handling specials (1.237755 ms)
+  => unfolding local definitions (0.014823 ms)
+  => compute step type (1.594709 ms)
+  => compare with specified type (0.055227 ms)
+- infer proof type (2.21326 ms)
+- check proof type against theorem type (0.716783 ms)
+==================================================================
+=== Checking proof of theorem intersection-elim-right (timing enabled) ===
+- check step a
+  => handling specials (1.203665 ms)
+  => unfolding local definitions (0.015535 ms)
+  => compute step type (1.584994 ms)
+  => compare with specified type (0.053248 ms)
+- infer proof type (2.244017 ms)
+- check proof type against theorem type (0.720433 ms)
+==================================================================
+=== Checking proof of theorem intersection-commute (timing enabled) ===
+- check step a
+  => handling specials (0.031553 ms)
+  => unfolding local definitions (0.025551 ms)
+  => compute step type (2.049153 ms)
+  => compare with specified type (0.363796 ms)
+- check step b
+  => handling specials (0.026906 ms)
+  => unfolding local definitions (0.022211 ms)
+  => compute step type (2.015631 ms)
+  => compare with specified type (0.36637 ms)
+- check step c
+  => handling specials (0.205413 ms)
+  => unfolding local definitions (0.281735 ms)
+  => compute step type (13.64216 ms)
+  => compare with specified type (1.86176 ms)
+- infer proof type (13.881451 ms)
+- check proof type against theorem type (1.881749 ms)
+==================================================================
+=== Checking proof of theorem fullset-intro (timing enabled) ===
+- check step a
+  => handling specials (0.014534 ms)
+  => unfolding local definitions (0.011752 ms)
+  => compute step type (0.033322 ms)
+  => compare with specified type (0.411858 ms)
+- infer proof type (0.055521 ms)
+- check proof type against theorem type (0.452018 ms)
+==================================================================
+=== Checking proof of theorem emptyset-prop (timing enabled) ===
+- check step a
+  => handling specials (0.004208 ms)
+  => unfolding local definitions (0.004245 ms)
+  => compute step type (0.320487 ms)
+  => compare with specified type (0.175619 ms)
+- infer proof type (0.98811 ms)
+- check proof type against theorem type (0.496309 ms)
+==================================================================
+=== Checking proof of theorem emptyset-subset-lower-bound (timing enabled) ===
+- check step <a>
+  => handling specials (0.004517 ms)
+  => unfolding local definitions (0.004342 ms)
+  => compute step type (0.337764 ms)
+  => compare with specified type (0.174293 ms)
+- check step <b>
+  => handling specials (0.024897 ms)
+  => unfolding local definitions (0.041227 ms)
+  => compute step type (0.800677 ms)
+  => compare with specified type (0.055039 ms)
+- infer proof type (1.440073 ms)
+- check proof type against theorem type (0.42773 ms)
+==================================================================
+- infer proof type (5.362269 ms)
+- check proof type against theorem type (0.9359 ms)
+==================================================================
+- infer proof type (5.521482 ms)
+- check proof type against theorem type (1.028114 ms)
+==================================================================
+- infer proof type (0.97625 ms)
+- check proof type against theorem type (0.829763 ms)
+==================================================================
+- infer proof type (4.387141 ms)
+- check proof type against theorem type (1.9317 ms)
+==================================================================
+- infer proof type (7.939719 ms)
+- check proof type against theorem type (2.994936 ms)
+==================================================================
+- infer proof type (6.61609 ms)
+- check proof type against theorem type (2.647563 ms)
+==================================================================
+- infer proof type (6.633343 ms)
+- check proof type against theorem type (2.714934 ms)
+==================================================================
+- infer proof type (4.111959 ms)
+- check proof type against theorem type (13.899051 ms)
+==================================================================
+- infer proof type (4.227633 ms)
+- check proof type against theorem type (5.491932 ms)
+==================================================================
+- infer proof type (4.202735 ms)
+- check proof type against theorem type (8.342486 ms)
+==================================================================
+=== Checking proof of theorem int-case (timing enabled) ===
+- check step <a>
+  => handling specials (0.004317 ms)
+  => unfolding local definitions (0.003862 ms)
+  => compute step type (0.123385 ms)
+  => compare with specified type (0.041113 ms)
+- check step <b>
+  => handling specials (0.004187 ms)
+  => unfolding local definitions (0.004292 ms)
+  => compute step type (3.064747 ms)
+  => compare with specified type (1.418677 ms)
+- check step <c>
+  => handling specials (0.023315 ms)
+  => unfolding local definitions (0.071623 ms)
+  => compute step type (29.60784 ms)
+  => compare with specified type (0.065823 ms)
+- infer proof type (30.698448 ms)
+- check proof type against theorem type (2.780112 ms)
+==================================================================
+=== Checking proof of theorem not-not-impl (timing enabled) ===
+- check step em
+  => handling specials (0.016926 ms)
+  => unfolding local definitions (0.014972 ms)
+  => compute step type (0.059293 ms)
+  => compare with specified type (0.379604 ms)
+- check step a
+  => handling specials (0.012281 ms)
+  => unfolding local definitions (0.036704 ms)
+  => compute step type (0.271872 ms)
+  => compare with specified type (0.172379 ms)
+- check step b
+  => handling specials (0.012919 ms)
+  => unfolding local definitions (0.010725 ms)
+  => compute step type (0.049071 ms)
+  => compare with specified type (0.030704 ms)
+- check step c
+  => handling specials (0.015589 ms)
+  => unfolding local definitions (0.057352 ms)
+  => compute step type (0.410706 ms)
+  => compare with specified type (0.132967 ms)
+- check step d
+  => handling specials (0.003993 ms)
+  => unfolding local definitions (0.003937 ms)
+  => compute step type (0.506899 ms)
+  => compare with specified type (0.052043 ms)
+- check step e
+  => handling specials (0.012342 ms)
+  => unfolding local definitions (0.010878 ms)
+  => compute step type (0.049836 ms)
+  => compare with specified type (0.092243 ms)
+- check step f
+  => handling specials (0.015121 ms)
+  => unfolding local definitions (0.051575 ms)
+  => compute step type (0.615942 ms)
+  => compare with specified type (0.006278 ms)
+- check step g
+  => handling specials (0.015277 ms)
+  => unfolding local definitions (0.086524 ms)
+  => compute step type (1.194097 ms)
+  => compare with specified type (0.006471 ms)
+- infer proof type (1.298376 ms)
+- check proof type against theorem type (0.291802 ms)
+==================================================================
+=== Checking proof of theorem not-not (timing enabled) ===
+- check step a
+  => handling specials (0.017987 ms)
+  => unfolding local definitions (0.013862 ms)
+  => compute step type (0.081643 ms)
+  => compare with specified type (0.31232 ms)
+- check step b
+  => handling specials (0.013085 ms)
+  => unfolding local definitions (0.010939 ms)
+  => compute step type (0.057491 ms)
+  => compare with specified type (0.296597 ms)
+- check step c
+  => handling specials (0.114043 ms)
+  => unfolding local definitions (0.085385 ms)
+  => infer step type (1.595694 ms)
+- infer proof type (1.625103 ms)
+- check proof type against theorem type (0.455464 ms)
+==================================================================
+=== Checking proof of theorem not-impl-or-intro (timing enabled) ===
+- check step a1
+  => handling specials (0.016482 ms)
+  => unfolding local definitions (0.061658 ms)
+  => infer step type (0.09009 ms)
+- check step a2
+  => handling specials (0.012694 ms)
+  => unfolding local definitions (0.040875 ms)
+  => compute step type (0.25961 ms)
+  => compare with specified type (0.140457 ms)
+- check step a
+  => handling specials (0.011251 ms)
+  => unfolding local definitions (0.04062 ms)
+  => compute step type (0.741659 ms)
+  => compare with specified type (0.052876 ms)
+- check step b1
+  => handling specials (0.012598 ms)
+  => unfolding local definitions (0.010462 ms)
+  => infer step type (0.080688 ms)
+- check step b2
+  => handling specials (0.012123 ms)
+  => unfolding local definitions (0.036309 ms)
+  => compute step type (0.222128 ms)
+  => compare with specified type (0.137924 ms)
+- check step b
+  => handling specials (0.011316 ms)
+  => unfolding local definitions (0.03946 ms)
+  => compute step type (0.722558 ms)
+  => compare with specified type (0.052357 ms)
+- check step c
+  => handling specials (0.011222 ms)
+  => unfolding local definitions (0.050024 ms)
+  => compute step type (1.001573 ms)
+  => compare with specified type (0.006453 ms)
+- check step d
+  => handling specials (0.015464 ms)
+  => unfolding local definitions (0.086311 ms)
+  => compute step type (1.781089 ms)
+  => compare with specified type (0.052992 ms)
+- check step e
+  => handling specials (0.022727 ms)
+  => unfolding local definitions (0.107967 ms)
+  => compute step type (2.621969 ms)
+  => compare with specified type (0.137632 ms)
+- infer proof type (2.789212 ms)
+- check proof type against theorem type (0.361407 ms)
+==================================================================
+=== Checking proof of theorem nat-zero (timing enabled) ===
+- check step a
+  => handling specials (0.773003 ms)
+  => unfolding local definitions (0.036818 ms)
+  => compute step type (1.824026 ms)
+  => compare with specified type (0.060295 ms)
+- infer proof type (2.862408 ms)
+- check proof type against theorem type (1.097397 ms)
+==================================================================
+=== Checking proof of theorem nat-succ (timing enabled) ===
+- check step a
+  => handling specials (0.005827 ms)
+  => unfolding local definitions (0.004416 ms)
+  => compute step type (1.40865 ms)
+  => compare with specified type (0.298881 ms)
+- check step b
+  => handling specials (0.011287 ms)
+  => unfolding local definitions (0.03003 ms)
+  => compute step type (2.103753 ms)
+  => compare with specified type (0.015789 ms)
+- check step c
+  => handling specials (0.473605 ms)
+  => unfolding local definitions (0.022625 ms)
+  => compute step type (1.34227 ms)
+  => compare with specified type (0.064845 ms)
+- check step d
+  => handling specials (0.015416 ms)
+  => unfolding local definitions (0.073747 ms)
+  => compute step type (3.456793 ms)
+  => compare with specified type (0.042627 ms)
+- infer proof type (5.045887 ms)
+- check proof type against theorem type (1.971334 ms)
+==================================================================
+=== Checking proof of theorem nat-zero-is-not-succ (timing enabled) ===
+- check step a
+  => handling specials (0.035493 ms)
+  => unfolding local definitions (0.028859 ms)
+  => compute step type (6.655506 ms)
+  => compare with specified type (4.856354 ms)
+- check step b
+  => handling specials (0.030545 ms)
+  => unfolding local definitions (0.025421 ms)
+  => compute step type (7.909807 ms)
+  => compare with specified type (2.728935 ms)
+- check step c
+  => handling specials (0.038871 ms)
+  => unfolding local definitions (0.151308 ms)
+  => compute step type (27.855434 ms)
+  => compare with specified type (2.697917 ms)
+- check step d
+  => handling specials (0.033749 ms)
+  => unfolding local definitions (0.172331 ms)
+  => compute step type (35.50073 ms)
+  => compare with specified type (2.041739 ms)
+- check step e
+  => handling specials (0.01735 ms)
+  => unfolding local definitions (0.187792 ms)
+  => compute step type (37.93232 ms)
+  => compare with specified type (0.064883 ms)
+- infer proof type (38.90591 ms)
+- check proof type against theorem type (2.472202 ms)
+==================================================================
+=== Checking proof of theorem nat-succ-injective (timing enabled) ===
+- check step a
+  => handling specials (0.014064 ms)
+  => unfolding local definitions (0.011963 ms)
+  => compute step type (2.718708 ms)
+  => compare with specified type (0.400693 ms)
+- infer proof type (8.145709 ms)
+- check proof type against theorem type (4.330499 ms)
+==================================================================
+=== Checking proof of theorem nat-induct (timing enabled) ===
+- check step Q
+  => handling specials (0.038949 ms)
+  => unfolding local definitions (0.03057 ms)
+  => infer step type (0.501361 ms)
+- check step <a>
+  => handling specials (0.207614 ms)
+  => unfolding local definitions (0.030832 ms)
+  => compute step type (2.750819 ms)
+  => compare with specified type (1.022079 ms)
+- check step <b>
+  => handling specials (1.717933 ms)
+  => unfolding local definitions (0.040951 ms)
+  => compute step type (3.068332 ms)
+  => compare with specified type (0.628519 ms)
+- check step <c>
+  => handling specials (1.717024 ms)
+  => unfolding local definitions (0.041815 ms)
+  => compute step type (2.91934 ms)
+  => compare with specified type (0.016431 ms)
+- check step <d>
+  => handling specials (0.0194 ms)
+  => unfolding local definitions (0.128618 ms)
+  => compute step type (4.489534 ms)
+  => compare with specified type (0.666996 ms)
+- check step <e>
+  => handling specials (0.012116 ms)
+  => unfolding local definitions (0.121275 ms)
+  => compute step type (5.263244 ms)
+  => compare with specified type (0.066494 ms)
+- check step <f>
+  => handling specials (0.015533 ms)
+  => unfolding local definitions (0.231592 ms)
+  => compute step type (8.258123 ms)
+  => compare with specified type (0.044531 ms)
+- check step <g>
+  => handling specials (0.115774 ms)
+  => unfolding local definitions (0.416113 ms)
+  => compute step type (15.24369 ms)
+  => compare with specified type (1.031535 ms)
+- check step <h>
+  => handling specials (0.120517 ms)
+  => unfolding local definitions (0.910877 ms)
+  => compute step type (32.043594 ms)
+  => compare with specified type (3.338052 ms)
+- check step <i>
+  => handling specials (0.020252 ms)
+  => unfolding local definitions (0.728919 ms)
+  => compute step type (37.383064 ms)
+  => compare with specified type (0.982093 ms)
+- check step <j>
+  => handling specials (0.866134 ms)
+  => unfolding local definitions (0.728824 ms)
+  => compute step type (38.938484 ms)
+  => compare with specified type (0.015909 ms)
+- infer proof type (41.36987 ms)
+- check proof type against theorem type (2.514072 ms)
+==================================================================
+=== Checking proof of theorem positive-nat-split (timing enabled) ===
+- check step P
+  => handling specials (0.045318 ms)
+  => unfolding local definitions (0.036805 ms)
+  => infer step type (0.534842 ms)
+- check step <a1>
+  => handling specials (0.021997 ms)
+  => unfolding local definitions (0.019471 ms)
+  => compute step type (0.109837 ms)
+  => compare with specified type (0.78549 ms)
+- check step <a2>
+  => handling specials (0.011432 ms)
+  => unfolding local definitions (0.042859 ms)
+  => compute step type (1.594074 ms)
+  => compare with specified type (0.054062 ms)
+- check step <a>
+  => handling specials (0.029986 ms)
+  => unfolding local definitions (0.066326 ms)
+  => compute step type (1.923183 ms)
+  => compare with specified type (3.499262 ms)
+- check step <b1>
+  => handling specials (0.031822 ms)
+  => unfolding local definitions (0.024506 ms)
+  => compute step type (7.838164 ms)
+  => compare with specified type (2.71726 ms)
+- check step <b>
+  => handling specials (0.034473 ms)
+  => unfolding local definitions (0.095992 ms)
+  => compute step type (15.607292 ms)
+  => compare with specified type (2.026711 ms)
+- check step <c>
+  => handling specials (0.026043 ms)
+  => unfolding local definitions (0.505638 ms)
+  => compute step type (94.130936 ms)
+  => compare with specified type (3.967385 ms)
+- infer proof type (108.11426 ms)
+- check proof type against theorem type (3.712258 ms)
+==================================================================
+=== Checking proof of theorem nat-case (timing enabled) ===
+- check step <a>
+  => handling specials (0.003428 ms)
+  => unfolding local definitions (0.001906 ms)
+  => compute step type (0.131051 ms)
+  => compare with specified type (0.042485 ms)
+- check step <b>
+  => handling specials (0.003658 ms)
+  => unfolding local definitions (0.00306 ms)
+  => compute step type (3.150761 ms)
+  => compare with specified type (0.043653 ms)
+- check step <c>
+  => handling specials (0.024721 ms)
+  => unfolding local definitions (0.103523 ms)
+  => infer step type (7.263124 ms)
+- infer proof type (9.524137 ms)
+- check proof type against theorem type (2.189454 ms)
+==================================================================
+=== Checking proof of theorem positive-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.019268 ms)
+  => unfolding local definitions (0.008237 ms)
+  => compute step type (3.099187 ms)
+  => compare with specified type (0.634223 ms)
+- check step <b>
+  => handling specials (0.029075 ms)
+  => unfolding local definitions (0.057195 ms)
+  => compute step type (10.546909 ms)
+  => compare with specified type (2.075739 ms)
+- infer proof type (23.271318 ms)
+- check proof type against theorem type (3.880315 ms)
+==================================================================
+=== Checking proof of theorem positive-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.025704 ms)
+  => unfolding local definitions (0.011961 ms)
+  => compute step type (7.275432 ms)
+  => compare with specified type (2.001913 ms)
+- check step <b>
+  => handling specials (0.037778 ms)
+  => unfolding local definitions (0.079968 ms)
+  => compute step type (16.008472 ms)
+  => compare with specified type (0.641158 ms)
+- infer proof type (16.488642 ms)
+- check proof type against theorem type (4.610057 ms)
+==================================================================
+=== Checking proof of theorem positive-zero-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.043746 ms)
+  => unfolding local definitions (0.035547 ms)
+  => compute step type (4.657999 ms)
+  => compare with specified type (0.634879 ms)
+- check step <b>
+  => handling specials (0.00906 ms)
+  => unfolding local definitions (0.007137 ms)
+  => compute step type (6.198633 ms)
+  => compare with specified type (0.634037 ms)
+- check step <c>
+  => handling specials (2.594667 ms)
+  => unfolding local definitions (0.189214 ms)
+  => compute step type (29.571041 ms)
+  => compare with specified type (0.639702 ms)
+- infer proof type (30.321712 ms)
+- check proof type against theorem type (5.983936 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.037487 ms)
+  => unfolding local definitions (0.021751 ms)
+  => compute step type (12.148407 ms)
+  => compare with specified type (0.639858 ms)
+- infer proof type (12.752539 ms)
+- check proof type against theorem type (4.868169 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-strong (timing enabled) ===
+- check step <a>
+  => handling specials (0.012282 ms)
+  => unfolding local definitions (0.009405 ms)
+  => compute step type (6.495919 ms)
+  => compare with specified type (0.664795 ms)
+- check step <b>
+  => handling specials (0.022451 ms)
+  => unfolding local definitions (0.049391 ms)
+  => compute step type (9.122068 ms)
+  => compare with specified type (2.064798 ms)
+- infer proof type (21.546959 ms)
+- check proof type against theorem type (6.609461 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.013484 ms)
+  => unfolding local definitions (0.008254 ms)
+  => compute step type (0.147555 ms)
+  => compare with specified type (5.309805 ms)
+- check step <b>
+  => handling specials (0.018912 ms)
+  => unfolding local definitions (0.007371 ms)
+  => compute step type (0.125418 ms)
+  => compare with specified type (5.048942 ms)
+- check step <c>
+  => handling specials (0.174687 ms)
+  => unfolding local definitions (0.123382 ms)
+  => infer step type (18.885963 ms)
+- infer proof type (18.852545 ms)
+- check proof type against theorem type (6.072075 ms)
+==================================================================
+=== Checking proof of theorem nat-split (timing enabled) ===
+- check step P
+  => handling specials (0.033723 ms)
+  => unfolding local definitions (0.024498 ms)
+  => infer step type (0.345096 ms)
+- check step <a>
+  => handling specials (0.033797 ms)
+  => unfolding local definitions (0.02523 ms)
+  => compute step type (4.101271 ms)
+  => compare with specified type (3.279393 ms)
+- check step <b1>
+  => handling specials (0.009718 ms)
+  => unfolding local definitions (0.007737 ms)
+  => compute step type (4.022678 ms)
+  => compare with specified type (2.093065 ms)
+- check step <b>
+  => handling specials (0.036918 ms)
+  => unfolding local definitions (0.074507 ms)
+  => compute step type (9.366513 ms)
+  => compare with specified type (2.950491 ms)
+- check step <c>
+  => handling specials (0.027341 ms)
+  => unfolding local definitions (0.223007 ms)
+  => compute step type (55.04303 ms)
+  => compare with specified type (4.186655 ms)
+- infer proof type (55.03277 ms)
+- check proof type against theorem type (3.700153 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-split (timing enabled) ===
+- check step <a>
+  => handling specials (0.020368 ms)
+  => unfolding local definitions (0.008865 ms)
+  => compute step type (6.519431 ms)
+  => compare with specified type (0.639952 ms)
+- check step <b>
+  => handling specials (0.020426 ms)
+  => unfolding local definitions (0.048898 ms)
+  => compute step type (10.773204 ms)
+  => compare with specified type (2.761708 ms)
+- infer proof type (23.418205 ms)
+- check proof type against theorem type (7.728257 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-split-conv (timing enabled) ===
+- check step <a1>
+  => handling specials (0.043648 ms)
+  => unfolding local definitions (0.036473 ms)
+  => compute step type (4.6718 ms)
+  => compare with specified type (0.639157 ms)
+- check step <a>
+  => handling specials (0.022647 ms)
+  => unfolding local definitions (0.096884 ms)
+  => compute step type (7.62116 ms)
+  => compare with specified type (2.080602 ms)
+- check step <b>
+  => handling specials (0.009622 ms)
+  => unfolding local definitions (0.007662 ms)
+  => compute step type (7.238714 ms)
+  => compare with specified type (2.127276 ms)
+- check step <c>
+  => handling specials (2.75122 ms)
+  => unfolding local definitions (0.18531 ms)
+  => compute step type (64.413025 ms)
+  => compare with specified type (2.074103 ms)
+- infer proof type (76.71225 ms)
+- check proof type against theorem type (7.89025 ms)
+==================================================================
+=== Checking proof of theorem positive-succ-split-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.412583 ms)
+  => unfolding local definitions (0.08756 ms)
+  => infer step type (31.029991 ms)
+- infer proof type (31.055046 ms)
+- check proof type against theorem type (9.722891 ms)
+==================================================================
+=== Checking proof of theorem int-split (timing enabled) ===
+- check step <a>
+  => handling specials (0.029608 ms)
+  => unfolding local definitions (0.022969 ms)
+  => compute step type (0.341475 ms)
+  => compare with specified type (2.562838 ms)
+- check step <b1>
+  => handling specials (0.013075 ms)
+  => unfolding local definitions (0.009256 ms)
+  => compute step type (5.500219 ms)
+  => compare with specified type (2.754182 ms)
+- check step <b>
+  => handling specials (0.03574 ms)
+  => unfolding local definitions (0.067436 ms)
+  => infer step type (12.528106 ms)
+- check step <c1>
+  => handling specials (0.004098 ms)
+  => unfolding local definitions (0.002201 ms)
+  => compute step type (0.844319 ms)
+  => compare with specified type (1.275475 ms)
+- check step <c>
+  => handling specials (0.034833 ms)
+  => unfolding local definitions (0.055921 ms)
+  => infer step type (6.37632 ms)
+- check step <d>
+  => handling specials (0.159746 ms)
+  => unfolding local definitions (0.283337 ms)
+  => compute step type (69.01502 ms)
+  => compare with specified type (3.940359 ms)
+- infer proof type (69.61675 ms)
+- check proof type against theorem type (3.916748 ms)
+==================================================================
+=== Checking proof of theorem negative-nat (timing enabled) ===
+- check step <a>
+  => handling specials (0.005732 ms)
+  => unfolding local definitions (0.003259 ms)
+  => compute step type (2.649161 ms)
+  => compare with specified type (0.05434 ms)
+- infer proof type (3.30568 ms)
+- check proof type against theorem type (2.588803 ms)
+==================================================================
+=== Checking proof of theorem int-split-alt (timing enabled) ===
+- check step <or>
+  => handling specials (0.019079 ms)
+  => unfolding local definitions (0.010259 ms)
+  => compute step type (0.131567 ms)
+  => compare with specified type (6.797942 ms)
+- check step <a1>
+  => handling specials (0.014901 ms)
+  => unfolding local definitions (0.010455 ms)
+  => compute step type (8.377206 ms)
+  => compare with specified type (0.628992 ms)
+- check step <a>
+  => handling specials (0.039566 ms)
+  => unfolding local definitions (0.075869 ms)
+  => infer step type (11.024883 ms)
+- check step <b1>
+  => handling specials (0.004063 ms)
+  => unfolding local definitions (0.001847 ms)
+  => compute step type (0.719932 ms)
+  => compare with specified type (1.230886 ms)
+- check step <b>
+  => handling specials (0.040015 ms)
+  => unfolding local definitions (0.06347 ms)
+  => infer step type (3.955721 ms)
+- check step <c>
+  => handling specials (0.156171 ms)
+  => unfolding local definitions (0.279921 ms)
+  => compute step type (41.661953 ms)
+  => compare with specified type (1.500052 ms)
+- infer proof type (41.769012 ms)
+- check proof type against theorem type (1.507094 ms)
+==================================================================
+=== Checking proof of theorem negative-pred (timing enabled) ===
+- check step <split>
+  => handling specials (0.02054 ms)
+  => unfolding local definitions (0.015158 ms)
+  => compute step type (0.226011 ms)
+  => compare with specified type (7.229526 ms)
+- check step <a1>
+  => handling specials (0.020249 ms)
+  => unfolding local definitions (0.014773 ms)
+  => compute step type (15.35377 ms)
+  => compare with specified type (2.012316 ms)
+- check step <a2>
+  => handling specials (0.038317 ms)
+  => unfolding local definitions (0.077875 ms)
+  => compute step type (16.012648 ms)
+  => compare with specified type (0.63825 ms)
+- check step <a3>
+  => handling specials (0.014214 ms)
+  => unfolding local definitions (0.097818 ms)
+  => compute step type (17.482306 ms)
+  => compare with specified type (0.058454 ms)
+- check step <a>
+  => handling specials (0.02389 ms)
+  => unfolding local definitions (0.097004 ms)
+  => compute step type (17.67296 ms)
+  => compare with specified type (3.936244 ms)
+- check step <b>
+  => handling specials (0.004488 ms)
+  => unfolding local definitions (0.002089 ms)
+  => compute step type (2.028723 ms)
+  => compare with specified type (3.636432 ms)
+- check step <c>
+  => handling specials (0.147308 ms)
+  => unfolding local definitions (0.266266 ms)
+  => compute step type (50.805473 ms)
+  => compare with specified type (2.143238 ms)
+- infer proof type (62.597137 ms)
+- check proof type against theorem type (4.093069 ms)
+==================================================================
+- infer proof type (0.067964 ms)
+- check proof type against theorem type (3.773974 ms)
+==================================================================
+=== Checking proof of theorem negative-pred-split-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.052314 ms)
+  => unfolding local definitions (0.039629 ms)
+  => compute step type (9.992351 ms)
+  => compare with specified type (2.087018 ms)
+- check step <b>
+  => handling specials (0.015344 ms)
+  => unfolding local definitions (0.010381 ms)
+  => compute step type (4.210513 ms)
+  => compare with specified type (2.092707 ms)
+- check step <c>
+  => handling specials (1.535353 ms)
+  => unfolding local definitions (0.195387 ms)
+  => compute step type (54.7857 ms)
+  => compare with specified type (2.081566 ms)
+- infer proof type (67.29017 ms)
+- check proof type against theorem type (5.456074 ms)
+==================================================================
+=== Checking proof of theorem negative-pred-split (timing enabled) ===
+- check step <split>
+  => handling specials (0.014487 ms)
+  => unfolding local definitions (0.010253 ms)
+  => compute step type (0.108002 ms)
+  => compare with specified type (6.794753 ms)
+- check step <a>
+  => handling specials (0.030011 ms)
+  => unfolding local definitions (0.022762 ms)
+  => compute step type (2.939191 ms)
+  => compare with specified type (1.557149 ms)
+- check step <b1>
+  => handling specials (0.004587 ms)
+  => unfolding local definitions (0.002473 ms)
+  => compute step type (7.256634 ms)
+  => compare with specified type (0.055972 ms)
+- check step <b>
+  => handling specials (0.030395 ms)
+  => unfolding local definitions (0.049907 ms)
+  => compute step type (7.603584 ms)
+  => compare with specified type (2.509158 ms)
+- check step <c>
+  => handling specials (2.591407 ms)
+  => unfolding local definitions (0.17367 ms)
+  => compute step type (34.177376 ms)
+  => compare with specified type (1.502056 ms)
+- check step <d>
+  => handling specials (0.029273 ms)
+  => unfolding local definitions (0.022777 ms)
+  => compute step type (3.720409 ms)
+  => compare with specified type (1.487884 ms)
+- check step <e>
+  => handling specials (0.134913 ms)
+  => unfolding local definitions (0.322551 ms)
+  => compute step type (64.474525 ms)
+  => compare with specified type (1.504453 ms)
+- infer proof type (65.83777 ms)
+- check proof type against theorem type (5.90629 ms)
+==================================================================
+- infer proof type (23.726032 ms)
+- check proof type against theorem type (7.468754 ms)
+==================================================================
+=== Checking proof of theorem int-recur-bijection-lemma-1 (timing enabled) ===
+- check step inv-f
+  => handling specials (0.023096 ms)
+  => unfolding local definitions (0.014802 ms)
+  => infer step type (4.982203 ms)
+- check step <a1>
+  => handling specials (0.015039 ms)
+  => unfolding local definitions (0.010973 ms)
+  => compute step type (7.449604 ms)
+  => compare with specified type (2.147411 ms)
+- check step <a>
+  => handling specials (20.148483 ms)
+  => unfolding local definitions (0.632077 ms)
+  => compute step type (102.65327 ms)
+  => compare with specified type (0.469156 ms)
+- check step <b1>
+  => handling specials (0.024685 ms)
+  => unfolding local definitions (0.018256 ms)
+  => compute step type (3.444922 ms)
+  => compare with specified type (2.123715 ms)
+- check step <b2>
+  => handling specials (0.047907 ms)
+  => unfolding local definitions (0.095025 ms)
+  => compute step type (11.871616 ms)
+  => compare with specified type (2.06474 ms)
+- check step <b>
+  => handling specials (20.249882 ms)
+  => unfolding local definitions (0.717949 ms)
+  => compute step type (107.42543 ms)
+  => compare with specified type (0.465268 ms)
+- check step <c>
+  => handling specials (2.757634 ms)
+  => unfolding local definitions (2.356139 ms)
+  => compute step type (233.34691 ms)
+  => compare with specified type (0.50669 ms)
+- check step <d1>
+  => handling specials (0.053798 ms)
+  => unfolding local definitions (0.043749 ms)
+  => compute step type (17.618559 ms)
+  => compare with specified type (2.388625 ms)
+- check step <d2>
+  => handling specials (22.19755 ms)
+  => unfolding local definitions (0.887686 ms)
+  => compute step type (135.56267 ms)
+  => compare with specified type (4.518836 ms)
+- check step <d3>
+  => handling specials (0.049691 ms)
+  => unfolding local definitions (1.370017 ms)
+  => compute step type (138.38666 ms)
+  => compare with specified type (2.222326 ms)
+- check step <d4>
+  => handling specials (0.030319 ms)
+  => unfolding local definitions (1.423056 ms)
+  => compute step type (148.24399 ms)
+  => compare with specified type (2.265681 ms)
+- check step <d5>
+  => handling specials (0.02371 ms)
+  => unfolding local definitions (0.017248 ms)
+  => compute step type (6.807681 ms)
+  => compare with specified type (2.306252 ms)
+- check step <d>
+  => handling specials (0.043785 ms)
+  => unfolding local definitions (1.562724 ms)
+  => compute step type (169.63367 ms)
+  => compare with specified type (0.508249 ms)
+- check step <e>
+  => handling specials (0.195187 ms)
+  => unfolding local definitions (4.270532 ms)
+  => compute step type (422.73303 ms)
+  => compare with specified type (0.467534 ms)
+- infer proof type (453.67862 ms)
+- check proof type against theorem type (17.88736 ms)
+==================================================================
+=== Checking proof of theorem int-recur-bijection-lemma-2 (timing enabled) ===
+- check step inv-f
+  => handling specials (0.023589 ms)
+  => unfolding local definitions (0.015288 ms)
+  => infer step type (4.776295 ms)
+- check step <a>
+  => handling specials (0.005226 ms)
+  => unfolding local definitions (0.002579 ms)
+  => compute step type (1.293082 ms)
+  => compare with specified type (0.45013 ms)
+- check step <b1>
+  => handling specials (0.012677 ms)
+  => unfolding local definitions (0.009194 ms)
+  => compute step type (1.358443 ms)
+  => compare with specified type (8.092948 ms)
+- check step <b2>
+  => handling specials (0.046935 ms)
+  => unfolding local definitions (0.088015 ms)
+  => compute step type (19.84594 ms)
+  => compare with specified type (2.656641 ms)
+- check step <b3>
+  => handling specials (0.027544 ms)
+  => unfolding local definitions (0.143923 ms)
+  => compute step type (25.878494 ms)
+  => compare with specified type (2.652714 ms)
+- check step <b4>
+  => handling specials (0.030277 ms)
+  => unfolding local definitions (0.199894 ms)
+  => compute step type (40.766346 ms)
+  => compare with specified type (7.132916 ms)
+- check step <b5>
+  => handling specials (0.024399 ms)
+  => unfolding local definitions (0.019312 ms)
+  => compute step type (6.815445 ms)
+  => compare with specified type (14.62771 ms)
+- check step <b6>
+  => handling specials (0.033627 ms)
+  => unfolding local definitions (0.110839 ms)
+  => compute step type (34.931057 ms)
+  => compare with specified type (7.679403 ms)
+- check step <b>
+  => handling specials (0.038631 ms)
+  => unfolding local definitions (0.397785 ms)
+  => compute step type (111.39044 ms)
+  => compare with specified type (4.140551 ms)
+- check step <c>
+  => handling specials (0.215305 ms)
+  => unfolding local definitions (0.496229 ms)
+  => infer step type (192.38986 ms)
+- infer proof type (333.2301 ms)
+- check proof type against theorem type (12.938149 ms)
+==================================================================
+- infer proof type (84.09988 ms)
+- check proof type against theorem type (21.148657 ms)
+==================================================================
+=== Checking proof of theorem int-recur-bijection-ex (timing enabled) ===
+- check step <ex>
+  => handling specials (5.600018 ms)
+  => unfolding local definitions (0.15035 ms)
+  => compute step type (112.25891 ms)
+  => compare with specified type (14.109727 ms)
+- check step <a>
+  => handling specials (294.11673 ms)
+  => unfolding local definitions (0.701045 ms)
+  => compute step type (237.99101 ms)
+  => compare with specified type (1.57755 ms)
+- check step <b>
+  => handling specials (0.033873 ms)
+  => unfolding local definitions (2.983773 ms)
+  => compute step type (238.36343 ms)
+  => compare with specified type (1.807202 ms)
+- check step <c>
+  => handling specials (0.052106 ms)
+  => unfolding local definitions (3.248792 ms)
+  => compute step type (420.22525 ms)
+  => compare with specified type (1.834676 ms)
+- infer proof type (425.0847 ms)
+- check proof type against theorem type (1.801852 ms)
+==================================================================
+=== Checking proof of theorem int-recur-bijection-single (timing enabled) ===
+- check step <single>
+  => handling specials (5.576569 ms)
+  => unfolding local definitions (0.160288 ms)
+  => compute step type (122.810455 ms)
+  => compare with specified type (25.87061 ms)
+- check step <a>
+  => handling specials (49.618908 ms)
+  => unfolding local definitions (0.465829 ms)
+  => compute step type (117.62153 ms)
+  => compare with specified type (12.538323 ms)
+- check step <b>
+  => handling specials (49.653774 ms)
+  => unfolding local definitions (0.437854 ms)
+  => compute step type (118.030205 ms)
+  => compare with specified type (12.498228 ms)
+- check step <c>
+  => handling specials (0.024849 ms)
+  => unfolding local definitions (4.179999 ms)
+  => compute step type (376.14777 ms)
+  => compare with specified type (0.412554 ms)
+- infer proof type (412.60678 ms)
+- check proof type against theorem type (6.69249 ms)
+==================================================================
+=== Checking proof of theorem int-recur-bijection (timing enabled) ===
+- check step <a>
+  => handling specials (10.460381 ms)
+  => unfolding local definitions (0.047985 ms)
+  => infer step type (38.39582 ms)
+- infer proof type (39.955856 ms)
+- check proof type against theorem type (6.40456 ms)
+==================================================================
+- infer proof type (4.511918 ms)
+- check proof type against theorem type (12.368947 ms)
+==================================================================
+- infer proof type (12.295149 ms)
+- check proof type against theorem type (26.809874 ms)
+==================================================================
+=== Checking proof of theorem plus-zero (timing enabled) ===
+- check step <a>
+  => handling specials (0.375174 ms)
+  => unfolding local definitions (0.059029 ms)
+  => infer step type (24.951374 ms)
+- infer proof type (23.48378 ms)
+- check proof type against theorem type (3.973059 ms)
+==================================================================
+=== Checking proof of theorem plus-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.272602 ms)
+  => unfolding local definitions (0.049002 ms)
+  => infer step type (28.801306 ms)
+- infer proof type (28.757427 ms)
+- check proof type against theorem type (7.414558 ms)
+==================================================================
+=== Checking proof of theorem plus-pred (timing enabled) ===
+- check step <a>
+  => handling specials (0.032291 ms)
+  => unfolding local definitions (0.012153 ms)
+  => compute step type (0.281019 ms)
+  => compare with specified type (22.396397 ms)
+- check step <b>
+  => handling specials (0.572687 ms)
+  => unfolding local definitions (0.135453 ms)
+  => compute step type (52.766273 ms)
+  => compare with specified type (10.642114 ms)
+- check step <c>
+  => handling specials (0.548988 ms)
+  => unfolding local definitions (0.229911 ms)
+  => compute step type (97.37755 ms)
+  => compare with specified type (22.490747 ms)
+- check step <d>
+  => handling specials (0.705689 ms)
+  => unfolding local definitions (0.374388 ms)
+  => compute step type (209.19916 ms)
+  => compare with specified type (15.789687 ms)
+- check step <e>
+  => handling specials (0.549329 ms)
+  => unfolding local definitions (0.492848 ms)
+  => infer step type (254.9032 ms)
+- infer proof type (254.1942 ms)
+- check proof type against theorem type (15.83312 ms)
+==================================================================
+=== Checking proof of theorem plus-zero-sym (timing enabled) ===
+- check step <a>
+  => handling specials (0.016753 ms)
+  => unfolding local definitions (0.009814 ms)
+  => compute step type (0.118316 ms)
+  => compare with specified type (6.995745 ms)
+- check step <b1>
+  => handling specials (0.025032 ms)
+  => unfolding local definitions (0.00925 ms)
+  => compute step type (0.155032 ms)
+  => compare with specified type (26.217197 ms)
+- check step <b>
+  => handling specials (3.510732 ms)
+  => unfolding local definitions (0.108044 ms)
+  => compute step type (59.531322 ms)
+  => compare with specified type (9.426349 ms)
+- check step <c1>
+  => handling specials (0.02253 ms)
+  => unfolding local definitions (0.009854 ms)
+  => compute step type (0.169346 ms)
+  => compare with specified type (12.587936 ms)
+- check step <c>
+  => handling specials (3.525722 ms)
+  => unfolding local definitions (0.108871 ms)
+  => compute step type (35.24462 ms)
+  => compare with specified type (4.338318 ms)
+- check step <d>
+  => handling specials (0.165457 ms)
+  => unfolding local definitions (0.291446 ms)
+  => infer step type (132.90382 ms)
+- infer proof type (390.2755 ms)
+- check proof type against theorem type (4.096537 ms)
+==================================================================
+=== Checking proof of theorem plus-succ-sym (timing enabled) ===
+- check step <a1>
+  => handling specials (0.029504 ms)
+  => unfolding local definitions (0.012733 ms)
+  => compute step type (0.210011 ms)
+  => compare with specified type (7.134153 ms)
+- check step <a2>
+  => handling specials (0.278819 ms)
+  => unfolding local definitions (0.042384 ms)
+  => compute step type (19.84167 ms)
+  => compare with specified type (4.137073 ms)
+- check step <a>
+  => handling specials (0.544521 ms)
+  => unfolding local definitions (0.190002 ms)
+  => compute step type (44.870434 ms)
+  => compare with specified type (7.747237 ms)
+- check step <b1>
+  => handling specials (0.02725 ms)
+  => unfolding local definitions (0.010347 ms)
+  => compute step type (0.240109 ms)
+  => compare with specified type (26.05197 ms)
+- check step <b2>
+  => handling specials (6.52591 ms)
+  => unfolding local definitions (0.036628 ms)
+  => compute step type (45.06865 ms)
+  => compare with specified type (19.208052 ms)
+- check step <b3>
+  => handling specials (0.622558 ms)
+  => unfolding local definitions (0.2392 ms)
+  => compute step type (156.5044 ms)
+  => compare with specified type (16.348137 ms)
+- check step <b4>
+  => handling specials (0.50878 ms)
+  => unfolding local definitions (0.352225 ms)
+  => compute step type (224.83638 ms)
+  => compare with specified type (10.988531 ms)
+- check step <b5>
+  => handling specials (0.023323 ms)
+  => unfolding local definitions (0.010164 ms)
+  => compute step type (0.265793 ms)
+  => compare with specified type (22.380198 ms)
+- check step <b6>
+  => handling specials (0.33085 ms)
+  => unfolding local definitions (0.076038 ms)
+  => compute step type (46.239674 ms)
+  => compare with specified type (10.671363 ms)
+- check step <b7>
+  => handling specials (0.562836 ms)
+  => unfolding local definitions (0.303506 ms)
+  => compute step type (109.79367 ms)
+  => compare with specified type (10.698916 ms)
+- check step <b>
+  => handling specials (0.507772 ms)
+  => unfolding local definitions (0.767031 ms)
+  => compute step type (390.182 ms)
+  => compare with specified type (13.457849 ms)
+- check step <c1>
+  => handling specials (0.022754 ms)
+  => unfolding local definitions (0.009798 ms)
+  => compute step type (0.264839 ms)
+  => compare with specified type (12.841377 ms)
+- check step <c2>
+  => handling specials (6.456276 ms)
+  => unfolding local definitions (0.0348 ms)
+  => compute step type (27.666464 ms)
+  => compare with specified type (7.801175 ms)
+- check step <c3>
+  => handling specials (0.456887 ms)
+  => unfolding local definitions (0.188293 ms)
+  => compute step type (66.67486 ms)
+  => compare with specified type (7.83617 ms)
+- check step <c4>
+  => handling specials (0.422657 ms)
+  => unfolding local definitions (0.053462 ms)
+  => compute step type (38.762047 ms)
+  => compare with specified type (7.576127 ms)
+- check step <c>
+  => handling specials (0.464068 ms)
+  => unfolding local definitions (0.389236 ms)
+  => compute step type (145.77258 ms)
+  => compare with specified type (8.387805 ms)
+- check step <d>
+  => handling specials (0.214828 ms)
+  => unfolding local definitions (1.336268 ms)
+  => infer step type (603.2784 ms)
+- infer proof type (1028.3285 ms)
+- check proof type against theorem type (7.756069 ms)
+==================================================================
+=== Checking proof of theorem plus-pred-sym (timing enabled) ===
+- check step <a>
+  => handling specials (0.029498 ms)
+  => unfolding local definitions (0.011887 ms)
+  => compute step type (0.278813 ms)
+  => compare with specified type (37.24857 ms)
+- check step <b>
+  => handling specials (0.327372 ms)
+  => unfolding local definitions (0.137676 ms)
+  => compute step type (74.03877 ms)
+  => compare with specified type (15.036692 ms)
+- check step <c>
+  => handling specials (0.342661 ms)
+  => unfolding local definitions (0.234552 ms)
+  => compute step type (140.81067 ms)
+  => compare with specified type (29.643654 ms)
+- check step <d>
+  => handling specials (0.708733 ms)
+  => unfolding local definitions (0.369775 ms)
+  => compute step type (282.01175 ms)
+  => compare with specified type (20.038506 ms)
+- infer proof type (326.85242 ms)
+- check proof type against theorem type (20.713697 ms)
+==================================================================
+=== Checking proof of theorem plus-commute (timing enabled) ===
+- check step P
+  => handling specials (0.037019 ms)
+  => unfolding local definitions (0.019476 ms)
+  => infer step type (0.432252 ms)
+- check step <a1>
+  => handling specials (0.239802 ms)
+  => unfolding local definitions (0.027668 ms)
+  => compute step type (11.026897 ms)
+  => compare with specified type (3.975193 ms)
+- check step <a>
+  => handling specials (0.351677 ms)
+  => unfolding local definitions (0.116753 ms)
+  => compute step type (34.117756 ms)
+  => compare with specified type (10.608791 ms)
+- check step <b1>
+  => handling specials (0.018586 ms)
+  => unfolding local definitions (0.007231 ms)
+  => compute step type (0.171047 ms)
+  => compare with specified type (12.277948 ms)
+- check step <b2>
+  => handling specials (0.036165 ms)
+  => unfolding local definitions (0.02074 ms)
+  => compute step type (31.921223 ms)
+  => compare with specified type (7.400035 ms)
+- check step <b3>
+  => handling specials (0.417571 ms)
+  => unfolding local definitions (0.146213 ms)
+  => compute step type (68.52585 ms)
+  => compare with specified type (7.548644 ms)
+- check step <b4>
+  => handling specials (0.371955 ms)
+  => unfolding local definitions (0.034601 ms)
+  => compute step type (20.893324 ms)
+  => compare with specified type (7.415009 ms)
+- check step <b>
+  => handling specials (0.402904 ms)
+  => unfolding local definitions (0.276854 ms)
+  => compute step type (123.591995 ms)
+  => compare with specified type (10.310227 ms)
+- check step <c1>
+  => handling specials (0.019942 ms)
+  => unfolding local definitions (0.007386 ms)
+  => compute step type (0.186838 ms)
+  => compare with specified type (32.97259 ms)
+- check step <c2>
+  => handling specials (0.037075 ms)
+  => unfolding local definitions (0.021794 ms)
+  => compute step type (49.681553 ms)
+  => compare with specified type (18.649752 ms)
+- check step <c3>
+  => handling specials (0.566121 ms)
+  => unfolding local definitions (0.200807 ms)
+  => compute step type (171.50427 ms)
+  => compare with specified type (20.014225 ms)
+- check step <c4>
+  => handling specials (0.462327 ms)
+  => unfolding local definitions (0.051507 ms)
+  => compute step type (53.08936 ms)
+  => compare with specified type (15.889646 ms)
+- check step <c>
+  => handling specials (0.558387 ms)
+  => unfolding local definitions (0.416668 ms)
+  => compute step type (326.89343 ms)
+  => compare with specified type (13.754993 ms)
+- check step <d>
+  => handling specials (0.129811 ms)
+  => unfolding local definitions (0.779578 ms)
+  => infer step type (499.26974 ms)
+- check step <e>
+  => handling specials (0.024621 ms)
+  => unfolding local definitions (1.319396 ms)
+  => compute step type (1055.6173 ms)
+  => compare with specified type (10.095564 ms)
+- infer proof type (1065.1041 ms)
+- check proof type against theorem type (7.268112 ms)
+==================================================================
+=== Checking proof of theorem plus-pred-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.026809 ms)
+  => unfolding local definitions (0.011261 ms)
+  => compute step type (0.280728 ms)
+  => compare with specified type (32.51488 ms)
+- check step <b>
+  => handling specials (0.011438 ms)
+  => unfolding local definitions (0.006967 ms)
+  => compute step type (0.184375 ms)
+  => compare with specified type (12.076738 ms)
+- check step <c>
+  => handling specials (0.328953 ms)
+  => unfolding local definitions (0.131939 ms)
+  => compute step type (90.98721 ms)
+  => compare with specified type (20.39069 ms)
+- check step <d>
+  => handling specials (0.024263 ms)
+  => unfolding local definitions (0.009672 ms)
+  => compute step type (0.260127 ms)
+  => compare with specified type (21.001194 ms)
+- check step <e>
+  => handling specials (0.538873 ms)
+  => unfolding local definitions (0.278419 ms)
+  => compute step type (175.88078 ms)
+  => compare with specified type (15.062994 ms)
+- infer proof type (174.66125 ms)
+- check proof type against theorem type (14.950296 ms)
+==================================================================
+=== Checking proof of theorem plus-succ-pred (timing enabled) ===
+- check step <a>
+  => handling specials (0.030361 ms)
+  => unfolding local definitions (0.014105 ms)
+  => compute step type (0.356156 ms)
+  => compare with specified type (29.853224 ms)
+- check step <b>
+  => handling specials (0.029052 ms)
+  => unfolding local definitions (0.007403 ms)
+  => compute step type (0.188059 ms)
+  => compare with specified type (25.137474 ms)
+- check step <c>
+  => handling specials (0.56316 ms)
+  => unfolding local definitions (0.167499 ms)
+  => compute step type (87.50098 ms)
+  => compare with specified type (10.836769 ms)
+- check step <d>
+  => handling specials (0.018769 ms)
+  => unfolding local definitions (0.00701 ms)
+  => compute step type (0.175605 ms)
+  => compare with specified type (11.716911 ms)
+- check step <e>
+  => handling specials (0.446133 ms)
+  => unfolding local definitions (0.261988 ms)
+  => compute step type (135.25848 ms)
+  => compare with specified type (10.824114 ms)
+- infer proof type (135.1975 ms)
+- check proof type against theorem type (10.900989 ms)
+==================================================================
+=== Checking proof of theorem plus-assoc (timing enabled) ===
+- check step P
+  => handling specials (0.043096 ms)
+  => unfolding local definitions (0.033478 ms)
+  => infer step type (0.674346 ms)
+- check step <a1>
+  => handling specials (0.448027 ms)
+  => unfolding local definitions (0.029415 ms)
+  => compute step type (21.8864 ms)
+  => compare with specified type (10.660168 ms)
+- check step <a2>
+  => handling specials (0.446473 ms)
+  => unfolding local definitions (0.036746 ms)
+  => compute step type (49.07217 ms)
+  => compare with specified type (16.78846 ms)
+- check step <a>
+  => handling specials (0.486289 ms)
+  => unfolding local definitions (0.23945 ms)
+  => compute step type (168.95421 ms)
+  => compare with specified type (32.441044 ms)
+- check step <b1>
+  => handling specials (0.609233 ms)
+  => unfolding local definitions (0.045578 ms)
+  => compute step type (33.67502 ms)
+  => compare with specified type (14.099281 ms)
+- check step <b2>
+  => handling specials (0.018987 ms)
+  => unfolding local definitions (0.010481 ms)
+  => compute step type (0.327215 ms)
+  => compare with specified type (22.898836 ms)
+- check step <b3>
+  => handling specials (0.633644 ms)
+  => unfolding local definitions (0.221008 ms)
+  => compute step type (107.89381 ms)
+  => compare with specified type (14.097417 ms)
+- check step <b4>
+  => handling specials (15.557738 ms)
+  => unfolding local definitions (0.038526 ms)
+  => compute step type (75.143394 ms)
+  => compare with specified type (20.258602 ms)
+- check step <b5>
+  => handling specials (0.595765 ms)
+  => unfolding local definitions (0.407055 ms)
+  => compute step type (279.48 ms)
+  => compare with specified type (20.159323 ms)
+- check step <b6>
+  => handling specials (0.583324 ms)
+  => unfolding local definitions (0.043074 ms)
+  => compute step type (81.205376 ms)
+  => compare with specified type (26.159985 ms)
+- check step <b>
+  => handling specials (0.605883 ms)
+  => unfolding local definitions (0.567271 ms)
+  => compute step type (483.19037 ms)
+  => compare with specified type (32.483505 ms)
+- check step <c1>
+  => handling specials (0.681612 ms)
+  => unfolding local definitions (0.061109 ms)
+  => compute step type (65.66739 ms)
+  => compare with specified type (23.426046 ms)
+- check step <c2>
+  => handling specials (0.021987 ms)
+  => unfolding local definitions (0.009767 ms)
+  => compute step type (0.306026 ms)
+  => compare with specified type (43.225994 ms)
+- check step <c3>
+  => handling specials (0.766232 ms)
+  => unfolding local definitions (0.304356 ms)
+  => compute step type (261.83063 ms)
+  => compare with specified type (26.236263 ms)
+- check step <c4>
+  => handling specials (16.027197 ms)
+  => unfolding local definitions (0.037708 ms)
+  => compute step type (158.40485 ms)
+  => compare with specified type (44.031956 ms)
+- check step <c5>
+  => handling specials (0.780542 ms)
+  => unfolding local definitions (0.539124 ms)
+  => compute step type (777.8972 ms)
+  => compare with specified type (38.485172 ms)
+- check step <c6>
+  => handling specials (0.687946 ms)
+  => unfolding local definitions (0.059899 ms)
+  => compute step type (173.42642 ms)
+  => compare with specified type (45.33467 ms)
+- check step <c>
+  => handling specials (0.776788 ms)
+  => unfolding local definitions (0.792247 ms)
+  => compute step type (1216.245 ms)
+  => compare with specified type (34.930946 ms)
+- check step <d>
+  => handling specials (0.144812 ms)
+  => unfolding local definitions (1.493289 ms)
+  => infer step type (1851.8203 ms)
+- check step <e>
+  => handling specials (0.032263 ms)
+  => unfolding local definitions (1.952076 ms)
+  => compute step type (3120.1323 ms)
+  => compare with specified type (32.242996 ms)
+- infer proof type (3111.2654 ms)
+- check proof type against theorem type (19.901308 ms)
+==================================================================
+=== Checking proof of theorem plus-assoc-sym (timing enabled) ===
+- check step <a>
+  => handling specials (0.546158 ms)
+  => unfolding local definitions (0.027813 ms)
+  => infer step type (59.76885 ms)
+- infer proof type (59.90363 ms)
+- check proof type against theorem type (19.930986 ms)
+==================================================================
+=== Checking proof of theorem plus-right-cancel (timing enabled) ===
+- check step <a1>
+  => handling specials (0.274388 ms)
+  => unfolding local definitions (0.042572 ms)
+  => compute step type (36.332573 ms)
+  => compare with specified type (3.981023 ms)
+- check step <a>
+  => handling specials (0.27147 ms)
+  => unfolding local definitions (0.159016 ms)
+  => compute step type (49.81436 ms)
+  => compare with specified type (0.425938 ms)
+- check step <b1>
+  => handling specials (0.381055 ms)
+  => unfolding local definitions (0.04778 ms)
+  => compute step type (47.656994 ms)
+  => compare with specified type (7.501908 ms)
+- check step <b2>
+  => handling specials (0.411681 ms)
+  => unfolding local definitions (0.200102 ms)
+  => compute step type (84.58902 ms)
+  => compare with specified type (7.409869 ms)
+- check step <b3>
+  => handling specials (0.027823 ms)
+  => unfolding local definitions (0.244545 ms)
+  => compute step type (108.35819 ms)
+  => compare with specified type (7.327591 ms)
+- check step <b>
+  => handling specials (0.007417 ms)
+  => unfolding local definitions (0.249438 ms)
+  => compute step type (123.995125 ms)
+  => compare with specified type (0.430162 ms)
+- check step <c1>
+  => handling specials (0.495066 ms)
+  => unfolding local definitions (0.065997 ms)
+  => compute step type (95.96014 ms)
+  => compare with specified type (15.703537 ms)
+- check step <c2>
+  => handling specials (0.49836 ms)
+  => unfolding local definitions (0.276293 ms)
+  => compute step type (187.79419 ms)
+  => compare with specified type (18.501556 ms)
+- check step <c3>
+  => handling specials (0.029224 ms)
+  => unfolding local definitions (0.347833 ms)
+  => compute step type (247.06842 ms)
+  => compare with specified type (7.248638 ms)
+- check step <c>
+  => handling specials (0.007251 ms)
+  => unfolding local definitions (0.327391 ms)
+  => compute step type (261.88126 ms)
+  => compare with specified type (0.432983 ms)
+- check step <d>
+  => handling specials (0.209832 ms)
+  => unfolding local definitions (0.691068 ms)
+  => infer step type (557.1657 ms)
+- check step <e>
+  => handling specials (0.038583 ms)
+  => unfolding local definitions (1.064236 ms)
+  => infer step type (915.35254 ms)
+- infer proof type (914.96576 ms)
+- check proof type against theorem type (7.740078 ms)
+==================================================================
+=== Checking proof of theorem plus-left-cancel (timing enabled) ===
+- check step <a>
+  => handling specials (0.362237 ms)
+  => unfolding local definitions (0.042107 ms)
+  => compute step type (46.069332 ms)
+  => compare with specified type (7.181777 ms)
+- check step <b>
+  => handling specials (0.373846 ms)
+  => unfolding local definitions (0.170344 ms)
+  => compute step type (82.08801 ms)
+  => compare with specified type (7.232095 ms)
+- check step <c>
+  => handling specials (0.020777 ms)
+  => unfolding local definitions (0.220593 ms)
+  => compute step type (91.12735 ms)
+  => compare with specified type (0.426254 ms)
+- infer proof type (91.579315 ms)
+- check proof type against theorem type (12.434673 ms)
+==================================================================
+=== Checking proof of theorem plus-right-cancel-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.783671 ms)
+  => unfolding local definitions (0.029635 ms)
+  => compute step type (10.719015 ms)
+  => compare with specified type (7.200942 ms)
+- infer proof type (62.53991 ms)
+- check proof type against theorem type (10.562187 ms)
+==================================================================
+=== Checking proof of theorem plus-left-cancel-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.809565 ms)
+  => unfolding local definitions (0.030003 ms)
+  => compute step type (10.74601 ms)
+  => compare with specified type (7.311123 ms)
+- infer proof type (62.229218 ms)
+- check proof type against theorem type (10.589137 ms)
+==================================================================
+=== Checking proof of theorem plus-nat-closed (timing enabled) ===
+- check step P
+  => handling specials (0.03118 ms)
+  => unfolding local definitions (0.018565 ms)
+  => infer step type (0.402436 ms)
+- check step <a>
+  => handling specials (0.287005 ms)
+  => unfolding local definitions (0.049712 ms)
+  => compute step type (22.561518 ms)
+  => compare with specified type (3.494638 ms)
+- check step <b1>
+  => handling specials (0.020719 ms)
+  => unfolding local definitions (0.010604 ms)
+  => compute step type (10.935299 ms)
+  => compare with specified type (3.008955 ms)
+- check step <b>
+  => handling specials (0.424892 ms)
+  => unfolding local definitions (0.148596 ms)
+  => compute step type (50.01663 ms)
+  => compare with specified type (3.510509 ms)
+- check step <c>
+  => handling specials (0.025298 ms)
+  => unfolding local definitions (0.46152 ms)
+  => compute step type (140.963 ms)
+  => compare with specified type (3.914578 ms)
+- infer proof type (165.53226 ms)
+- check proof type against theorem type (6.229887 ms)
+==================================================================
+=== Checking proof of theorem positive-plus (timing enabled) ===
+- check step <a>
+  => handling specials (0.024279 ms)
+  => unfolding local definitions (0.013129 ms)
+  => compute step type (26.443216 ms)
+  => compare with specified type (8.172688 ms)
+- check step <b>
+  => handling specials (0.664653 ms)
+  => unfolding local definitions (0.178457 ms)
+  => compute step type (125.452896 ms)
+  => compare with specified type (11.725934 ms)
+- check step <c>
+  => handling specials (0.508528 ms)
+  => unfolding local definitions (0.327701 ms)
+  => compute step type (210.32037 ms)
+  => compare with specified type (12.397303 ms)
+- check step <d>
+  => handling specials (0.027606 ms)
+  => unfolding local definitions (0.385969 ms)
+  => compute step type (240.52406 ms)
+  => compare with specified type (12.541863 ms)
+- check step <e>
+  => handling specials (0.474175 ms)
+  => unfolding local definitions (0.460125 ms)
+  => compute step type (301.772 ms)
+  => compare with specified type (5.683344 ms)
+- infer proof type (548.3029 ms)
+- check proof type against theorem type (17.342123 ms)
+==================================================================
+=== Checking proof of theorem negative-pos-plus (timing enabled) ===
+- check step <a1>
+  => handling specials (0.011429 ms)
+  => unfolding local definitions (0.010498 ms)
+  => compute step type (2.075033 ms)
+  => compare with specified type (0.073976 ms)
+- check step <a>
+  => handling specials (0.045564 ms)
+  => unfolding local definitions (0.07896 ms)
+  => infer step type (2.540752 ms)
+- check step <b1>
+  => handling specials (0.017849 ms)
+  => unfolding local definitions (0.014704 ms)
+  => compute step type (4.554655 ms)
+  => compare with specified type (2.16678 ms)
+- check step <b2>
+  => handling specials (0.244436 ms)
+  => unfolding local definitions (0.093095 ms)
+  => compute step type (17.540043 ms)
+  => compare with specified type (0.762794 ms)
+- check step <b3>
+  => handling specials (0.010047 ms)
+  => unfolding local definitions (0.108547 ms)
+  => compute step type (34.35211 ms)
+  => compare with specified type (8.210773 ms)
+- check step <b4>
+  => handling specials (5.847782 ms)
+  => unfolding local definitions (0.034189 ms)
+  => compute step type (32.30726 ms)
+  => compare with specified type (7.013979 ms)
+- check step <c1>
+  => handling specials (2.449267 ms)
+  => unfolding local definitions (0.036504 ms)
+  => compute step type (13.851335 ms)
+  => compare with specified type (2.857215 ms)
+- check step <c2>
+  => handling specials (0.272206 ms)
+  => unfolding local definitions (0.154038 ms)
+  => compute step type (27.156155 ms)
+  => compare with specified type (0.557537 ms)
+- check step <c3>
+  => handling specials (5.83998 ms)
+  => unfolding local definitions (0.248762 ms)
+  => compute step type (63.945408 ms)
+  => compare with specified type (4.133676 ms)
+- check step <c4>
+  => handling specials (0.424937 ms)
+  => unfolding local definitions (0.376917 ms)
+  => compute step type (89.04421 ms)
+  => compare with specified type (4.122167 ms)
+- check step <c5>
+  => handling specials (0.226543 ms)
+  => unfolding local definitions (0.395247 ms)
+  => compute step type (107.01879 ms)
+  => compare with specified type (12.401892 ms)
+- check step <c6>
+  => handling specials (0.481331 ms)
+  => unfolding local definitions (0.512361 ms)
+  => compute step type (161.79643 ms)
+  => compare with specified type (6.995846 ms)
+- check step <c7>
+  => handling specials (0.279379 ms)
+  => unfolding local definitions (0.57241 ms)
+  => compute step type (182.36632 ms)
+  => compare with specified type (2.729381 ms)
+- check step <c8>
+  => handling specials (0.214868 ms)
+  => unfolding local definitions (0.633188 ms)
+  => compute step type (201.79489 ms)
+  => compare with specified type (2.870733 ms)
+- check step <c9>
+  => handling specials (0.27773 ms)
+  => unfolding local definitions (0.687614 ms)
+  => compute step type (206.3452 ms)
+  => compare with specified type (0.550993 ms)
+- check step <c10>
+  => handling specials (0.062013 ms)
+  => unfolding local definitions (0.786782 ms)
+  => compute step type (212.3502 ms)
+  => compare with specified type (0.673067 ms)
+- check step <c11>
+  => handling specials (0.009924 ms)
+  => unfolding local definitions (0.814882 ms)
+  => compute step type (213.34778 ms)
+  => compare with specified type (0.073293 ms)
+- check step <c>
+  => handling specials (0.039358 ms)
+  => unfolding local definitions (0.816366 ms)
+  => infer step type (213.88753 ms)
+- check step <d1>
+  => handling specials (0.012569 ms)
+  => unfolding local definitions (0.011473 ms)
+  => compute step type (0.184102 ms)
+  => compare with specified type (18.340038 ms)
+- check step <d2>
+  => handling specials (0.054474 ms)
+  => unfolding local definitions (0.10136 ms)
+  => compute step type (57.95954 ms)
+  => compare with specified type (7.162978 ms)
+- check step <d>
+  => handling specials (3.287961 ms)
+  => unfolding local definitions (0.196131 ms)
+  => compute step type (93.191284 ms)
+  => compare with specified type (11.573671 ms)
+- check step <e1>
+  => handling specials (0.165208 ms)
+  => unfolding local definitions (1.196168 ms)
+  => compute step type (533.32635 ms)
+  => compare with specified type (11.682873 ms)
+- check step <e>
+  => handling specials (0.049439 ms)
+  => unfolding local definitions (1.236719 ms)
+  => compute step type (554.3692 ms)
+  => compare with specified type (8.512551 ms)
+- check step <f>
+  => handling specials (0.073046 ms)
+  => unfolding local definitions (1.46898 ms)
+  => compute step type (769.3759 ms)
+  => compare with specified type (8.519246 ms)
+- check step <g>
+  => handling specials (0.008884 ms)
+  => unfolding local definitions (0.007856 ms)
+  => compute step type (7.561905 ms)
+  => compare with specified type (1.5519 ms)
+- check step <h1>
+  => handling specials (0.022487 ms)
+  => unfolding local definitions (0.011188 ms)
+  => compute step type (0.140319 ms)
+  => compare with specified type (26.197254 ms)
+- check step <h2>
+  => handling specials (0.305324 ms)
+  => unfolding local definitions (0.126364 ms)
+  => compute step type (56.396935 ms)
+  => compare with specified type (11.705067 ms)
+- check step <h3>
+  => handling specials (0.060215 ms)
+  => unfolding local definitions (0.215955 ms)
+  => compute step type (92.91588 ms)
+  => compare with specified type (11.375276 ms)
+- check step <h4>
+  => handling specials (0.02275 ms)
+  => unfolding local definitions (0.011425 ms)
+  => compute step type (3.56016 ms)
+  => compare with specified type (2.130912 ms)
+- check step <h>
+  => handling specials (0.205299 ms)
+  => unfolding local definitions (0.372688 ms)
+  => compute step type (163.1163 ms)
+  => compare with specified type (15.997436 ms)
+- check step <i1>
+  => handling specials (0.002559 ms)
+  => unfolding local definitions (0.002893 ms)
+  => compute step type (17.93266 ms)
+  => compare with specified type (8.212721 ms)
+- check step <i2>
+  => handling specials (0.007798 ms)
+  => unfolding local definitions (0.006815 ms)
+  => compute step type (0.166608 ms)
+  => compare with specified type (25.155308 ms)
+- check step <i3>
+  => handling specials (5.884564 ms)
+  => unfolding local definitions (0.112023 ms)
+  => compute step type (70.25183 ms)
+  => compare with specified type (11.204986 ms)
+- check step <i4>
+  => handling specials (5.819783 ms)
+  => unfolding local definitions (0.030445 ms)
+  => compute step type (24.283098 ms)
+  => compare with specified type (2.072781 ms)
+- check step <i5>
+  => handling specials (0.199138 ms)
+  => unfolding local definitions (0.287794 ms)
+  => compute step type (162.94534 ms)
+  => compare with specified type (15.993906 ms)
+- check step <i>
+  => handling specials (0.084863 ms)
+  => unfolding local definitions (0.458059 ms)
+  => compute step type (503.83615 ms)
+  => compare with specified type (15.940593 ms)
+- check step <j>
+  => handling specials (0.179563 ms)
+  => unfolding local definitions (0.936964 ms)
+  => compute step type (995.0631 ms)
+  => compare with specified type (15.894233 ms)
+- check step <k>
+  => handling specials (0.264708 ms)
+  => unfolding local definitions (2.667686 ms)
+  => infer step type (1999.6859 ms)
+- check step <j>
+  => handling specials (0.063861 ms)
+  => unfolding local definitions (2.894115 ms)
+  => infer step type (2472.2156 ms)
+- infer proof type (2493.561 ms)
+- check proof type against theorem type (9.345128 ms)
+==================================================================
+=== Checking proof of theorem negative-pos-plus-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.008109 ms)
+  => unfolding local definitions (0.0071 ms)
+  => compute step type (0.105204 ms)
+  => compare with specified type (7.058209 ms)
+- check step <b1>
+  => handling specials (5.977009 ms)
+  => unfolding local definitions (0.049141 ms)
+  => compute step type (37.34672 ms)
+  => compare with specified type (4.141012 ms)
+- check step <b2>
+  => handling specials (0.047261 ms)
+  => unfolding local definitions (0.181282 ms)
+  => compute step type (51.758892 ms)
+  => compare with specified type (0.484789 ms)
+- check step <b3>
+  => handling specials (0.183226 ms)
+  => unfolding local definitions (0.254483 ms)
+  => compute step type (61.120598 ms)
+  => compare with specified type (2.097981 ms)
+- check step <b4>
+  => handling specials (5.870628 ms)
+  => unfolding local definitions (0.301714 ms)
+  => compute step type (82.07143 ms)
+  => compare with specified type (0.059133 ms)
+- check step <b>
+  => handling specials (0.009887 ms)
+  => unfolding local definitions (0.293996 ms)
+  => compute step type (81.9204 ms)
+  => compare with specified type (1.344094 ms)
+- check step <c1>
+  => handling specials (5.80826 ms)
+  => unfolding local definitions (0.032104 ms)
+  => compute step type (40.271275 ms)
+  => compare with specified type (5.658251 ms)
+- check step <c2>
+  => handling specials (6.131036 ms)
+  => unfolding local definitions (0.060828 ms)
+  => compute step type (49.135166 ms)
+  => compare with specified type (5.816633 ms)
+- check step <c3>
+  => handling specials (0.009231 ms)
+  => unfolding local definitions (0.231591 ms)
+  => compute step type (92.24564 ms)
+  => compare with specified type (0.059656 ms)
+- check step <c>
+  => handling specials (0.019325 ms)
+  => unfolding local definitions (0.211607 ms)
+  => compute step type (92.153465 ms)
+  => compare with specified type (1.292967 ms)
+- check step <d>
+  => handling specials (2.572563 ms)
+  => unfolding local definitions (0.570557 ms)
+  => compute step type (193.58441 ms)
+  => compare with specified type (0.773738 ms)
+- check step <e>
+  => handling specials (0.001547 ms)
+  => unfolding local definitions (0.001593 ms)
+  => compute step type (0.697368 ms)
+  => compare with specified type (1.27515 ms)
+- check step <f>
+  => handling specials (0.127249 ms)
+  => unfolding local definitions (0.64858 ms)
+  => compute step type (216.50714 ms)
+  => compare with specified type (0.842243 ms)
+- check step <g>
+  => handling specials (0.048171 ms)
+  => unfolding local definitions (0.703345 ms)
+  => compute step type (258.41022 ms)
+  => compare with specified type (0.778819 ms)
+- infer proof type (260.24603 ms)
+- check proof type against theorem type (15.857856 ms)
+==================================================================
+=== Checking proof of theorem negative-pos-plus-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (17.905746 ms)
+  => unfolding local definitions (0.541422 ms)
+  => infer step type (112.65255 ms)
+- infer proof type (111.65559 ms)
+- check proof type against theorem type (18.43104 ms)
+==================================================================
+=== Checking proof of theorem negative-plus (timing enabled) ===
+- check step <a>
+  => handling specials (11.764177 ms)
+  => unfolding local definitions (0.043349 ms)
+  => compute step type (57.343273 ms)
+  => compare with specified type (5.647459 ms)
+- check step <b>
+  => handling specials (11.324658 ms)
+  => unfolding local definitions (0.057405 ms)
+  => compute step type (79.47365 ms)
+  => compare with specified type (23.392565 ms)
+- check step <c>
+  => handling specials (5.904103 ms)
+  => unfolding local definitions (0.195216 ms)
+  => compute step type (167.08798 ms)
+  => compare with specified type (20.080957 ms)
+- check step <d>
+  => handling specials (0.307102 ms)
+  => unfolding local definitions (0.299683 ms)
+  => compute step type (243.31995 ms)
+  => compare with specified type (16.666346 ms)
+- check step <e>
+  => handling specials (0.739254 ms)
+  => unfolding local definitions (0.400689 ms)
+  => compute step type (467.8592 ms)
+  => compare with specified type (40.41786 ms)
+- check step <f>
+  => handling specials (0.644329 ms)
+  => unfolding local definitions (0.541405 ms)
+  => compute step type (679.77014 ms)
+  => compare with specified type (22.635868 ms)
+- check step <g>
+  => handling specials (0.417455 ms)
+  => unfolding local definitions (0.659303 ms)
+  => compute step type (772.7925 ms)
+  => compare with specified type (22.737612 ms)
+- check step <h>
+  => handling specials (0.565784 ms)
+  => unfolding local definitions (0.732149 ms)
+  => compute step type (935.8015 ms)
+  => compare with specified type (39.930496 ms)
+- check step <i>
+  => handling specials (0.817141 ms)
+  => unfolding local definitions (0.916914 ms)
+  => compute step type (1340.2001 ms)
+  => compare with specified type (16.665592 ms)
+- check step <j>
+  => handling specials (0.221675 ms)
+  => unfolding local definitions (1.146974 ms)
+  => compute step type (1611.7039 ms)
+  => compare with specified type (25.640383 ms)
+- check step <k>
+  => handling specials (0.024558 ms)
+  => unfolding local definitions (1.12863 ms)
+  => compute step type (1598.1411 ms)
+  => compare with specified type (3.07433 ms)
+- check step <l>
+  => handling specials (0.053348 ms)
+  => unfolding local definitions (1.212443 ms)
+  => compute step type (1665.2314 ms)
+  => compare with specified type (3.07804 ms)
+- check step <m>
+  => handling specials (0.057346 ms)
+  => unfolding local definitions (1.35602 ms)
+  => compute step type (1752.0398 ms)
+  => compare with specified type (3.112741 ms)
+- infer proof type (1768.2261 ms)
+- check proof type against theorem type (7.032849 ms)
+==================================================================
+=== Checking proof of theorem plus-one (timing enabled) ===
+- check step <a>
+  => handling specials (0.015244 ms)
+  => unfolding local definitions (0.019262 ms)
+  => compute step type (0.191713 ms)
+  => compare with specified type (12.296806 ms)
+- check step <b>
+  => handling specials (0.281585 ms)
+  => unfolding local definitions (0.031903 ms)
+  => compute step type (11.223953 ms)
+  => compare with specified type (4.193119 ms)
+- check step <c>
+  => handling specials (0.379749 ms)
+  => unfolding local definitions (0.156931 ms)
+  => compute step type (36.24116 ms)
+  => compare with specified type (4.152877 ms)
+- infer proof type (38.237427 ms)
+- check proof type against theorem type (4.186809 ms)
+==================================================================
+=== Checking proof of theorem minus-ex (timing enabled) ===
+- check step <a1>
+  => handling specials (0.018539 ms)
+  => unfolding local definitions (0.007788 ms)
+  => compute step type (0.121537 ms)
+  => compare with specified type (6.557914 ms)
+- check step <a>
+  => handling specials (0.038253 ms)
+  => unfolding local definitions (0.073595 ms)
+  => compute step type (13.925823 ms)
+  => compare with specified type (5.557991 ms)
+- check step <b1>
+  => handling specials (0.388391 ms)
+  => unfolding local definitions (0.042798 ms)
+  => compute step type (46.099026 ms)
+  => compare with specified type (16.878946 ms)
+- check step <b2>
+  => handling specials (0.30787 ms)
+  => unfolding local definitions (0.171852 ms)
+  => compute step type (93.45427 ms)
+  => compare with specified type (20.327463 ms)
+- check step <b3>
+  => handling specials (0.051435 ms)
+  => unfolding local definitions (0.398711 ms)
+  => compute step type (113.299446 ms)
+  => compare with specified type (5.610552 ms)
+- check step <c1>
+  => handling specials (0.414711 ms)
+  => unfolding local definitions (0.043185 ms)
+  => compute step type (34.603886 ms)
+  => compare with specified type (10.865221 ms)
+- check step <c2>
+  => handling specials (0.312914 ms)
+  => unfolding local definitions (0.184251 ms)
+  => compute step type (70.40903 ms)
+  => compare with specified type (7.067889 ms)
+- check step <c3>
+  => handling specials (0.042482 ms)
+  => unfolding local definitions (0.247022 ms)
+  => compute step type (86.31162 ms)
+  => compare with specified type (8.197567 ms)
+- check step <d1>
+  => handling specials (0.056584 ms)
+  => unfolding local definitions (0.383467 ms)
+  => compute step type (203.05225 ms)
+  => compare with specified type (5.640662 ms)
+- check step <d2>
+  => handling specials (0.056906 ms)
+  => unfolding local definitions (0.377159 ms)
+  => compute step type (231.8251 ms)
+  => compare with specified type (8.191322 ms)
+- check step <d>
+  => handling specials (0.196961 ms)
+  => unfolding local definitions (0.820349 ms)
+  => infer step type (504.97812 ms)
+- check step <e>
+  => handling specials (0.04632 ms)
+  => unfolding local definitions (1.010564 ms)
+  => compute step type (679.424 ms)
+  => compare with specified type (5.550205 ms)
+- infer proof type (738.3483 ms)
+- check proof type against theorem type (5.611323 ms)
+==================================================================
+=== Checking proof of theorem minus-single (timing enabled) ===
+- check step <a>
+  => handling specials (3.367792 ms)
+  => unfolding local definitions (0.034367 ms)
+  => compute step type (39.93269 ms)
+  => compare with specified type (7.210617 ms)
+- check step <b>
+  => handling specials (0.02081 ms)
+  => unfolding local definitions (0.112908 ms)
+  => compute step type (49.073795 ms)
+  => compare with specified type (0.419628 ms)
+- check step <c>
+  => handling specials (0.0065 ms)
+  => unfolding local definitions (0.177739 ms)
+  => compute step type (52.70846 ms)
+  => compare with specified type (16.376932 ms)
+- infer proof type (52.535896 ms)
+- check proof type against theorem type (16.323027 ms)
+==================================================================
+=== Checking proof of theorem minus-unique (timing enabled) ===
+- check step <a>
+  => handling specials (6.806782 ms)
+  => unfolding local definitions (0.209934 ms)
+  => infer step type (78.71031 ms)
+- infer proof type (78.17343 ms)
+- check proof type against theorem type (16.560308 ms)
+==================================================================
+- infer proof type (29.150642 ms)
+- check proof type against theorem type (34.715862 ms)
+==================================================================
+=== Checking proof of theorem minus-prop-cons (timing enabled) ===
+- check step <a>
+  => handling specials (0.016251 ms)
+  => unfolding local definitions (0.019319 ms)
+  => compute step type (0.303419 ms)
+  => compare with specified type (100.10806 ms)
+- check step <b>
+  => handling specials (0.03423 ms)
+  => unfolding local definitions (0.094206 ms)
+  => compute step type (130.85146 ms)
+  => compare with specified type (19.690884 ms)
+- infer proof type (130.64355 ms)
+- check proof type against theorem type (19.634384 ms)
+==================================================================
+=== Checking proof of theorem minus-cancel (timing enabled) ===
+- check step <a>
+  => handling specials (0.011404 ms)
+  => unfolding local definitions (0.008625 ms)
+  => compute step type (0.196655 ms)
+  => compare with specified type (44.444584 ms)
+- check step <b>
+  => handling specials (0.254044 ms)
+  => unfolding local definitions (0.027293 ms)
+  => compute step type (11.183398 ms)
+  => compare with specified type (4.046981 ms)
+- check step <c>
+  => handling specials (0.396977 ms)
+  => unfolding local definitions (0.157272 ms)
+  => compute step type (149.61517 ms)
+  => compare with specified type (31.387438 ms)
+- check step <d>
+  => handling specials (0.029623 ms)
+  => unfolding local definitions (0.201724 ms)
+  => compute step type (197.41476 ms)
+  => compare with specified type (8.980411 ms)
+- infer proof type (193.84422 ms)
+- check proof type against theorem type (8.993666 ms)
+==================================================================
+=== Checking proof of theorem minus-zero (timing enabled) ===
+- check step <a>
+  => handling specials (0.014973 ms)
+  => unfolding local definitions (0.010861 ms)
+  => compute step type (0.173334 ms)
+  => compare with specified type (33.50092 ms)
+- check step <b>
+  => handling specials (0.307986 ms)
+  => unfolding local definitions (0.104492 ms)
+  => compute step type (63.99889 ms)
+  => compare with specified type (9.053172 ms)
+- infer proof type (63.58539 ms)
+- check proof type against theorem type (9.150807 ms)
+==================================================================
+=== Checking proof of theorem minus-succ-pred (timing enabled) ===
+- check step <a>
+  => handling specials (0.025391 ms)
+  => unfolding local definitions (0.011751 ms)
+  => compute step type (0.264413 ms)
+  => compare with specified type (45.9486 ms)
+- check step <b>
+  => handling specials (0.013053 ms)
+  => unfolding local definitions (0.010313 ms)
+  => compute step type (0.308722 ms)
+  => compare with specified type (135.44888 ms)
+- check step <c>
+  => handling specials (0.01395 ms)
+  => unfolding local definitions (0.009295 ms)
+  => compute step type (0.219989 ms)
+  => compare with specified type (44.609673 ms)
+- check step <d>
+  => handling specials (0.752634 ms)
+  => unfolding local definitions (0.194051 ms)
+  => compute step type (523.603 ms)
+  => compare with specified type (58.338318 ms)
+- check step <e>
+  => handling specials (0.411322 ms)
+  => unfolding local definitions (0.312956 ms)
+  => compute step type (769.994 ms)
+  => compare with specified type (58.25462 ms)
+- check step <f>
+  => handling specials (0.672375 ms)
+  => unfolding local definitions (0.49627 ms)
+  => compute step type (1622.7157 ms)
+  => compare with specified type (90.26752 ms)
+- check step <g>
+  => handling specials (0.042849 ms)
+  => unfolding local definitions (0.601411 ms)
+  => compute step type (1781.3771 ms)
+  => compare with specified type (28.671923 ms)
+- infer proof type (1773.8446 ms)
+- check proof type against theorem type (28.635895 ms)
+==================================================================
+=== Checking proof of theorem minus-pred-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.016176 ms)
+  => unfolding local definitions (0.012567 ms)
+  => compute step type (0.268079 ms)
+  => compare with specified type (92.633224 ms)
+- check step <b>
+  => handling specials (0.015296 ms)
+  => unfolding local definitions (0.011987 ms)
+  => compute step type (0.319789 ms)
+  => compare with specified type (106.98676 ms)
+- check step <c>
+  => handling specials (0.011928 ms)
+  => unfolding local definitions (0.009492 ms)
+  => compute step type (0.212171 ms)
+  => compare with specified type (44.608593 ms)
+- check step <d>
+  => handling specials (0.737683 ms)
+  => unfolding local definitions (0.193754 ms)
+  => compute step type (326.39594 ms)
+  => compare with specified type (34.310043 ms)
+- check step <e>
+  => handling specials (0.419292 ms)
+  => unfolding local definitions (0.314203 ms)
+  => compute step type (440.1729 ms)
+  => compare with specified type (33.94171 ms)
+- check step <f>
+  => handling specials (0.76737 ms)
+  => unfolding local definitions (0.566537 ms)
+  => compute step type (992.8075 ms)
+  => compare with specified type (88.34325 ms)
+- check step <g>
+  => handling specials (0.042324 ms)
+  => unfolding local definitions (0.654959 ms)
+  => compute step type (1035.3137 ms)
+  => compare with specified type (30.327333 ms)
+- infer proof type (1035.985 ms)
+- check proof type against theorem type (27.005857 ms)
+==================================================================
+=== Checking proof of theorem minus-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.016234 ms)
+  => unfolding local definitions (0.012089 ms)
+  => compute step type (0.286886 ms)
+  => compare with specified type (46.280277 ms)
+- check step <b>
+  => handling specials (0.479854 ms)
+  => unfolding local definitions (0.048322 ms)
+  => compute step type (116.89441 ms)
+  => compare with specified type (27.809385 ms)
+- check step <c>
+  => handling specials (0.022787 ms)
+  => unfolding local definitions (0.010431 ms)
+  => compute step type (0.316964 ms)
+  => compare with specified type (89.00134 ms)
+- check step <d>
+  => handling specials (0.741721 ms)
+  => unfolding local definitions (0.266805 ms)
+  => compute step type (390.45056 ms)
+  => compare with specified type (27.930372 ms)
+- check step <e>
+  => handling specials (0.355252 ms)
+  => unfolding local definitions (0.370918 ms)
+  => compute step type (502.0761 ms)
+  => compare with specified type (28.01596 ms)
+- check step <f>
+  => handling specials (0.600024 ms)
+  => unfolding local definitions (0.514147 ms)
+  => compute step type (824.13245 ms)
+  => compare with specified type (55.68189 ms)
+- check step <g>
+  => handling specials (0.035006 ms)
+  => unfolding local definitions (0.62444 ms)
+  => compute step type (1057.4016 ms)
+  => compare with specified type (17.625023 ms)
+- infer proof type (994.4487 ms)
+- check proof type against theorem type (17.656933 ms)
+==================================================================
+=== Checking proof of theorem minus-pred (timing enabled) ===
+- check step <a>
+  => handling specials (0.028313 ms)
+  => unfolding local definitions (0.012973 ms)
+  => compute step type (0.291358 ms)
+  => compare with specified type (93.384926 ms)
+- check step <b>
+  => handling specials (0.503565 ms)
+  => unfolding local definitions (0.049762 ms)
+  => compute step type (245.27539 ms)
+  => compare with specified type (59.52654 ms)
+- check step <c>
+  => handling specials (0.026988 ms)
+  => unfolding local definitions (0.012308 ms)
+  => compute step type (0.336672 ms)
+  => compare with specified type (163.03195 ms)
+- check step <d>
+  => handling specials (0.899999 ms)
+  => unfolding local definitions (0.315717 ms)
+  => compute step type (1092.561 ms)
+  => compare with specified type (60.456394 ms)
+- check step <e>
+  => handling specials (0.45813 ms)
+  => unfolding local definitions (0.459039 ms)
+  => compute step type (1374.2014 ms)
+  => compare with specified type (60.6828 ms)
+- check step <f>
+  => handling specials (0.801066 ms)
+  => unfolding local definitions (0.67911 ms)
+  => compute step type (2416.6018 ms)
+  => compare with specified type (110.0258 ms)
+- check step <g>
+  => handling specials (0.040288 ms)
+  => unfolding local definitions (0.793555 ms)
+  => compute step type (2604.718 ms)
+  => compare with specified type (36.43397 ms)
+- infer proof type (2525.8657 ms)
+- check proof type against theorem type (35.975094 ms)
+==================================================================
+=== Checking proof of theorem minus-one (timing enabled) ===
+- check step <a>
+  => handling specials (0.015185 ms)
+  => unfolding local definitions (0.018957 ms)
+  => compute step type (0.184338 ms)
+  => compare with specified type (45.351036 ms)
+- check step <b>
+  => handling specials (0.369841 ms)
+  => unfolding local definitions (0.049723 ms)
+  => compute step type (147.29984 ms)
+  => compare with specified type (23.620955 ms)
+- check step <c>
+  => handling specials (0.673867 ms)
+  => unfolding local definitions (0.320036 ms)
+  => compute step type (259.8694 ms)
+  => compare with specified type (13.130989 ms)
+- infer proof type (258.18555 ms)
+- check proof type against theorem type (13.125268 ms)
+==================================================================
+=== Checking proof of theorem minus-right-cancel (timing enabled) ===
+- check step <a>
+  => handling specials (13.847256 ms)
+  => unfolding local definitions (0.061968 ms)
+  => compute step type (177.78743 ms)
+  => compare with specified type (54.600174 ms)
+- check step <b>
+  => handling specials (0.01324 ms)
+  => unfolding local definitions (0.009102 ms)
+  => compute step type (0.21693 ms)
+  => compare with specified type (44.33937 ms)
+- check step <c>
+  => handling specials (0.009154 ms)
+  => unfolding local definitions (0.007336 ms)
+  => compute step type (0.1883 ms)
+  => compare with specified type (44.22301 ms)
+- check step <d>
+  => handling specials (0.357062 ms)
+  => unfolding local definitions (0.278036 ms)
+  => compute step type (426.7074 ms)
+  => compare with specified type (27.437391 ms)
+- check step <e>
+  => handling specials (0.34998 ms)
+  => unfolding local definitions (0.370841 ms)
+  => compute step type (555.40796 ms)
+  => compare with specified type (0.440441 ms)
+- infer proof type (552.1782 ms)
+- check proof type against theorem type (28.75312 ms)
+==================================================================
+=== Checking proof of theorem minus-left-cancel (timing enabled) ===
+- check step <a>
+  => handling specials (13.896047 ms)
+  => unfolding local definitions (0.066179 ms)
+  => compute step type (178.1543 ms)
+  => compare with specified type (57.55514 ms)
+- check step <b>
+  => handling specials (0.523353 ms)
+  => unfolding local definitions (0.258036 ms)
+  => compute step type (424.5768 ms)
+  => compare with specified type (27.377146 ms)
+- check step <c>
+  => handling specials (13.877392 ms)
+  => unfolding local definitions (0.065817 ms)
+  => compute step type (178.98349 ms)
+  => compare with specified type (54.555733 ms)
+- check step <d>
+  => handling specials (0.512362 ms)
+  => unfolding local definitions (0.257163 ms)
+  => compute step type (465.21375 ms)
+  => compare with specified type (27.669754 ms)
+- check step <e>
+  => handling specials (0.63574 ms)
+  => unfolding local definitions (0.687538 ms)
+  => compute step type (1162.8983 ms)
+  => compare with specified type (54.76231 ms)
+- check step <f>
+  => handling specials (13.719157 ms)
+  => unfolding local definitions (0.794937 ms)
+  => compute step type (1500.197 ms)
+  => compare with specified type (54.326958 ms)
+- check step <g>
+  => handling specials (0.02663 ms)
+  => unfolding local definitions (0.912837 ms)
+  => compute step type (1556.5944 ms)
+  => compare with specified type (0.445674 ms)
+- check step <h>
+  => handling specials (0.134548 ms)
+  => unfolding local definitions (0.85319 ms)
+  => compute step type (1570.2827 ms)
+  => compare with specified type (0.429413 ms)
+- infer proof type (1594.1 ms)
+- check proof type against theorem type (28.77361 ms)
+==================================================================
+=== Checking proof of theorem assoc-plus-minus (timing enabled) ===
+- check step <a>
+  => handling specials (0.928836 ms)
+  => unfolding local definitions (0.081845 ms)
+  => compute step type (317.40848 ms)
+  => compare with specified type (68.74522 ms)
+- check step <b>
+  => handling specials (0.675131 ms)
+  => unfolding local definitions (0.055111 ms)
+  => compute step type (132.36389 ms)
+  => compare with specified type (34.77837 ms)
+- check step <c>
+  => handling specials (0.892506 ms)
+  => unfolding local definitions (0.437837 ms)
+  => compute step type (861.03906 ms)
+  => compare with specified type (41.51985 ms)
+- check step <d>
+  => handling specials (0.033291 ms)
+  => unfolding local definitions (0.011085 ms)
+  => compute step type (0.327841 ms)
+  => compare with specified type (102.32565 ms)
+- check step <e>
+  => handling specials (0.445306 ms)
+  => unfolding local definitions (0.128365 ms)
+  => compute step type (280.54236 ms)
+  => compare with specified type (61.5737 ms)
+- check step <f>
+  => handling specials (0.76373 ms)
+  => unfolding local definitions (0.744263 ms)
+  => compute step type (1794.6632 ms)
+  => compare with specified type (96.306564 ms)
+- check step <g>
+  => handling specials (0.040691 ms)
+  => unfolding local definitions (0.831396 ms)
+  => compute step type (2008.7847 ms)
+  => compare with specified type (31.587378 ms)
+- infer proof type (2097.1838 ms)
+- check proof type against theorem type (39.38054 ms)
+==================================================================
+=== Checking proof of theorem assoc-minus-plus (timing enabled) ===
+- check step <a>
+  => handling specials (0.017205 ms)
+  => unfolding local definitions (0.010459 ms)
+  => compute step type (0.300606 ms)
+  => compare with specified type (99.0836 ms)
+- check step <b>
+  => handling specials (0.031843 ms)
+  => unfolding local definitions (0.017581 ms)
+  => compute step type (0.54333 ms)
+  => compare with specified type (242.20615 ms)
+- check step <c1>
+  => handling specials (0.040385 ms)
+  => unfolding local definitions (0.016462 ms)
+  => compute step type (0.526347 ms)
+  => compare with specified type (199.15736 ms)
+- check step <c>
+  => handling specials (1.705042 ms)
+  => unfolding local definitions (0.453923 ms)
+  => compute step type (2796.2107 ms)
+  => compare with specified type (180.10918 ms)
+- check step <d1>
+  => handling specials (1.153319 ms)
+  => unfolding local definitions (0.099507 ms)
+  => compute step type (1246.9054 ms)
+  => compare with specified type (231.54352 ms)
+- check step <d>
+  => handling specials (1.811367 ms)
+  => unfolding local definitions (1.28703 ms)
+  => compute step type (10187.421 ms)
+  => compare with specified type (261.54752 ms)
+- check step <e1>
+  => handling specials (0.716148 ms)
+  => unfolding local definitions (0.043866 ms)
+  => compute step type (158.90358 ms)
+  => compare with specified type (99.19418 ms)
+- check step <e2>
+  => handling specials (0.734395 ms)
+  => unfolding local definitions (0.04741 ms)
+  => compute step type (165.65112 ms)
+  => compare with specified type (79.45013 ms)
+- check step <e3>
+  => handling specials (1.101622 ms)
+  => unfolding local definitions (0.405204 ms)
+  => compute step type (1411.9347 ms)
+  => compare with specified type (79.44149 ms)
+- check step <e4>
+  => handling specials (0.772614 ms)
+  => unfolding local definitions (0.04442 ms)
+  => compute step type (89.08548 ms)
+  => compare with specified type (59.754745 ms)
+- check step <e5>
+  => handling specials (1.043694 ms)
+  => unfolding local definitions (0.731025 ms)
+  => compute step type (2362.5598 ms)
+  => compare with specified type (79.575836 ms)
+- check step <e6>
+  => handling specials (0.738465 ms)
+  => unfolding local definitions (0.046384 ms)
+  => compute step type (164.37665 ms)
+  => compare with specified type (79.55416 ms)
+- check step <e7>
+  => handling specials (1.045546 ms)
+  => unfolding local definitions (1.090201 ms)
+  => compute step type (3719.5127 ms)
+  => compare with specified type (99.08461 ms)
+- check step <e8>
+  => handling specials (0.024251 ms)
+  => unfolding local definitions (0.017593 ms)
+  => compute step type (0.324135 ms)
+  => compare with specified type (86.219025 ms)
+- check step <e9>
+  => handling specials (0.844979 ms)
+  => unfolding local definitions (1.348525 ms)
+  => compute step type (4527.1704 ms)
+  => compare with specified type (53.99942 ms)
+- check step <e10>
+  => handling specials (0.670125 ms)
+  => unfolding local definitions (1.553919 ms)
+  => compute step type (5372.221 ms)
+  => compare with specified type (194.86731 ms)
+- check step <e11>
+  => handling specials (0.621064 ms)
+  => unfolding local definitions (0.041203 ms)
+  => compute step type (57.44221 ms)
+  => compare with specified type (38.54059 ms)
+- check step <e12>
+  => handling specials (0.010366 ms)
+  => unfolding local definitions (0.006979 ms)
+  => compute step type (0.199965 ms)
+  => compare with specified type (32.701042 ms)
+- check step <e13>
+  => handling specials (0.627835 ms)
+  => unfolding local definitions (0.232347 ms)
+  => compute step type (294.85504 ms)
+  => compare with specified type (19.974705 ms)
+- check step <e>
+  => handling specials (0.345888 ms)
+  => unfolding local definitions (1.877253 ms)
+  => compute step type (7050.284 ms)
+  => compare with specified type (158.52528 ms)
+- check step <f1>
+  => handling specials (1.347847 ms)
+  => unfolding local definitions (3.567837 ms)
+  => compute step type (19938.898 ms)
+  => compare with specified type (102.01681 ms)
+- check step <f>
+  => handling specials (0.591668 ms)
+  => unfolding local definitions (3.979023 ms)
+  => compute step type (20261.883 ms)
+  => compare with specified type (102.17479 ms)
+- check step <g>
+  => handling specials (0.895035 ms)
+  => unfolding local definitions (3.964028 ms)
+  => compute step type (22096.803 ms)
+  => compare with specified type (167.11281 ms)
+- check step <h>
+  => handling specials (0.04559 ms)
+  => unfolding local definitions (4.131012 ms)
+  => compute step type (22951.648 ms)
+  => compare with specified type (52.85917 ms)
+- infer proof type (22573.646 ms)
+- check proof type against theorem type (52.707275 ms)
+==================================================================
+=== Checking proof of theorem assoc-minus-minus (timing enabled) ===
+- check step <a>
+  => handling specials (0.016441 ms)
+  => unfolding local definitions (0.018879 ms)
+  => compute step type (0.295909 ms)
+  => compare with specified type (181.77122 ms)
+- check step <b>
+  => handling specials (0.034163 ms)
+  => unfolding local definitions (0.018376 ms)
+  => compute step type (0.55491 ms)
+  => compare with specified type (233.11131 ms)
+- check step <c1>
+  => handling specials (0.03223 ms)
+  => unfolding local definitions (0.015762 ms)
+  => compute step type (0.515272 ms)
+  => compare with specified type (256.952 ms)
+- check step <c>
+  => handling specials (1.552966 ms)
+  => unfolding local definitions (0.352293 ms)
+  => compute step type (3208.4458 ms)
+  => compare with specified type (197.92357 ms)
+- check step <d1>
+  => handling specials (0.032723 ms)
+  => unfolding local definitions (0.016738 ms)
+  => compute step type (0.453562 ms)
+  => compare with specified type (115.95098 ms)
+- check step <d2>
+  => handling specials (0.027132 ms)
+  => unfolding local definitions (0.013914 ms)
+  => compute step type (0.403119 ms)
+  => compare with specified type (202.59677 ms)
+- check step <d3>
+  => handling specials (1.339269 ms)
+  => unfolding local definitions (0.359543 ms)
+  => compute step type (2032.4558 ms)
+  => compare with specified type (126.87865 ms)
+- check step <d>
+  => handling specials (0.530256 ms)
+  => unfolding local definitions (0.582943 ms)
+  => compute step type (2552.744 ms)
+  => compare with specified type (43.91355 ms)
+- check step <e1>
+  => handling specials (0.607519 ms)
+  => unfolding local definitions (1.199622 ms)
+  => compute step type (7153.29 ms)
+  => compare with specified type (117.71609 ms)
+- check step <e2>
+  => handling specials (0.542463 ms)
+  => unfolding local definitions (1.564361 ms)
+  => compute step type (7936.0503 ms)
+  => compare with specified type (91.07388 ms)
+- check step <e>
+  => handling specials (0.52607 ms)
+  => unfolding local definitions (1.412309 ms)
+  => compute step type (8343.979 ms)
+  => compare with specified type (91.01172 ms)
+- check step <f>
+  => handling specials (1.035653 ms)
+  => unfolding local definitions (1.69705 ms)
+  => compute step type (10500.076 ms)
+  => compare with specified type (199.57137 ms)
+- check step <g>
+  => handling specials (0.042434 ms)
+  => unfolding local definitions (1.914502 ms)
+  => compute step type (10834.185 ms)
+  => compare with specified type (60.95844 ms)
+- infer proof type (10864.615 ms)
+- check proof type against theorem type (60.742897 ms)
+==================================================================
+=== Checking proof of theorem minus-pos-neg (timing enabled) ===
+- check step <a>
+  => handling specials (0.032889 ms)
+  => unfolding local definitions (0.026345 ms)
+  => compute step type (152.5512 ms)
+  => compare with specified type (36.629646 ms)
+- check step <b1>
+  => handling specials (0.024676 ms)
+  => unfolding local definitions (0.020429 ms)
+  => compute step type (0.440722 ms)
+  => compare with specified type (201.20782 ms)
+- check step <b2>
+  => handling specials (1.21697 ms)
+  => unfolding local definitions (0.119374 ms)
+  => compute step type (3194.5024 ms)
+  => compare with specified type (248.95834 ms)
+- check step <b3>
+  => handling specials (1.599877 ms)
+  => unfolding local definitions (0.703839 ms)
+  => compute step type (13576.274 ms)
+  => compare with specified type (247.40573 ms)
+- check step <b4>
+  => handling specials (0.779289 ms)
+  => unfolding local definitions (0.056786 ms)
+  => compute step type (1250.0736 ms)
+  => compare with specified type (197.0264 ms)
+- check step <b5>
+  => handling specials (1.401134 ms)
+  => unfolding local definitions (1.268707 ms)
+  => compute step type (18712.781 ms)
+  => compare with specified type (86.11078 ms)
+- check step <b6>
+  => handling specials (0.396439 ms)
+  => unfolding local definitions (1.487472 ms)
+  => compute step type (19295.004 ms)
+  => compare with specified type (70.248276 ms)
+- check step <b>
+  => handling specials (0.612537 ms)
+  => unfolding local definitions (1.694995 ms)
+  => compute step type (19762.34 ms)
+  => compare with specified type (2.080392 ms)
+- check step <c>
+  => handling specials (0.009655 ms)
+  => unfolding local definitions (1.830703 ms)
+  => compute step type (19792.893 ms)
+  => compare with specified type (0.069268 ms)
+- infer proof type (19715.422 ms)
+- check proof type against theorem type (26.723993 ms)
+==================================================================
+=== Checking proof of theorem plus-zero-minus (timing enabled) ===
+- check step <a>
+  => handling specials (0.039951 ms)
+  => unfolding local definitions (0.014465 ms)
+  => compute step type (0.303044 ms)
+  => compare with specified type (65.90385 ms)
+- check step <b>
+  => handling specials (0.014574 ms)
+  => unfolding local definitions (0.011012 ms)
+  => compute step type (0.277973 ms)
+  => compare with specified type (52.358936 ms)
+- check step <c>
+  => handling specials (0.836632 ms)
+  => unfolding local definitions (0.244957 ms)
+  => compute step type (399.76205 ms)
+  => compare with specified type (47.44224 ms)
+- check step <d>
+  => handling specials (0.489927 ms)
+  => unfolding local definitions (0.039829 ms)
+  => compute step type (38.576336 ms)
+  => compare with specified type (28.244173 ms)
+- check step <e>
+  => handling specials (0.781473 ms)
+  => unfolding local definitions (0.522727 ms)
+  => compute step type (748.0204 ms)
+  => compare with specified type (36.992256 ms)
+- infer proof type (749.2837 ms)
+- check proof type against theorem type (36.746197 ms)
+==================================================================
+=== Checking proof of theorem minus-pos-neg-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.022629 ms)
+  => unfolding local definitions (0.011685 ms)
+  => compute step type (62.36381 ms)
+  => compare with specified type (51.561344 ms)
+- check step <b>
+  => handling specials (26.820576 ms)
+  => unfolding local definitions (0.029749 ms)
+  => compute step type (89.41745 ms)
+  => compare with specified type (2.00007 ms)
+- check step <c>
+  => handling specials (26.776924 ms)
+  => unfolding local definitions (0.030552 ms)
+  => compute step type (127.36928 ms)
+  => compare with specified type (27.647024 ms)
+- check step <d>
+  => handling specials (0.7521 ms)
+  => unfolding local definitions (0.202219 ms)
+  => compute step type (328.6803 ms)
+  => compare with specified type (13.087372 ms)
+- check step <e>
+  => handling specials (0.648763 ms)
+  => unfolding local definitions (0.350454 ms)
+  => compute step type (518.31616 ms)
+  => compare with specified type (103.67439 ms)
+- check step <f>
+  => handling specials (0.936305 ms)
+  => unfolding local definitions (0.603393 ms)
+  => compute step type (1276.2773 ms)
+  => compare with specified type (33.9978 ms)
+- check step <g>
+  => handling specials (0.805975 ms)
+  => unfolding local definitions (0.904109 ms)
+  => compute step type (1703.3679 ms)
+  => compare with specified type (28.003021 ms)
+- check step <h>
+  => handling specials (0.58418 ms)
+  => unfolding local definitions (1.089153 ms)
+  => compute step type (1886.5333 ms)
+  => compare with specified type (8.858326 ms)
+- check step <i>
+  => handling specials (0.264636 ms)
+  => unfolding local definitions (1.246522 ms)
+  => compute step type (2033.6376 ms)
+  => compare with specified type (10.831786 ms)
+- check step <j>
+  => handling specials (0.056404 ms)
+  => unfolding local definitions (1.406174 ms)
+  => compute step type (2703.2888 ms)
+  => compare with specified type (10.880043 ms)
+- infer proof type (2919.2622 ms)
+- check proof type against theorem type (32.46703 ms)
+==================================================================
+=== Checking proof of theorem minus-pos-neg-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.473082 ms)
+  => unfolding local definitions (0.049238 ms)
+  => infer step type (146.01315 ms)
+- infer proof type (145.3456 ms)
+- check proof type against theorem type (33.894722 ms)
+==================================================================
+=== Checking proof of theorem opp-plus-opp (timing enabled) ===
+- check step <a>
+  => handling specials (0.017171 ms)
+  => unfolding local definitions (0.010509 ms)
+  => compute step type (0.236857 ms)
+  => compare with specified type (68.330246 ms)
+- check step <b1>
+  => handling specials (0.014505 ms)
+  => unfolding local definitions (0.011123 ms)
+  => compute step type (0.265369 ms)
+  => compare with specified type (52.218758 ms)
+- check step <b>
+  => handling specials (0.73366 ms)
+  => unfolding local definitions (0.207361 ms)
+  => compute step type (377.99017 ms)
+  => compare with specified type (49.905117 ms)
+- check step <c1>
+  => handling specials (0.488583 ms)
+  => unfolding local definitions (0.039946 ms)
+  => compute step type (38.614567 ms)
+  => compare with specified type (28.000502 ms)
+- check step <c>
+  => handling specials (0.661066 ms)
+  => unfolding local definitions (0.430986 ms)
+  => compute step type (704.2392 ms)
+  => compare with specified type (37.980072 ms)
+- check step <d>
+  => handling specials (0.368685 ms)
+  => unfolding local definitions (0.542614 ms)
+  => compute step type (880.5846 ms)
+  => compare with specified type (29.13951 ms)
+- infer proof type (928.1778 ms)
+- check proof type against theorem type (29.01674 ms)
+==================================================================
+=== Checking proof of theorem plus-opp-minus (timing enabled) ===
+- check step <a>
+  => handling specials (0.016211 ms)
+  => unfolding local definitions (0.020468 ms)
+  => compute step type (0.252784 ms)
+  => compare with specified type (52.302616 ms)
+- check step <b>
+  => handling specials (0.309798 ms)
+  => unfolding local definitions (0.115923 ms)
+  => compute step type (122.24867 ms)
+  => compare with specified type (22.185232 ms)
+- infer proof type (122.260315 ms)
+- check proof type against theorem type (22.044928 ms)
+==================================================================
+=== Checking proof of theorem opp-plus (timing enabled) ===
+- check step <a>
+  => handling specials (0.01648 ms)
+  => unfolding local definitions (0.01916 ms)
+  => compute step type (0.252367 ms)
+  => compare with specified type (87.67251 ms)
+- infer proof type (0.236795 ms)
+- check proof type against theorem type (88.96785 ms)
+==================================================================
+=== Checking proof of theorem opp-zero (timing enabled) ===
+- check step <a>
+  => handling specials (0.013998 ms)
+  => unfolding local definitions (0.010236 ms)
+  => compute step type (0.113766 ms)
+  => compare with specified type (15.50093 ms)
+- infer proof type (0.08773 ms)
+- check proof type against theorem type (15.536214 ms)
+==================================================================
+=== Checking proof of theorem opp-opp (timing enabled) ===
+- check step <a>
+  => handling specials (0.01787 ms)
+  => unfolding local definitions (0.022915 ms)
+  => compute step type (0.231566 ms)
+  => compare with specified type (102.80027 ms)
+- check step <b>
+  => handling specials (0.392203 ms)
+  => unfolding local definitions (0.158663 ms)
+  => compute step type (292.98178 ms)
+  => compare with specified type (38.67034 ms)
+- check step <c>
+  => handling specials (0.315942 ms)
+  => unfolding local definitions (0.240486 ms)
+  => compute step type (482.43655 ms)
+  => compare with specified type (35.126205 ms)
+- infer proof type (446.5285 ms)
+- check proof type against theorem type (34.498283 ms)
+==================================================================
+=== Checking proof of theorem zero-opp-zero (timing enabled) ===
+- check step <a>
+  => handling specials (0.737919 ms)
+  => unfolding local definitions (0.031871 ms)
+  => compute step type (23.831802 ms)
+  => compare with specified type (17.833784 ms)
+- check step <b>
+  => handling specials (0.22199 ms)
+  => unfolding local definitions (0.146113 ms)
+  => compute step type (85.28511 ms)
+  => compare with specified type (9.245842 ms)
+- infer proof type (190.53705 ms)
+- check proof type against theorem type (13.297891 ms)
+==================================================================
+=== Checking proof of theorem zero-opp-zero-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.026608 ms)
+  => unfolding local definitions (0.014389 ms)
+  => compute step type (69.01905 ms)
+  => compare with specified type (33.27973 ms)
+- check step <b>
+  => handling specials (0.35675 ms)
+  => unfolding local definitions (0.12897 ms)
+  => compute step type (183.96828 ms)
+  => compare with specified type (4.162058 ms)
+- check step <c>
+  => handling specials (0.286276 ms)
+  => unfolding local definitions (0.195528 ms)
+  => compute step type (197.76912 ms)
+  => compare with specified type (0.487538 ms)
+- check step <d>
+  => handling specials (0.137109 ms)
+  => unfolding local definitions (0.225776 ms)
+  => compute step type (198.49886 ms)
+  => compare with specified type (0.485388 ms)
+- infer proof type (199.24104 ms)
+- check proof type against theorem type (16.150757 ms)
+==================================================================
+=== Checking proof of theorem zero-opp-zero-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.3131 ms)
+  => unfolding local definitions (0.052533 ms)
+  => infer step type (73.12101 ms)
+- infer proof type (72.89795 ms)
+- check proof type against theorem type (20.121305 ms)
+==================================================================
+=== Checking proof of theorem opp-succ-pred (timing enabled) ===
+- check step <a>
+  => handling specials (0.015697 ms)
+  => unfolding local definitions (0.019858 ms)
+  => compute step type (0.180212 ms)
+  => compare with specified type (45.29575 ms)
+- infer proof type (0.167247 ms)
+- check proof type against theorem type (45.395046 ms)
+==================================================================
+=== Checking proof of theorem opp-pred-succ (timing enabled) ===
+- check step <a>
+  => handling specials (0.015469 ms)
+  => unfolding local definitions (0.010555 ms)
+  => compute step type (0.182256 ms)
+  => compare with specified type (46.916916 ms)
+- infer proof type (0.190207 ms)
+- check proof type against theorem type (46.999283 ms)
+==================================================================
+=== Checking proof of theorem opp-pos-neg (timing enabled) ===
+- check step <a>
+  => handling specials (0.05359 ms)
+  => unfolding local definitions (0.04408 ms)
+  => compute step type (58.37597 ms)
+  => compare with specified type (11.014348 ms)
+- check step <b>
+  => handling specials (0.022204 ms)
+  => unfolding local definitions (0.138728 ms)
+  => compute step type (77.38771 ms)
+  => compare with specified type (6.188277 ms)
+- infer proof type (205.76875 ms)
+- check proof type against theorem type (22.254906 ms)
+==================================================================
+=== Checking proof of theorem opp-pos-neg-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.022127 ms)
+  => unfolding local definitions (0.011275 ms)
+  => compute step type (28.585098 ms)
+  => compare with specified type (11.280535 ms)
+- check step <b>
+  => handling specials (0.325975 ms)
+  => unfolding local definitions (0.119076 ms)
+  => compute step type (96.092964 ms)
+  => compare with specified type (2.021569 ms)
+- infer proof type (108.29131 ms)
+- check proof type against theorem type (14.43601 ms)
+==================================================================
+=== Checking proof of theorem opp-pos-neg-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.286581 ms)
+  => unfolding local definitions (0.051487 ms)
+  => infer step type (56.618267 ms)
+- infer proof type (56.490585 ms)
+- check proof type against theorem type (17.56422 ms)
+==================================================================
+=== Checking proof of theorem opp-neg-pos (timing enabled) ===
+- check step <a>
+  => handling specials (0.295116 ms)
+  => unfolding local definitions (0.044886 ms)
+  => compute step type (183.09232 ms)
+  => compare with specified type (21.161844 ms)
+- check step <b>
+  => handling specials (0.024064 ms)
+  => unfolding local definitions (0.133118 ms)
+  => compute step type (217.99287 ms)
+  => compare with specified type (11.228166 ms)
+- infer proof type (414.56274 ms)
+- check proof type against theorem type (18.295767 ms)
+==================================================================
+=== Checking proof of theorem opp-neg-pos-conv (timing enabled) ===
+- check step <a>
+  => handling specials (0.022296 ms)
+  => unfolding local definitions (0.010926 ms)
+  => compute step type (50.57826 ms)
+  => compare with specified type (21.189398 ms)
+- check step <b>
+  => handling specials (0.304259 ms)
+  => unfolding local definitions (0.096813 ms)
+  => compute step type (149.25345 ms)
+  => compare with specified type (0.791397 ms)
+- infer proof type (150.28433 ms)
+- check proof type against theorem type (18.900223 ms)
+==================================================================
+=== Checking proof of theorem opp-neg-pos-equiv (timing enabled) ===
+- check step <a>
+  => handling specials (0.284869 ms)
+  => unfolding local definitions (0.04339 ms)
+  => infer step type (100.031395 ms)
+- infer proof type (99.67936 ms)
+- check proof type against theorem type (24.824488 ms)
+==================================================================
+=== Checking proof of theorem opp-pos-split (timing enabled) ===
+- check step <a>
+  => handling specials (2.728675 ms)
+  => unfolding local definitions (0.031224 ms)
+  => compute step type (24.642368 ms)
+  => compare with specified type (14.810713 ms)
+- check step <b1>
+  => handling specials (0.008568 ms)
+  => unfolding local definitions (0.007568 ms)
+  => compute step type (14.68374 ms)
+  => compare with specified type (11.224688 ms)
+- check step <b>
+  => handling specials (0.365677 ms)
+  => unfolding local definitions (0.087545 ms)
+  => compute step type (44.169804 ms)
+  => compare with specified type (14.80763 ms)
+- check step <c>
+  => handling specials (0.237576 ms)
+  => unfolding local definitions (0.260222 ms)
+  => infer step type (594.6524 ms)
+- infer proof type (591.82605 ms)
+- check proof type against theorem type (14.8287 ms)
+==================================================================
+=== Checking proof of theorem opp-neg-split (timing enabled) ===
+- check step <a1>
+  => handling specials (0.612791 ms)
+  => unfolding local definitions (0.025049 ms)
+  => compute step type (2.96368 ms)
+  => compare with specified type (1.534816 ms)
+- check step <a>
+  => handling specials (0.221563 ms)
+  => unfolding local definitions (0.10196 ms)
+  => compute step type (14.287971 ms)
+  => compare with specified type (8.549461 ms)
+- check step <b>
+  => handling specials (12.36201 ms)
+  => unfolding local definitions (0.240268 ms)
+  => compute step type (75.55839 ms)
+  => compare with specified type (8.541678 ms)
+- check step <c>
+  => handling specials (2.621531 ms)
+  => unfolding local definitions (0.939476 ms)
+  => infer step type (253.0714 ms)
+- check step <d1>
+  => handling specials (28.080475 ms)
+  => unfolding local definitions (0.054321 ms)
+  => compute step type (30.202358 ms)
+  => compare with specified type (1.515779 ms)
+- check step <d>
+  => handling specials (0.23138 ms)
+  => unfolding local definitions (0.20199 ms)
+  => compute step type (41.49529 ms)
+  => compare with specified type (8.591304 ms)
+- check step <e>
+  => handling specials (0.244143 ms)
+  => unfolding local definitions (1.250153 ms)
+  => infer step type (529.2087 ms)
+- infer proof type (528.9387 ms)
+- check proof type against theorem type (8.582987 ms)
+==================================================================
+Generated HTML docs in docs/

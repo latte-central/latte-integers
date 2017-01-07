@@ -1,0 +1,190 @@
+(ns latte-integers.ord
+
+  "The natural ordering on integers."
+  
+  (:refer-clojure :exclude [and or not int = + - < <= > >=])
+  
+  (:require [latte.core :as latte :refer [defaxiom defthm definition
+                                          deflemma
+                                          lambda forall proof assume have
+                                          try-proof ==>]]
+            
+            [latte.prop :as p :refer [and or not <=>]]
+            [latte.equal :as eq :refer [equal]]
+            [latte.quant :as q :refer [exists]]
+            [latte.fun :as fun]
+            
+            [latte-sets.core :as set :refer [elem forall-in]]
+            
+            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.nat :as nat :refer [nat positive negative]]
+            [latte-integers.rec :as rec]
+            [latte-integers.plus :as plus :refer [+]]
+            [latte-integers.minus :as minus :refer [- --]]))
+
+(definition <=
+  "The lower-or-equal order for integers."
+  [[n int] [m int]]
+  (elem int (- m n) nat))
+
+(defthm le-refl
+  [[n int]]
+  (<= n n))
+
+(proof le-refl
+    :script
+  (have <a> (= zero (- n n))
+        :by (eq/eq-sym% (minus/minus-cancel n)))
+  (have <b> (<= n n)
+        :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                          <a>
+                          (nat/nat-zero)))
+  (qed <b>))
+
+(defthm le-trans
+  [[n int] [m int] [p int]]
+  (==> (<= n m)
+       (<= m p)
+       (<= n p)))
+
+(proof le-trans
+    :script
+  (assume [Hnm (<= n m)
+           Hmp (<= m p)]
+
+    (have <a> (elem int (+ (- m n) (- p m)) nat)
+          :by (plus/plus-nat-closed (- m n) Hnm
+                                    (- p m) Hmp))
+
+    (have <b> (elem int (+ (- p m) (- m n)) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (plus/plus-commute (- m n) (- p m))
+                            <a>))
+    
+    (have <c> (elem int (- (+ (- p m) m) n) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/assoc-plus-minus (- p m) m n)
+                            <b>))
+    
+    ;; = (- p n)    by  minus-prop 
+    (have <d> (<= n p)
+          :by (eq/eq-subst% (lambda [k int] (elem int (- k n) nat))
+                            (minus/minus-prop p m)
+                            (<c>)))
+    
+
+    (qed <d>)))
+
+(defthm le-antisym
+  [[n int] [m int]]
+  (==> (<= n m)
+       (<= m n)
+       (= n m)))
+
+(proof le-antisym
+    :script
+  (assume [Hnm (<= n m)  ;; (elem int (- m n) nat)
+           Hmn (<= m n)] ;; (elem int (- n m) nat)
+
+    ;; (or (= (- m n) zero) (positive (- m n)))
+    (assume [H1 (= (- m n) zero)]
+      (have <a1> (= (+ (- m n) n)
+                    (+ zero n))
+            :by (eq/eq-cong% (lambda [k int] (+ k n))
+                             H1))
+      (have <a2> (= m (+ zero n))
+            :by (eq/eq-subst% (lambda [k int] (= k (+ zero n)))
+                              (minus/minus-prop m n)
+                              <a1>))
+      (have <a3> (= m n)
+            :by (eq/eq-subst% (lambda [k int] (= m k))
+                              (plus/plus-zero-sym n)
+                              <a2>))
+      (have <a> (= n m) :by (eq/eq-sym% <a3>)))
+    (assume [H2 (positive (- m n))]
+      (have <b1> (negative (- n m))
+            :by ((minus/minus-pos-neg m n) H2))
+      (have <b2> p/absurd :by (<b1> Hmn))
+      (have <b> (= n m) :by (<b2> (= n m))))
+    "We use the nat splitting principle."
+    (have <c> (or (= (- m n) zero)
+                  (positive (- m n)))
+          :by (nat/nat-split (- m n) Hnm))
+    (have <d> _
+          :by (p/or-elim% <c>
+                          (= n m)
+                          <a> <b>))
+
+    (qed <d>)))
+
+(definition <
+  "The strict variant of [[<=]]."
+  [[n int] [m int]]
+  (and (<= n m)
+       (not (= n m))))
+
+;; (defthm lt-trans-weak-fst
+;;   [[n int] [m int] [p int]]
+;;   (==> (<= n m)
+;;        (< m p)
+;;        (< n p)))
+
+;; (defthm lt-trans-weak-snd
+;;   [[n int] [m int] [p int]]
+;;   (==> (< n m)
+;;        (<= m p)
+;;        (< n p)))
+
+
+(defthm lt-asym
+  [[n int] [m int]]
+  (==> (< n m)
+       (not (< m n))))
+
+(proof lt-asym
+    :script
+  (assume [Hnm (< n m)]
+    (assume [Hmn (< m n)]
+      (have <a> (= n m)
+            :by ((le-antisym n m)
+                 (p/and-elim-left% Hnm)
+                 (p/and-elim-left% Hmn)))
+      (have <b> p/absurd :by ((p/and-elim-right% Hnm) <a>)))
+    (qed <b>)))
+
+(defthm lt-trans
+  [[n int] [m int] [p int]]
+  (==> (< n m)
+       (< m p)
+       (< n p)))
+
+(proof lt-trans
+    :script
+  (assume [Hnm (< n m)
+           Hmp (< m p)]
+    (have <a> (<= n m) :by (p/and-elim-left% Hnm))
+    (have <b> (not (= n m)) :by (p/and-elim-right% Hnm))
+    (have <c> (<= m p) :by (p/and-elim-left% Hmp))
+    (have <d> (not (= m p)) :by (p/and-elim-right% Hmp))
+    (have <e> (<= n p) :by ((le-trans n m p) <a> <c>))
+    (assume [Hcut (= n p)]
+      (have <f1> (< p m)
+            :by (eq/eq-subst% (lambda [k int] (< k m))
+                              Hcut
+                              Hnm))
+      (have <f2> (not (< p m)) :by ((lt-asym m p) Hmp))
+      (have <f> p/absurd :by (<f2> <f1>)))
+    (have <g> (< n p)
+          :by (p/and-intro% <e> <f>))
+    (qed <g>)))
+
+(definition >=
+  "The greater-or-equal order for integers."
+  [[n int] [m int]]
+  (<= m n))
+
+(definition >
+  "The strict variant of [[>=]]."
+  [[n int] [m int]]
+  (< m n))
+

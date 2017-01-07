@@ -1098,10 +1098,118 @@
                               <c> <d>))
   (qed <e>))
 
+(defthm opp-nat-split
+  [[n int]]
+  (==> (elem int (-- n) nat)
+       (or (= n zero)
+           (negative  n))))
+
+(proof opp-nat-split
+    :script
+  (assume [H (elem int (-- n) nat)]
+    (have <a> (or (= (-- n) zero)
+                  (positive (-- n)))
+          :by (nat/nat-split (-- n) H))
+    (assume [H1 (= (-- n) zero)]
+      (have <b1> (= n zero)
+            :by ((zero-opp-zero-conv n) H1))
+      (have <b> (or (= n zero)
+                    (negative n))
+            :by (p/or-intro-left% <b1> (negative n))))
+    (assume [H2 (positive (-- n))]
+      (have <c1> (negative n)
+            :by ((opp-neg-pos-conv n) H2))
+      (have <c> (or (= n zero)
+                    (negative n))
+            :by (p/or-intro-right% (= n zero) <c1>)))
+    (have <d> _
+          :by (p/or-elim% <a> (or (= n zero)
+                                  (negative n))
+                          <b> <c>)))
+  (qed <d>))
 
 
+(defthm opp-nat-split-conv
+  [[n int]]
+  (==> (or (= n zero)
+           (negative  n))
+       (elem int (-- n) nat)))
 
+(proof opp-nat-split-conv
+    :script
+  (assume [H (or (= n zero)
+                 (negative n))]
+    (assume [H1 (= n zero)]
+      (have <a1> (= zero (-- n))
+            :by ((eq/eq-sym int (-- n) zero)
+                 ((zero-opp-zero n) H1)))
+      (have <a> (elem int (-- n) nat)
+            :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                              <a1>
+                              (nat/nat-zero))))
+    (assume [H2 (negative n)]
+      (have <b1> (elem int (pred (-- n)) nat)
+            :by ((opp-neg-pos n) H2))
+      (have <b2> (elem int (succ (pred (-- n))) nat)
+            :by ((nat/nat-succ (pred (-- n))) <b1>))
+      (have <b> (elem int (-- n) nat)
+            :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                              (int/succ-of-pred (-- n))
+                              <b2>)))
+    (have <c> _ :by (p/or-elim% H (elem int (-- n) nat)
+                                <a> <b>)))
+  (qed <c>))
 
+(defthm opp-nat-split-equiv
+  [[n int]]
+  (<=> (elem int (-- n) nat)
+       (or (= n zero)
+           (negative  n))))
 
+(proof opp-nat-split-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (opp-nat-split n)
+                                (opp-nat-split-conv n)))
+  (qed <a>))
 
+(defthm nat-split-opp
+  "A variant of [[nat]] splitting."
+  [[n int]]
+  (or (elem int n nat)
+      (elem int (-- n) nat)))
+
+(proof nat-split-opp
+    :script
+  (assume [H1 (or (= n zero)
+                  (positive n))]
+    (assume [H2 (= n zero)]
+      (have <a1> (elem int n nat)
+            :by ((eq/eq-subst int (lambda [k int] (elem int k nat))
+                              zero n)
+                 (eq/eq-sym% H2)
+                 (nat/nat-zero)))
+      (have <a> (or (elem int n nat)
+                    (elem int (-- n) nat))
+            :by (p/or-intro-left% <a1> (elem int (-- n) nat))))
+    (assume [H3 (positive n)]
+      (have <b1> (elem int n nat)
+            :by ((nat/positive-conv n) H3))
+      (have <b> (or (elem int n nat)
+                    (elem int (-- n) nat))
+            :by (p/or-intro-left% <b1> (elem int (-- n) nat))))
+    (have <c> _ :by (p/or-elim% H1 (or (elem int n nat)
+                                       (elem int (-- n) nat))
+                                <a> <b>)))
+  (assume [H4 (negative n)]
+    (have <d1> (or (= n zero) (negative n))
+          :by (p/or-intro-right% (= n zero) H4))
+    (have <d2> (elem int (-- n) nat)
+          :by ((opp-nat-split-conv n) <d1>))
+    (have <d> _ :by (p/or-intro-right% (elem int n nat) <d2>)))
+  "We use int splitting"
+  (have <e> _ :by (p/or-elim% (nat/int-split n)
+                              (or (elem int n nat)
+                                  (elem int (-- n) nat))
+                              <c> <d>))
+  (qed <e>))
 

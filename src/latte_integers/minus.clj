@@ -1213,3 +1213,37 @@
                               <c> <d>))
   (qed <e>))
 
+(defthm opp-and-zero
+  [[n int]]
+  (==> (and (elem int n nat)
+            (elem int (-- n) nat))
+       (= n zero)))
+
+(proof opp-and-zero
+    :script
+  (assume [H (and (elem int n nat)
+                  (elem int (-- n) nat))]
+    (have <a> (elem int n nat) :by (p/and-elim-left% H))
+    (have <b> (elem int (-- n) nat) :by (p/and-elim-right% H))
+    (assume [H1 (or (= n zero)
+                    (positive n))]
+      (assume [H2 (= n zero)]
+        (have <c> (= n zero) :by H2))
+      (assume [H3 (positive n)]
+        (have <d1> (negative (-- n))
+              :by ((opp-pos-neg n) H3))
+        (have <d2> p/absurd :by (<d1> <b>))
+        (have <d> (= n zero) :by (<d2> (= n zero))))
+      (have <e> (= n zero)
+            :by (p/or-elim% H1 (= n zero)
+                            <c> <d>)))
+    (assume [H4 (negative n)]
+      (have <f1> p/absurd :by (H4 <a>))
+      (have <f> (= n zero) :by (<f1> (= n zero))))
+    "Use integer splitting"
+    (have <g> _ :by (p/or-elim% (nat/int-split n)
+                                (= n zero)
+                                <e> <f>)))
+  (qed <g>))
+
+

@@ -253,10 +253,6 @@
                             <b>))
     (qed <c>)))
 
-(defthm plus-lt
-  [[n int] [m int] [p int]]
-  (==> (< (+ n p) (+ m p))
-       (< n m)))
 
 (defthm plus-le-conv
   "The converse of [[plus-le]]."
@@ -267,9 +263,7 @@
 (proof plus-le-conv
     :script
   (assume [H (<= n m)]
-    ;; (elem int (- m n) nat)
-    ;; (- m n)
-    ;; = (+ (- m n) (- p p))    by minus-cancel and plus-zero
+    
     (have <a1> (= (- m n) (+ (- m n) zero))
           :by (eq/eq-sym% (plus/plus-zero (- m n))))
     (have <a2> (= zero (- p p))
@@ -297,15 +291,41 @@
           :by (eq/eq-subst% (lambda [k int] (elem int (- k p) nat))
                             (minus/assoc-plus-minus p m n)
                             <c>))
-    ;; = (- (+ p m) (+ p n))    by assoc-minus-plus-sym
-    (have <e> (elem int (- (+ p m) (+ p n)) nat)
-          :by ((eq/eq-subst int (lambda [k int] (elem int k nat))
-                            (- (- (+ p m) n) p)
-                            (- (+ p m) (+ p n)))
-               (eq/eq-sym% (minus/assoc-minus-plus (+ p m) n p))
-               <d>))
-    ;; = (- (+ m p) (+ n p))    by plus-commute
-    ))
+
+    (have <e> (= (- (- (+ p m) n) p)
+                 (- (+ p m) (+ n p)))
+          :by (eq/eq-sym% (minus/assoc-minus-plus (+ p m) n p)))
+
+    (have <f> (= (- (- (+ p m) n) p)
+                 (- (+ m p) (+ n p)))
+          :by (eq/eq-subst% (lambda [k int] (= (- (- (+ p m) n) p)
+                                               (- k (+ n p))))
+                            (plus/plus-commute p m)
+                            <e>))
+
+    (have <g> (elem int (- (+ m p) (+ n p)) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            <f>
+                            <d>))
+
+    (qed <g>)))
+
+(defthm plus-le-equiv
+  [[n int] [m int] [p int]]
+  (<=> (<= (+ n p) (+ m p))
+       (<= n m)))
+
+(proof plus-le-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (plus-le n m p)
+                                (plus-le-conv n m p)))
+  (qed <a>))
+
+
+(defthm plus-lt
+  [[n int] [m int] [p int]]
+  (==> (< (+ n p) (+ m p))
+       (< n m)))
 
 (proof plus-lt
     :script

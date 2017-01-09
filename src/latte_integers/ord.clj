@@ -230,3 +230,99 @@
   [[n int] [m int]]
   (< m n))
 
+
+(defthm plus-le
+  [[n int] [m int] [p int]]
+  (==> (<= (+ n p) (+ m p))
+       (<= n m)))
+
+(proof plus-le
+    :script
+  (assume [H (<= (+ n p) (+ m p))]
+    (have <a> (elem int (- (+ m p) (+ p n)) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int (- (+ m p) k) nat))
+                            (plus/plus-commute n p)
+                            H))
+    (have <b> (elem int (- (- (+ m p) p) n) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/assoc-minus-plus (+ m p) p n)
+                            <a>))
+    (have <c> (<= n m)
+          :by (eq/eq-subst% (lambda [k int] (elem int (- k n) nat))
+                            (minus/minus-prop-cons m p)
+                            <b>))
+    (qed <c>)))
+
+(defthm plus-lt
+  [[n int] [m int] [p int]]
+  (==> (< (+ n p) (+ m p))
+       (< n m)))
+
+(defthm plus-le-conv
+  "The converse of [[plus-le]]."
+  [[n int] [m int] [p int]]
+  (==> (<= n m)
+       (<= (+ n p) (+ m p))))
+
+(proof plus-le-conv
+    :script
+  (assume [H (<= n m)]
+    ;; (elem int (- m n) nat)
+    ;; (- m n)
+    ;; = (+ (- m n) (- p p))    by minus-cancel and plus-zero
+    (have <a1> (= (- m n) (+ (- m n) zero))
+          :by (eq/eq-sym% (plus/plus-zero (- m n))))
+    (have <a2> (= zero (- p p))
+          :by (eq/eq-sym% (minus/minus-cancel p)))
+    (have <a3> (= (- m n) (+ (- m n) (- p p)))
+          :by (eq/eq-subst% (lambda [k int] (= (- m n) (+ (- m n) k)))
+                            <a2>
+                            <a1>))
+    (have <a> (elem int (+ (- m n) (- p p)) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            <a3>
+                            H))
+
+    (have <b> (elem int (- (+ (- m n) p) p) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/assoc-plus-minus (- m n) p p)
+                            <a>))
+
+    (have <c> (elem int (- (+ p (- m n)) p) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int (- k p) nat))
+                            (plus/plus-commute (- m n) p)
+                            <b>))
+
+    (have <d> (elem int (- (- (+ p m) n) p) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int (- k p) nat))
+                            (minus/assoc-plus-minus p m n)
+                            <c>))
+    ;; = (- (+ p m) (+ p n))    by assoc-minus-plus-sym
+    (have <e> (elem int (- (+ p m) (+ p n)) nat)
+          :by ((eq/eq-subst int (lambda [k int] (elem int k nat))
+                            (- (- (+ p m) n) p)
+                            (- (+ p m) (+ p n)))
+               (eq/eq-sym% (minus/assoc-minus-plus (+ p m) n p))
+               <d>))
+    ;; = (- (+ m p) (+ n p))    by plus-commute
+    ))
+
+(proof plus-lt
+    :script
+  (assume [H (< (+ n p) (+ m p))]
+    (have <a> (<= (+ n p) (+ m p))
+          :by (p/and-elim-left% H))
+    (have <b> (not (= (+ n p) (+ m p)))
+          :by (p/and-elim-right% H))
+    (have <c> (<= n m)
+          :by ((plus-le n m p) <a>))
+    (assume [H2 (= n m)]
+      (have <d1> (= (+ n p) (+ m p))
+            :by ((plus/plus-right-cancel-conv n m p) H2))
+      (have <d> p/absurd :by (<b> <d1>)))
+    (have <e> (< n m)
+          :by (p/and-intro% <c> <d>))
+      (qed <e>)))
+
+
+

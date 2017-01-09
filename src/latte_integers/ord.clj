@@ -1,21 +1,21 @@
 (ns latte-integers.ord
 
   "The natural ordering on integers."
-  
+
   (:refer-clojure :exclude [and or not int = + - < <= > >=])
-  
+
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
                                           try-proof ==>]]
-            
+
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
             [latte.quant :as q :refer [exists]]
             [latte.fun :as fun]
-            
+
             [latte-sets.core :as set :refer [elem forall-in]]
-            
+
             [latte-integers.core :as int :refer [zero succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
@@ -60,18 +60,16 @@
           :by (eq/eq-subst% (lambda [k int] (elem int k nat))
                             (plus/plus-commute (- m n) (- p m))
                             <a>))
-    
+
     (have <c> (elem int (- (+ (- p m) m) n) nat)
           :by (eq/eq-subst% (lambda [k int] (elem int k nat))
                             (minus/assoc-plus-minus (- p m) m n)
                             <b>))
-    
-    ;; = (- p n)    by  minus-prop 
+
     (have <d> (<= n p)
           :by (eq/eq-subst% (lambda [k int] (elem int (- k n) nat))
                             (minus/minus-prop p m)
                             (<c>)))
-    
 
     (qed <d>)))
 
@@ -177,6 +175,50 @@
     (have <g> (< n p)
           :by (p/and-intro% <e> <f>))
     (qed <g>)))
+
+(defthm lt-trans-weak
+  [[n int] [m int] [p int]]
+  (==> (<= n m)
+       (< m p)
+       (< n p)))
+
+(proof lt-trans-weak
+    :script
+  (assume [Hnm (<= n m)
+           Hmp (< m p)]
+    (have <a> (<= m p) :by (p/and-elim-left% Hmp))
+    (have <b> (not (= m p)) :by (p/and-elim-right% Hmp))
+    (have <c> (<= n p) :by ((le-trans n m p) Hnm <a>))
+    (assume [H (= n p)]
+      (have <d1> (<= p m) :by (eq/eq-subst% (lambda [k int] (<= k m))
+                                            H Hnm))
+      (have <d2> (= m p) :by ((le-antisym m p) <a> <d1>))
+      (have <d> p/absurd :by (<b> <d2>)))
+    (have <e> (< n p) :by (p/and-intro% <c> <d>))
+    (qed <e>)))
+
+(defthm lt-trans-weak-alt
+  "An alternative to [[lt-trans-weak]]."
+  [[n int] [m int] [p int]]
+  (==> (< n m)
+       (<= m p)
+       (< n p)))
+
+(proof lt-trans-weak-alt
+    :script
+  (assume [Hnm (< n m)
+           Hmp (<= m p)]
+    (have <a> (<= n m) :by (p/and-elim-left% Hnm))
+    (have <b> (not (= n m)) :by (p/and-elim-right% Hnm))
+    (have <c> (<= n p) :by ((le-trans n m p) <a> Hmp))
+    (assume [H (= n p)]
+      (have <d1> (= p n) :by (eq/eq-sym% H))
+      (have <d2> (<= m n) :by (eq/eq-subst% (lambda [k int] (<= m k))
+                                            <d1> Hmp))
+      (have <d3> (= n m) :by ((le-antisym n m) <a> <d2>))
+      (have <d> p/absurd :by (<b> <d3>)))
+    (have <e> (< n p) :by (p/and-intro% <c> <d>))
+    (qed <e>)))
 
 (definition >=
   "The greater-or-equal order for integers."

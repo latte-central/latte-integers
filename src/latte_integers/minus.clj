@@ -1247,3 +1247,50 @@
   (qed <g>))
 
 
+(defthm minus-opp
+  "A property about negation of opposites."
+  [[n int] [m int]]
+  (= (- n m)
+     (- (-- m) (-- n))))
+
+(proof minus-opp
+    :script
+  (have <a> (= (- n m)
+               (+ n (-- m)))
+        :by (eq/eq-sym% (plus-opp-minus n m)))
+  ;; (+ n (-- m))
+  (have <b1> (= n (-- (-- n)))
+        :by (eq/eq-sym% (opp-opp n)))
+  (have <b> (= (- n m)
+               (+ (-- (-- n)) (-- m)))
+        :by (eq/eq-subst% (lambda [k int] (= (- n m)
+                                             (+ k (-- m))))
+                          <b1> <a>))
+  (have <c> (= (- n m)
+               (+ (-- m) (-- (-- n))))
+        :by (eq/eq-subst% (lambda [k int] (= (- n m) k))
+                          (plus/plus-commute (-- (-- n)) (-- m))
+                          <b>))
+
+  (have <d> (= (- n m)
+               (- (-- m) (-- n)))
+        :by (eq/eq-subst% (lambda [k int] (= (- n m) k))
+                          (plus-opp-minus (-- m) (-- n))
+                          <c>))
+
+  (qed <d>))
+
+
+(defthm minus-opp-cancel
+  "A cancellation law for subtraction of opposites."
+  [[n int] [m int]]
+  (==> (= (-- n) (-- m))
+       (= n m)))
+
+(proof minus-opp-cancel
+    :script
+  (assume [H (= (-- n) (-- m))]
+    (have <a> (= n m) :by ((minus-left-cancel zero n m) H))
+    (qed <a>)))
+
+

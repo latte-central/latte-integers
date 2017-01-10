@@ -220,16 +220,6 @@
     (have <e> (< n p) :by (p/and-intro% <c> <d>))
     (qed <e>)))
 
-(definition >=
-  "The greater-or-equal order for integers."
-  [[n int] [m int]]
-  (<= m n))
-
-(definition >
-  "The strict variant of [[>=]]."
-  [[n int] [m int]]
-  (< m n))
-
 
 (defthm plus-le
   [[n int] [m int] [p int]]
@@ -263,7 +253,7 @@
 (proof plus-le-conv
     :script
   (assume [H (<= n m)]
-    
+
     (have <a1> (= (- m n) (+ (- m n) zero))
           :by (eq/eq-sym% (plus/plus-zero (- m n))))
     (have <a2> (= zero (- p p))
@@ -343,6 +333,236 @@
     (have <e> (< n m)
           :by (p/and-intro% <c> <d>))
       (qed <e>)))
+
+(defthm plus-lt-conv
+  [[n int] [m int] [p int]]
+  (==> (< n m)
+       (< (+ n p) (+ m p))))
+
+(proof plus-lt-conv
+    :script
+  (assume [H (< n m)]
+    (have <a> (<= n m) :by (p/and-elim-left% H))
+    (have <b> (not (= n m)) :by (p/and-elim-right% H))
+    (have <c> (<= (+ n p) (+ m p))
+          :by ((plus-le-conv n m p) <a>))
+    (assume [H2 (= (+ n p) (+ m p))]
+      (have <d1> (= n m) :by ((plus/plus-right-cancel n m p) H2))
+      (have <d> p/absurd :by (<b> <d1>)))
+    (have <e> (< (+ n p) (+ m p))
+          :by (p/and-intro% <c> <d>))
+    (qed <e>)))
+
+(defthm plus-lt-equiv
+  [[n int] [m int] [p int]]
+  (<=> (< (+ n p) (+ m p))
+       (< n m)))
+
+(proof plus-lt-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (plus-lt n m p)
+                                (plus-lt-conv n m p)))
+  (qed <a>))
+
+
+(definition >=
+  "The greater-or-equal order for integers."
+  [[n int] [m int]]
+  (<= m n))
+
+(definition >
+  "The strict variant of [[>=]]."
+  [[n int] [m int]]
+  (< m n))
+
+(defthm pos-gt-zero
+  [[n int]]
+  (==> (positive n)
+       (> n zero)))
+
+(proof pos-gt-zero
+    :script
+  (assume [Hpos (positive n)]
+    (have <a1> (positive (succ n)) :by ((nat/positive-succ-strong n) Hpos))
+    (have <a2> (elem int n nat) :by ((nat/positive-succ-conv n) <a1>))
+    (have <a3> (= n (- n zero)) :by (eq/eq-sym% (minus/minus-zero n)))
+    (have <a> (<= zero n) :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                                            <a3> <a2>))
+    (assume [Heq (= zero n)]
+      (have <b1> (= n zero) :by (eq/eq-sym% Heq))
+      (have <b2> (positive zero)
+            :by (eq/eq-subst% positive <b1> Hpos))
+      (have <b> p/absurd :by (nat/nat-zero-has-no-pred <b2>)))
+    (have <c> (> n zero) :by (p/and-intro% <a> <b>))
+    (qed <c>)))
+
+(defthm pos-gt-zero-conv
+  [[n int]]
+  (==> (> n zero)
+       (positive n)))
+
+(proof pos-gt-zero-conv
+    :script
+  (assume [H (> n zero)]
+    (have <a> (<= zero n) :by (p/and-elim-left% H))
+    (have <b> (not (= zero n)) :by (p/and-elim-right% H))
+    (have <c> (elem int n nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/minus-zero n)
+                            <a>))
+    "We proceed by nat-splitting."
+    (assume [H1 (= n zero)]
+      (have <d1> (= zero n) :by (eq/eq-sym% H1))
+      (have <d2> p/absurd :by (<b> <d1>))
+      (have <d> (positive n) :by (<d2> (positive n))))
+    (assume [H2 (positive n)]
+      (have <e> (positive n) :by H2))
+    (have <f> (or (= n zero) (positive n))
+          :by (nat/nat-split n <c>))
+    (have <g> (positive n)
+          :by (p/or-elim% <f> (positive n) <d> <e>)) ; XXX: decompose-or-type issue here
+                                                     ; if we perform <f> directly (tofix...)
+    (qed <g>)))
+
+(defthm pos-gt-zero-equiv
+  [[n int]]
+  (<=> (positive n)
+       (> n zero)))
+
+(proof pos-gt-zero-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (pos-gt-zero n)
+                                (pos-gt-zero-conv n)))
+  (qed <a>))
+
+(defthm neg-lt-zero
+  [[n int]]
+  (==> (negative n)
+       (< n zero)))
+
+(proof neg-lt-zero
+    :script
+  (assume [Hneg (negative n)]
+    (have <a1> (= n (- n zero))
+          :by (eq/eq-sym% (minus/minus-zero n)))
+    (have <a> (negative (- n zero))
+          :by (eq/eq-subst% negative
+                            <a1>
+                            Hneg))
+    (have <b> (positive (- zero n))
+          :by ((minus/minus-pos-neg-conv zero n) <a>))
+    (have <c> (positive (succ (- zero n)))
+          :by ((nat/positive-succ-strong (- zero n)) <b>))
+    (have <d> (<= n zero) :by ((nat/positive-succ-conv (- zero n))
+                               <c>))
+    (assume [Heq (= n zero)]
+      (have <e1> (= zero n) :by (eq/eq-sym% Heq))
+      (have <e2> (elem int n nat)
+            :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                              <e1> (nat/nat-zero)))
+      (have <e> p/absurd :by (Hneg <e2>)))
+    (have <f> (< n zero) :by (p/and-intro% <d> <e>))
+    (qed <f>)))
+
+(defthm neg-lt-zero-conv
+  [[n int]]
+  (==> (< n zero)
+       (negative n)))
+
+(proof neg-lt-zero-conv
+    :script
+  (assume [Hlt (< n zero)]
+    (have <a> (<= n zero) :by (p/and-elim-left% Hlt))
+    (have <b> (not (= n zero)) :by (p/and-elim-right% Hlt))
+    (have <c> (elem int (-- n) nat) :by <a>)
+    (have <d> (or (= n zero)
+                  (negative n))
+          :by ((minus/opp-nat-split n) <c>))
+    "We proceed by case analysis."
+    (assume [H1 (= n zero)]
+      (have <e1> p/absurd :by (<b> H1))
+      (have <e> (negative n) :by (<e1> (negative n))))
+    (assume [H2 (negative n)]
+      (have <f> (negative n) :by H2))
+    (have <g> (negative n) :by (p/or-elim% <d> (negative n)
+                                           <e> <f>))
+    (qed <g>)))
+
+(defthm neg-lt-zero-equiv
+  [[n int]]
+  (<=> (negative n)
+       (< n zero)))
+
+(proof neg-lt-zero-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (neg-lt-zero n)
+                                (neg-lt-zero-conv n)))
+  (qed <a>))
+
+(defthm ord-int-split
+  "Splitting an integer according to its (strict) ordering."
+  [[n int]]
+  (or (or (= n zero)
+          (> n zero))
+      (< n zero)))
+
+(proof ord-int-split
+    :script
+  (assume [H1 (or (= n zero)
+                  (positive n))]
+    (assume [H2 (= n zero)]
+      (have <a1> (= n zero) :by H2)
+      (have <a> (or (= n zero)
+                    (> n zero))
+            :by (p/or-intro-left% <a1> (> n zero))))
+    (assume [H3 (positive n)]
+      (have <b1> (> n zero) :by ((pos-gt-zero n) H3))
+      (have <b> (or (= n zero)
+                    (> n zero))
+            :by (p/or-intro-right% (= n zero) <b1>)))
+    (have <c1> _ :by (p/or-elim% H1 (or (= n zero)
+                                        (> n zero)) <a> <b>))
+    (have <c> (or (or (= n zero)
+                      (> n zero))
+                  (< n zero))
+          :by (p/or-intro-left% <c1> (< n zero))))
+  (assume [H4 (negative n)]
+    (have <d1> (< n zero) :by ((neg-lt-zero n) H4))
+    (have <d> (or (or (= n zero)
+                      (> n zero))
+                  (< n zero))
+          :by (p/or-intro-right% (or (= n zero) (> n zero))
+                                 <d1>)))
+  "We use int-splitting"
+  (have <e> _ :by (p/or-elim% (nat/int-split n)
+                              (or (or (= n zero) (> n zero))
+                                  (< n zero))
+                              <c> <d>))
+  (qed <e>))
+
+(defthm lt-opp
+  "Property about [[<]] wrt. [[--]]."
+  [[n int] [m int]]
+  (==> (< n m)
+       (< (-- m) (-- n))))
+
+(proof lt-opp
+    :script
+  (assume [Hlt (< n m)]
+    (have <a> (<= n m) :by (p/and-elim-left% Hlt))
+    (have <b> (not (= n m)) :by (p/and-elim-right% Hlt))
+    (have <c> (<= (-- m) (-- n))
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/minus-opp m n)
+                            <a>))
+    (assume [Heq (= (-- m) (-- n))]
+      (have <d1> (= m n) :by ((minus/minus-opp-cancel m n) Heq))
+      (have <d2> (= n m) :by (eq/eq-sym% <d1>))
+      (have <d> p/absurd :by (<b> <d2>)))
+
+    (have <e> (< (-- m) (-- n))
+          :by (p/and-intro% <c> <d>))
+    (qed <e>)))
 
 
 

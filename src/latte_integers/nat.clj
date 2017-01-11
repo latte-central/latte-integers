@@ -739,3 +739,14 @@ and [[negative-pred-split-conv]]."
    (negative-pred-split-conv n)))
 
 
+(defthm negative-not-zero
+  []
+  (not (negative zero)))
+
+(proof negative-not-zero
+    :script
+  (assume [H (negative zero)]
+    (have <a> p/absurd :by (H nat-zero)))
+  (qed <a>))
+
+

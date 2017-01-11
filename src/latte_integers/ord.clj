@@ -565,4 +565,176 @@
     (qed <e>)))
 
 
+(defthm lt-opp-conv
+  "The converse of [[lt-opp]]."
+  [[n int] [m int]]
+  (==> (< (-- m) (-- n))
+       (< n m)))
+
+(proof lt-opp-conv
+    :script
+  (assume [H (< (-- m) (-- n))]
+    ;; (elem int (- (-- n) (-- m)) int)))
+    (have <a> (elem int (- (-- n) (-- m)) nat)
+          :by (p/and-elim-left% H))
+    (have <b> (not (= (-- m) (-- n)))
+          :by (p/and-elim-right% H))
+    (have <c> (= (- (-- n) (-- m))
+                 (- m n))
+          :by (eq/eq-sym% (minus/minus-opp m n)))
+    (have <d> (<= n m)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            <c> <a>))
+    (assume [Heq (= n m)]
+      (have <e1> (= m n) :by (eq/eq-sym% Heq))
+      (have <e2> (= (-- m) (-- n))
+            :by (eq/eq-cong% -- <e1>))
+      (have <e> p/absurd :by (<b> <e2>)))
+    (have <f> _ :by (p/and-intro% <d> <e>))
+    (qed <f>)))
+
+(defthm lt-opp-equiv
+  "Property about [[<]] wrt. [[--]]."
+  [[n int] [m int]]
+  (<=> (< n m)
+       (< (-- m) (-- n))))
+
+(proof lt-opp-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (lt-opp n m)
+                                (lt-opp-conv n m)))
+  (qed <a>))
+
+(defthm lt-zero-opp
+  [[n int]]
+  (==> (< n zero)
+       (> (-- n) zero)))
+
+(proof lt-zero-opp
+    :script
+  (assume [H (< n zero)]
+    (have <a> (elem int (-- n) nat)
+          :by (p/and-elim-left% H))
+    (have <b> (not (= n zero))
+          :by (p/and-elim-right% H))
+    (have <c> (or (= n zero)
+                  (negative n))
+          :by ((minus/opp-nat-split n) <a>))
+    "We proceed by case analysis"
+    (assume [H1 (= n zero)]
+      (have <d1> p/absurd :by (<b> H1))
+      (have <d> (> (-- n) zero) :by (<d1> (> (-- n) zero))))
+
+    (assume [H2 (negative n)]
+      (have <e1> (= (-- n)
+                    (- (-- n) zero))
+            :by (eq/eq-sym% (minus/minus-zero (-- n))))
+      (have <e> (<= zero (-- n))
+            :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                              <e1> <a>))
+      (assume [Heq (= zero (-- n))]
+        (have <f1> (= (-- n) zero)
+              :by (eq/eq-sym% Heq))
+        (have <f2> (= n zero)
+              :by ((minus/zero-opp-zero-conv n) <f1>))
+        (have <f> p/absurd :by (<b> <f2>)))
+
+      (have <g> (> (-- n) zero)
+            :by (p/and-intro% <e> <f>)))
+
+    (have <h> _ :by (p/or-elim% <c> (> (-- n) zero)
+                                <d> <g>))
+    (qed <h>)))
+
+(defthm lt-zero-opp-conv
+  [[n int]]
+  (==> (> (-- n) zero)
+       (< n zero)))
+
+(proof lt-zero-opp-conv
+    :script
+  (assume [H (> (-- n) zero)]
+    (have <a> (<= zero (-- n))  ;; (elem int (- (-- n) zero) nat)
+          :by (p/and-elim-left% H))
+    (have <b> (not (= zero (-- n)))
+          :by (p/and-elim-right% H))
+    (have <c> (elem int (-- n) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            (minus/minus-zero (-- n))
+                            <a>))
+    (have <d> (or (= n zero)
+                  (negative n))
+          :by ((minus/opp-nat-split n) <c>))
+    "We proceed by case analysis."
+    (assume [H1 (= n zero)]
+      (have <e1> (= (-- n) zero) :by ((minus/zero-opp-zero n) H1))
+      (have <e2> (= zero (-- n)) :by (eq/eq-sym% <e1>))
+      (have <e3> p/absurd :by (<b> <e2>))
+      (have <e> (< n zero) :by (<e3> (< n zero))))
+    (assume [H2 (negative n)]
+      (have <f> (< n zero) :by ((neg-lt-zero n) H2)))
+    (have <g> _ :by (p/or-elim% <d> (< n zero) <e> <f>))
+    (qed <g>)))
+
+(defthm lt-zero-opp-equiv
+  [[n int]]
+  (<=> (< n zero)
+       (> (-- n) zero)))
+
+(proof lt-zero-opp-equiv
+    :script
+  (have <a> _ :by (p/and-intro% (lt-zero-opp n)
+                                (lt-zero-opp-conv n)))
+  (qed <a>))
+
+(defthm lt-succ
+  "Strict ordering of successors."
+  [[n int]]
+  (< n (succ n)))
+
+(proof lt-succ
+    :script
+
+  (have <a> (= (- (succ n) n)
+               (succ (- n n)))
+        :by (minus/minus-succ n n))
+
+  (have <b> (= (succ (- n n))
+               (succ zero))
+        :by (eq/eq-cong% succ (minus/minus-cancel n)))
+
+  (have <c1> (= (- (succ n) n)
+               (succ zero))
+        :by (eq/eq-trans% <a> <b>))
+
+  (have <c> (= (succ zero)
+               (- (succ n) n)) :by (eq/eq-sym% <c1>))
+
+  (have <d> (elem int (succ zero) nat)
+        :by ((nat/nat-succ zero) nat/nat-zero))
+
+  (have <e> (<= n (succ n)) ;;(elem int (- (succ n) n) nat)
+        :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                          <c> <d>))
+  (assume [Heq (= n (succ n))]
+    (have <f1> (= (- n n) (- (succ n) n))
+          :by (eq/eq-cong% (lambda [k int] (- k n))
+                           Heq))
+    (have <f2> (= zero (- (succ n) n))
+          :by (eq/eq-subst% (lambda [k int] (= k (- (succ n) n)))
+                            (minus/minus-cancel n)
+                            <f1>))
+    (have <f3> (= zero (succ zero))
+          :by (eq/eq-subst% (lambda [k int] (= zero k))
+                            <c1> <f2>))
+    (have <f4> (= (succ zero) zero)
+          :by (eq/eq-sym% <f3>))
+    (have <f5> (not (= (succ zero) zero))
+          :by ((nat/nat-zero-is-not-succ zero) nat/nat-zero))
+    (have <f> p/absurd :by (<f5> <f4>)))
+
+  (have <g> (< n (succ n)) :by (p/and-intro% <e> <f>))
+
+  (qed <g>))
+
 

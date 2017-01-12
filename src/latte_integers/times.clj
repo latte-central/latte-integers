@@ -170,4 +170,119 @@
 
   (qed <e>))
 
+(defthm times-zero-sym
+  [[n int]]
+  (= (* zero n)
+     zero))
 
+(proof times-zero-sym
+    :script
+  "This is by induction on `n`."
+  (have P _ :by (lambda [k int] (= (* zero k)
+                                   zero)))
+  "Base case: n=0"
+  (have <a> (P zero)
+        :by (times-zero zero))
+  "Inductive cases"
+  (assume [k int
+           Hind (= (* zero k)
+                   zero)]
+    "Successor case"
+    (have <b1> (= (* zero (succ k))
+                  (+ (* zero k) zero))
+          :by (times-succ zero k))
+    (have <b2> (= (* zero (succ k))
+                  (* zero k))
+          :by (eq/eq-subst% (lambda [j int] (= (* zero (succ k))
+                                               j))
+                            (plus/plus-zero (* zero k))
+                            <b1>))
+    (have <b> (P (succ k))
+          :by (eq/eq-subst% (lambda [j int] (= (* zero (succ k))
+                                               j))
+                            Hind <b2>))
+    "Predecessor case"
+    (have <c1> (= (* zero (pred k))
+                  (- (* zero k) zero))
+          :by (times-pred zero k))
+    (have <c2> (= (* zero (pred k))
+                  (* zero k))
+          :by (eq/eq-subst% (lambda [j int] (= (* zero (pred k))
+                                               j))
+                            (minus/minus-zero (* zero k))
+                            <c1>))
+    (have <c> (P (pred k))
+          :by (eq/eq-subst% (lambda [j int] (= (* zero (pred k))
+                                               j))
+                            Hind <c2>))
+    (have <d> (and (P (succ k))
+                   (P (pred k))) :by (p/and-intro% <b> <c>)))
+  "Apply the induction principle"
+  (have <e> (P n) :by ((int/int-induct P)
+                       <a> <d> n))
+  (qed <e>))
+
+
+;; (defthm times-succ-sym
+;;   [[n int] [m int]]
+;;   (= (* (succ n) m)
+;;      (+ (* n m) m)))
+
+;; (proof times-succ-sym
+;;     :script
+;;   "We proceed by indcution on m"
+;;   (have P _ :by (lambda [k int] (= (* (succ n) k)
+;;                                    (+ (* n k) k))))
+;;   "Base case n=0"
+;;   (have <a1> (= (* (succ n) zero)
+;;                 zero)
+;;         :by (times-zero (succ n)))
+;;   (have <a2> (= (+ (* n zero) zero)
+;;                 (+ zero zero))
+;;         :by (eq/eq-cong% (lambda [k int] (+ k zero))
+;;                          (times-zero n)))
+;;   (have <a3> (= (+ (* n zero) zero)
+;;                 zero)
+;;         :by (eq/eq-subst% (lambda [k int] (= (+ (* n zero) zero)
+;;                                              k))
+;;                           (plus/plus-zero zero)
+;;                           <a2>))
+;;   (have <a4> (= zero
+;;                 (+ (* n zero) zero))
+;;         :by (eq/eq-sym% <a3>))
+;;   (have <a> (P zero) :by (eq/eq-trans% <a1> <a4>))
+;;   "Inductive cases"
+;;   (assume [k int
+;;            Hind (= (* (succ n) k)
+;;                    (+ (* n k) k))]
+;;     "Successor case"
+;;     (have <b1> (= (* (succ n) (succ k))
+;;                   (+ (* (succ n) k) (succ n)))
+;;           :by (times-succ (succ n) k))
+;;     (have <b2> (= (* (succ n) (succ k))
+;;                   (+ (+ (* n k) k) (succ n)))
+;;           :by (eq/eq-subst% (lambda [j int] (= (* (succ n) (succ k))
+;;                                                (+ j (succ n))))
+;;                             Hind <b1>))
+;;     (have <b3> (= (* (succ n) (succ k))
+;;                   (succ (+ (+ (* n k) k) n)))
+;;           :by (eq/eq-subst% (lambda [j int] (= (* (succ n) (succ k))
+;;                                                j))
+;;                             (plus/plus-succ (+ (* n k) k) n)
+;;                             <b2>))
+;;     ;; (succ (+ n (+ (* n k) k)))
+;;     ;; = (+ n (succ (+ (* n k) k)))
+    
+;;     ;; we want: (* (succ n) (succ k))
+;;     ;;        = (+ (* n (succ k)) (succ k))
+;;     ))
+
+;; ;; (defthm times-dist-plus
+;; ;;   "Distributivity of multiplication over addition."
+;; ;;   [[n int] [m int] [p int]]
+;; ;;   (= (* n (+ m p))
+;; ;;      (+ (* n m) (* n p))))
+
+;; ;; (proof times-dist-plus
+;; ;;     :script
+;; ;;   )

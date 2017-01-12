@@ -145,6 +145,29 @@
                (+ (* m (pred n)) m))
         :by (times-succ m (pred n)))
 
-  ;; (- (+ (* m (pred n)) m) m) = (-)
+  (have <b> (= (* m n)
+               (+ (* m (pred n)) m))
+        :by (eq/eq-subst% (lambda [k int] (= (* m k)
+                                             (+ (* m (pred n)) m)))
+                          (int/succ-of-pred n)
+                          (<a>)))
 
-  )
+  (have <c> (= (- (* m n) m)
+               (- (+ (* m (pred n)) m) m))
+        :by (eq/eq-cong% (lambda [k int] (- k m))
+                         <b>))
+
+  (have <d> (= (- (* m n) m)
+               (* m (pred n)))
+        :by (eq/eq-subst% (lambda [k int] (= (- (* m n) m)
+                                             k))
+                          (minus/minus-prop-cons (* m (pred n)) m)
+                          <c>))
+  
+  (have <e> (= (* m (pred n))
+               (- (* m n) m))
+        :by (eq/eq-sym% <d>))
+
+  (qed <e>))
+
+

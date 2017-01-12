@@ -134,3 +134,17 @@
   (qed <a>))
 
 
+(defthm times-pred
+  [[m int] [n int]]
+  (= (* m (pred n))
+     (- (* m n) m)))
+
+(proof times-pred
+    :script
+  (have <a> (= (* m (succ (pred n)))
+               (+ (* m (pred n)) m))
+        :by (times-succ m (pred n)))
+
+  ;; (- (+ (* m (pred n)) m) m) = (-)
+
+  )

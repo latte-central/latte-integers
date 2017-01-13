@@ -229,8 +229,9 @@
 ;;      (+ (* n m) m)))
 
 ;; (proof times-succ-sym
+
 ;;     :script
-;;   "We proceed by indcution on m"
+;;   "We proceed by induction on m"
 ;;   (have P _ :by (lambda [k int] (= (* (succ n) k)
 ;;                                    (+ (* n k) k))))
 ;;   "Base case n=0"
@@ -259,23 +260,23 @@
 ;;     (have <b1> (= (* (succ n) (succ k))
 ;;                   (+ (* (succ n) k) (succ n)))
 ;;           :by (times-succ (succ n) k))
-;;     (have <b2> (= (* (succ n) (succ k))
+
+;;     (have <b2> (= (+ (* (succ n) k) (succ n))
 ;;                   (+ (+ (* n k) k) (succ n)))
-;;           :by (eq/eq-subst% (lambda [j int] (= (* (succ n) (succ k))
-;;                                                (+ j (succ n))))
-;;                             Hind <b1>))
+;;           :by (eq/eq-cong% (lambda [j int] (+ j (succ n)))
+;;                            Hind))
+
 ;;     (have <b3> (= (* (succ n) (succ k))
-;;                   (succ (+ (+ (* n k) k) n)))
-;;           :by (eq/eq-subst% (lambda [j int] (= (* (succ n) (succ k))
-;;                                                j))
-;;                             (plus/plus-succ (+ (* n k) k) n)
-;;                             <b2>))
-;;     ;; (succ (+ n (+ (* n k) k)))
-;;     ;; = (+ n (succ (+ (* n k) k)))
+;;                   (+ (+ (* n k) k) (succ n)))
+;;           :by (eq/eq-trans* <b1> <b2>))
+    ;; (succ (+ n (+ (* n k) k)))
+    ;; = (+ n (succ (+ (* n k) k)))
     
-;;     ;; we want: (* (succ n) (succ k))
-;;     ;;        = (+ (* n (succ k)) (succ k))
-;;     ))
+    ;; we want: (* (succ n) (succ k))
+    ;;        = (+ (* n (succ k)) (succ k))
+    ))
+
+
 
 ;; ;; (defthm times-dist-plus
 ;; ;;   "Distributivity of multiplication over addition."

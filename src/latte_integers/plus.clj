@@ -83,6 +83,15 @@
   (have <a> _ :by ((p/and-elim-right% (plus-prop m)) n))
   (qed <a>))
 
+(defthm plus-succ-sym
+  [[m int] [n int]]
+  (= (succ (+ m n))
+     (+ m (succ n))))
+
+(proof plus-succ-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (plus-succ m n)))
+  (qed <a>))
 
 (defthm plus-pred
   [[m int] [n int]]
@@ -114,11 +123,22 @@
   (have <e> _ :by (eq/eq-sym% <d>))
   (qed <e>))
 
-(defthm plus-zero-sym
+
+(defthm plus-pred-sym
+  [[m int] [n int]]
+  (= (pred (+ m n))
+     (+ m (pred n))))
+
+(proof plus-pred-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (plus-pred m n)))
+  (qed <a>))
+
+(defthm plus-zero-swap
   [[m int]]
   (= (+ zero m) m))
 
-(proof plus-zero-sym
+(proof plus-zero-swap
     :script
   "We proceed by induction on `m`."
   "First the case for m=0"
@@ -152,12 +172,12 @@
                            (= (+ zero m) m)))
          <a> <d>) m)))
 
-(defthm plus-succ-sym
+(defthm plus-succ-swap
   [[m int] [n int]]
   (= (+ (succ m) n)
      (succ (+ m n))))
 
-(proof plus-succ-sym
+(proof plus-succ-swap
     :script
   (have <a1> (= (+ (succ m) zero)
                 (succ m))
@@ -234,16 +254,16 @@
                               (succ (+ m n)))))
          <a> <d>) n)))
 
-(defthm plus-pred-sym
+(defthm plus-pred-swap
   [[m int] [n int]]
   (= (+ (pred m) n)
      (pred (+ m n))))
 
-(proof plus-pred-sym
+(proof plus-pred-swap
     :script
   (have <a> (= (+ (succ (pred m)) n)
                (succ (+ (pred m) n)))
-        :by (plus-succ-sym (pred m) n))
+        :by (plus-succ-swap (pred m) n))
   (have <b> (= (+ m n)
                (succ (+ (pred m) n)))
         :by (eq/eq-subst% (lambda [k int]
@@ -277,14 +297,14 @@
   "First let's prove `(P zero)`."
   (have <a1> (= m (+ m zero))
         :by (eq/eq-sym% (plus-zero m)))
-  (have <a> (P zero) :by (eq/eq-trans% (plus-zero-sym m) <a1>))
+  (have <a> (P zero) :by (eq/eq-trans% (plus-zero-swap m) <a1>))
   "Now the inductive cases."
   (assume [k int
            Hind (P k)]
     "First the succesor case, we show `(P (succ k))`."
     (have <b1> (= (+ (succ k) m)
                   (succ (+ k m)))
-          :by (plus-succ-sym k m))
+          :by (plus-succ-swap k m))
     (have <b2> (= (succ (+ k m))
                   (succ (+ m k)))
           :by ((eq/eq-cong int int succ (+ k m) (+ m k)) Hind))
@@ -295,7 +315,7 @@
     (have <b> (P (succ k)) :by (eq/eq-trans% <b3> <b4>))
     "Second the predecessor case, we show `(P (pred k))`."
     (have <c1> (= (+ (pred k) m)
-                  (pred (+ k m))) :by (plus-pred-sym k m))
+                  (pred (+ k m))) :by (plus-pred-swap k m))
     (have <c2> (= (pred (+ k m))
                   (pred (+ m k)))
           :by ((eq/eq-cong int int pred (+ k m) (+ m k)) Hind))
@@ -318,7 +338,7 @@
     :script
   (have <a> (= (+ (pred n) (succ m))
                (pred (+ n (succ m))))
-        :by (plus-pred-sym n (succ m)))
+        :by (plus-pred-swap n (succ m)))
   (have <b> (= (+ n (succ m))
                (succ (+ n m))) :by (plus-succ n m))
   (have <c> (= (+ (pred n) (succ m))
@@ -604,7 +624,7 @@
     (have <c> (positive (pred (+ n m)))
           :by (eq/eq-subst% (lambda [k int]
                               (elem int (pred k) nat))
-                            (plus-pred-sym n m)
+                            (plus-pred-swap n m)
                             <b>))
     (have <d> (positive (succ (pred (+ n m))))
           :by ((nat/positive-succ-strong (pred (+ n m)))
@@ -891,7 +911,7 @@
                                     (= k zero))
                                   (+ zero m)
                                   m)
-                     (plus-zero-sym m)
+                     (plus-zero-swap m)
                      <b1>))
           (have <b3> (not (positive m))
                 :by ((eq/eq-subst int 

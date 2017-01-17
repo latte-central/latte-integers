@@ -96,7 +96,7 @@
                               <a1>))
       (have <a3> (= m n)
             :by (eq/eq-subst% (lambda [k int] (= m k))
-                              (plus/plus-zero-sym n)
+                              (plus/plus-zero-swap n)
                               <a2>))
       (have <a> (= n m) :by (eq/eq-sym% <a3>)))
     (assume [H2 (positive (- m n))]

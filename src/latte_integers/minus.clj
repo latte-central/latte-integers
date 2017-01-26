@@ -211,6 +211,17 @@
                                      (succ m)) <f>))
   (qed <g>))
 
+(defthm minus-succ-pred-sym
+  [[n int] [m int]]
+  (= (pred (- n m))
+     (- n (succ m))))
+
+(proof minus-succ-pred-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (minus-succ-pred n m)))
+  (qed <a>))
+
+
 (defthm minus-pred-succ
   [[n int] [m int]]
   (= (- n (pred m))
@@ -242,6 +253,17 @@
                                      (succ (- n m))
                                      (pred m)) <f>))
   (qed <g>))
+
+(defthm minus-pred-succ-sym
+  [[n int] [m int]]
+  (= (succ (- n m))
+     (- n (pred m))))
+
+(proof minus-pred-succ-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (minus-pred-succ n m)))
+  (qed <a>))
+
 
 (defthm minus-succ
   [[n int] [m int]]

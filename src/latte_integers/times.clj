@@ -822,5 +822,287 @@
                        <a> <b> n))
   (qed <c>))
 
+(defthm times-dist-minus
+  "Distributivity of multiplication over subtraction."
+  [[n int] [m int] [p int]]
+  (= (* n (- m p))
+     (- (* n m) (* n p))))
+
+;; We extract the two complex subproofs for the inductive case.
+
+(deflemma times-dist-minus-succ
+  [[n int][m int] [p int]]
+  (==> (= (* n (- m p))
+          (- (* n m) (* n p)))
+       (= (* (succ n) (- m p))
+          (- (* (succ n) m) (* (succ n) p)))))
+
+(proof times-dist-minus-succ
+    :script
+  (assume [Hind (= (* n (- m p))
+                   (- (* n m) (* n p)))]
+
+    (have <a> (= (* (succ n) (- m p))
+                 (+ (* n (- m p)) (- m p)))
+          :by (times-succ-swap n (- m p)))
+
+    (have <b> (= (* (succ n) (- m p))
+                 (+ (- (* n m) (* n p)) (- m p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (+ j (- m p))))
+                            Hind <a>))
+
+    (have <c> (= (* (succ n) (- m p))
+                 (+ (- m p) (- (* n m) (* n p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 j))
+                            (plus/plus-commute (- (* n m) (* n p))
+                                               (- m p))
+                            <b>))
+
+    (have <d> (= (* (succ n) (- m p))
+                 (- (+ (- m p) (* n m)) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 j))
+                            (minus/assoc-plus-minus (- m p) (* n m) (* n p))
+                            <c>))
+
+    (have <e> (= (* (succ n) (- m p))
+                 (- (+ (* n m) (- m p)) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (- j (* n p))))
+                            (plus/plus-commute (- m p) (* n m))
+                            <d>))
+
+    (have <f> (= (* (succ n) (- m p))
+                 (- (- (+ (* n m) m) p) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (- j (* n p))))
+                            (minus/assoc-plus-minus (* n m) m p)
+                            <e>))
+
+    (have <g> (= (* (succ n) (- m p))
+                 (- (- (* (succ n) m) p) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (- (- j p) (* n p))))
+                            (times-succ-swap-sym n m)
+                            <f>))
+
+    (have <h> (= (* (succ n) (- m p))
+                 (- (* (succ n) m) (+ p (* n p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 j))
+                            (minus/assoc-minus-plus-sym (* (succ n) m)
+                                                        p
+                                                        (* n p))
+                            <g>))
+
+    (have <i> (= (* (succ n) (- m p))
+                 (- (* (succ n) m) (+ (* n p) p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (- (* (succ n) m) j)))
+                            (plus/plus-commute p (* n p))
+                            <h>))
+
+    (have <j> (= (* (succ n) (- m p))
+                 (- (* (succ n) m) (* (succ n) p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ n) (- m p))
+                                 (- (* (succ n) m) j)))
+                            (times-succ-swap-sym n p)
+                            <i>))
+
+    (qed <j>)))
+
+
+(deflemma times-dist-minus-pred
+  [[n int][m int] [p int]]
+  (==> (= (* n (- m p))
+          (- (* n m) (* n p)))
+       (= (* (pred n) (- m p))
+          (- (* (pred n) m) (* (pred n) p)))))
+
+(proof times-dist-minus-pred
+    :script
+  (assume [Hind (= (* n (- m p))
+                   (- (* n m) (* n p)))]
+
+    (have <a> (= (* (pred n) (- m p))
+                 (- (* n (- m p)) (- m p)))
+          :by (times-pred-swap n (- m p)))
+
+    (have <b> (= (* (pred n) (- m p))
+                 (- (- (* n m) (* n p)) (- m p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- j (- m p))))
+                            Hind <a>))
+
+    (have <c> (= (* (pred n) (- m p))
+                 (- (* n m) (+ (* n p) (- m p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (minus/assoc-minus-plus-sym (* n m)
+                                                        (* n p)
+                                                        (- m p))
+                            <b>))
+
+    (have <d> (= (* (pred n) (- m p))
+                 (- (* n m) (+ (- m p) (* n p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- (* n m) j)))
+                            (plus/plus-commute (* n p) (- m p))
+                            <c>))
+
+    (have <e> (= (* (pred n) (- m p))
+                 (- (* n m) (- m (- p (* n p)))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- (* n m) j)))
+                            (minus/assoc-minus-minus-sym m p (* n p))
+                            <d>))
+
+    (have <f> (= (* (pred n) (- m p))
+                 (+ (- (* n m) m) (- p (* n p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (minus/assoc-minus-minus (* n m) m
+                                                     (- p (* n p)))
+                            <e>))
+
+    (have <g> (= (* (pred n) (- m p))
+                 (- (+ (- (* n m) m) p) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (minus/assoc-plus-minus (- (* n m) m)
+                                                    p
+                                                    (* n p))
+                            <f>))
+
+    (have <h> (= (* (pred n) (- m p))
+                 (- (+ p (- (* n m) m)) (* n p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- j (* n p))))
+                            (plus/plus-commute (- (* n m) m) p)
+                            <g>))
+
+    (have <i> (= (* (pred n) (- m p))
+                 (+ p (- (- (* n m) m) (* n p))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (minus/assoc-plus-minus-sym p
+                                                        (- (* n m) m)
+                                                        (* n p))
+                            <h>))
+
+    (have <j> (= (* (pred n) (- m p))
+                 (+ (- (- (* n m) m) (* n p)) p))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (plus/plus-commute
+                             p
+                             (- (- (* n m) m) (* n p)))
+                            <i>))
+
+    (have <k> (= (* (pred n) (- m p))
+                 (- (- (* n m) m) (- (* n p) p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 j))
+                            (minus/assoc-minus-minus-sym (- (* n m) m)
+                                                         (* n p)
+                                                         p)
+                            <j>))
+
+    (have <l> (= (* (pred n) (- m p))
+                 (- (* (pred n) m) (- (* n p) p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- j (- (* n p) p))))
+                            (times-pred-swap-sym n m)
+                            <k>))
+
+    (have <m> (= (* (pred n) (- m p))
+                 (- (* (pred n) m) (* (pred n) p)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred n) (- m p))
+                                 (- (* (pred n) m) j)))
+                            (times-pred-swap-sym n p)
+                            <l>))
+
+    (qed <m>)))
+
+(proof times-dist-minus
+    :script
+
+  (have P _ :by (lambda [k int]
+                  (= (* k (- m p))
+                     (- (* k m) (* k p)))))
+  "We proceed by induction on `k`."
+
+  "Base case: zero"
+  (have <a1> (= (* zero (- m p))
+                zero)
+        :by (times-zero-swap (- m p)))
+  (have <a2> (= (- (* zero m) (* zero p))
+                (- zero (* zero p)))
+        :by (eq/eq-cong% (lambda [j int]
+                           (- j (* zero p)))
+                         (times-zero-swap m)))
+  (have <a3> (= (- (* zero m) (* zero p))
+                (- zero zero))
+        :by (eq/eq-subst% (lambda [j int]
+                            (= (- (* zero m) (* zero p))
+                               (- zero j)))
+                          (times-zero-swap p)
+                          <a2>))
+  (have <a4> (= (- (* zero m) (* zero p))
+                zero)
+        :by (eq/eq-subst% (lambda [j int]
+                            (= (- (* zero m) (* zero p))
+                               j))
+                          (minus/minus-zero zero)
+                          <a3>))
+  (have <a5> (= zero
+                (- (* zero m) (* zero p)))
+        :by (eq/eq-sym% <a4>))
+
+  (have <a> (P zero) :by (eq/eq-trans% <a1> <a5>))
+
+  "Inductive cases."
+  (assume [k int
+           Hind (= (* k (- m p))
+                   (- (* k m) (* k p)))]
+    (have <b1> (P (succ k))
+          :by ((times-dist-minus-succ k m p)
+               Hind))
+
+    (have <b2> (P (pred k))
+          :by ((times-dist-minus-pred k m p)
+               Hind))
+
+    (have <b> _ :by (p/and-intro% <b1> <b2>)))
+
+  "Apply the induction principle"
+  (have <c> (P n) :by ((int/int-induct (lambda [k int]
+                                         (= (* k (- m p))
+                                            (- (* k m) (* k p)))))
+                       <a> <b> n))
+  (qed <c>))
 
 

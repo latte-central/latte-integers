@@ -6,7 +6,7 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
-                                          try-proof ==>]]
+                                          pose try-proof ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
@@ -197,7 +197,7 @@
 (proof times-zero-swap
     :script
   "This is by induction on `n`."
-  (have P _ :by (lambda [k int] (= (* zero k)
+  (pose P := (lambda [k int] (= (* zero k)
                                    zero)))
   "Base case: n=0"
   (have <a> (P zero)
@@ -250,7 +250,7 @@
 (proof times-succ-swap
     :script
   "We proceed by induction on m"
-  (have P _ :by (lambda [k int] (= (* (succ n) k)
+  (pose P := (lambda [k int] (= (* (succ n) k)
                                    (+ (* n k) k))))
   "Base case n=0"
   (have <a1> (= (* (succ n) zero)
@@ -416,9 +416,9 @@
 (proof times-pred-swap
     :script
   "This is by induction on `m`."
-  (have P _ :by (lambda [i int]
-                  (= (* (pred n) i)
-                     (- (* n i) i))))
+  (pose P := (lambda [i int]
+               (= (* (pred n) i)
+                  (- (* n i) i))))
   "Base case `(P zero)`."
   (have <a1> (= (* (pred n) zero)
                 zero) :by (times-zero (pred n)))
@@ -766,9 +766,9 @@
 (proof times-dist-plus
     :script
 
-  (have P _ :by (lambda [k int]
-                  (= (* k (+ m p))
-                     (+ (* k m) (* k p)))))
+  (pose P := (lambda [k int]
+               (= (* k (+ m p))
+                  (+ (* k m) (* k p)))))
   "We proceed by induction on `k`."
 
   "Base case: zero"
@@ -1050,9 +1050,9 @@
 (proof times-dist-minus
     :script
 
-  (have P _ :by (lambda [k int]
-                  (= (* k (- m p))
-                     (- (* k m) (* k p)))))
+  (pose P := (lambda [k int]
+               (= (* k (- m p))
+                  (- (* k m) (* k p)))))
   "We proceed by induction on `k`."
 
   "Base case: zero"

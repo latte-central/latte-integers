@@ -7,7 +7,7 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
-                                          try-proof ==>]]
+                                          pose try-proof ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
@@ -75,7 +75,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
 
 (proof int-recur-bijection-lemma-1
     :script
-  (have inv-f _ :by (fun/inverse T T f b))
+  (pose inv-f := (fun/inverse T T f b))
   (assume [H (forall [y int]
                      (and (==> (positive (succ y))
                                (equal T (g (succ y)) (f (g y))))
@@ -151,7 +151,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
 
 (proof int-recur-bijection-lemma-2
     :script
-  (have inv-f _ :by (fun/inverse T T f b))
+  (pose inv-f := (fun/inverse T T f b))
   (assume [H (forall [y int]
                (equal T (g (succ y)) (f (g y))))]
     (assume [y int]

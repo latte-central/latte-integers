@@ -4,7 +4,7 @@
   (:refer-clojure :exclude [and or not int =])
 
   (:require [latte.core :as latte :refer [defaxiom defthm deflemma definition
-                                          lambda forall proof assume have
+                                          lambda forall proof assume have pose
                                           ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
@@ -132,9 +132,9 @@ derived from [[int-induct]]."
               (P x)))))
 
 (proof nat-induct :script
-  (have Q _ :by (lambda [z int]
-                  (and (elem int z nat)
-                       (P z))))
+  (pose Q := (lambda [z int]
+               (and (elem int z nat)
+                    (P z))))
   (assume [Hz (P zero)
            Hs (forall [x int]
                 (==> (elem int x nat)
@@ -177,9 +177,9 @@ derived from [[int-induct]]."
 
 (proof positive-nat-split
     :script
-  (have P _ :by (lambda [x int]
-                  (==> (not (= x zero))
-                       (elem int (pred x) nat))))
+  (pose P := (lambda [x int]
+               (==> (not (= x zero))
+                    (elem int (pred x) nat))))
   "Let's proceed by induction"
   "First with (P zero)"
   (assume [Hnz (not (= zero zero))]
@@ -338,9 +338,9 @@ is (obiously) a natural number"
 
 (proof nat-split
     :script
-  (have P _ :by (lambda [k int]
-                  (or (= k zero)
-                      (positive k))))
+  (pose P := (lambda [k int]
+               (or (= k zero)
+                   (positive k))))
   "We proceed by case analysis"
   (have <a> (P zero) :by ((p/or-intro-left (= zero zero)
                                            (positive zero))

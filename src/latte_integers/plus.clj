@@ -7,7 +7,7 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
-                                          try-proof ==>]]
+                                          pose try-proof ==>]]
 
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
@@ -293,7 +293,7 @@
 (proof plus-commute
     :script
   "We proceed by induction on `n`."
-  (have P _ :by (lambda [k int] (= (+ k m) (+ m k))))
+  (pose P := (lambda [k int] (= (+ k m) (+ m k))))
   "First let's prove `(P zero)`."
   (have <a1> (= m (+ m zero))
         :by (eq/eq-sym% (plus-zero m)))
@@ -382,9 +382,9 @@
 
 (proof plus-assoc
     :script
-  (have P _ :by (lambda [k int]
-                  (= (+ n (+ m k))
-                     (+ (+ n m) k))))
+  (pose P := (lambda [k int]
+               (= (+ n (+ m k))
+                  (+ (+ n m) k))))
   "We prove `P` by induction on `k`."
   "First `(P zero)`"
   (have <a1> (= (+ n (+ m zero))
@@ -570,8 +570,8 @@
     :script
   (assume [n int
            Hn (elem int n nat)]
-    (have P _ :by (lambda [m int]
-                    (elem int (+ n m) nat)))
+    (pose P := (lambda [m int]
+                 (elem int (+ n m) nat)))
     "We prove `P` by natural induction."
     "First let's prove `(P zero)`."
     (have <a> (P zero)

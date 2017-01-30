@@ -1105,4 +1105,68 @@
                        <a> <b> n))
   (qed <c>))
 
+(defthm times-commute
+  "Commutativity of multiplication."
+  [[n int] [m int]]
+  (= (* n m) (* m n)))
+
+(proof times-commute
+    :script
+  "By induction on `n`."
+  (pose P := (lambda [k int] (= (* k m) (* m k))))
+  "Base case."
+  (have <a1> (= (* zero m) zero)
+        :by (times-zero-swap m))
+  (have <a2> (= zero (* m zero))
+        :by (eq/eq-sym% (times-zero m)))
+  (have <a> (P zero) :by (eq/eq-trans% <a1> <a2>))
+  "Inductive cases."
+  (assume [k int
+           Hind (= (* k m) (* m k))]
+    "Successor case."
+    (have <b1> (= (* (succ k) m)
+                  (+ (* k m) m))
+          :by (times-succ-swap k m))
+    (have <b2> (= (* (succ k) m)
+                  (+ (* m k) m))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ k) m)
+                                 (+ j m)))
+                            Hind <b1>))
+    (have <b> (P (succ k))
+          ;;(= (* (succ k) m)
+          ;;   (* m (succ k)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (succ k) m)
+                                 j))
+                            (times-succ-sym m k)
+                            <b2>))
+    "Predecessor case."
+    (have <c1> (= (* (pred k) m)
+                  (- (* k m) m))
+          :by (times-pred-swap k m))
+    (have <c2> (= (* (pred k) m)
+                  (- (* m k) m))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred k) m)
+                                 (- j m)))
+                            Hind <c1>))
+    (have <c> (P (pred k))
+          ;;(= (* (succ k) m)
+          ;;   (* m (succ k)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (pred k) m)
+                                 j))
+                            (times-pred-sym m k)
+                            <c2>))
+
+    (have <d> _ :by (p/and-intro% <b> <c>)))
+
+  "We apply the inductive principle."
+  (have <e> (P n) :by ((int/int-induct (lambda [k int]
+                                         (= (* k m) (* m k))))
+                       <a> <d> n))
+  (qed <e>))
+
+
 

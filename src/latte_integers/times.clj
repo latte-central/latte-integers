@@ -822,6 +822,17 @@
                        <a> <b> n))
   (qed <c>))
 
+(defthm times-dist-plus-sym
+  "The symmetric of [[times-dist-plus]]."
+  [[n int] [m int] [p int]]
+  (= (+ (* n m) (* n p))
+     (* n (+ m p))))
+
+(proof times-dist-plus-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (times-dist-plus n m p)))
+  (qed <a>))
+
 (defthm times-dist-minus
   "Distributivity of multiplication over subtraction."
   [[n int] [m int] [p int]]
@@ -1105,6 +1116,17 @@
                        <a> <b> n))
   (qed <c>))
 
+(defthm times-dist-minus-sym
+  "The symmetric of [[times-dist-minus]]."
+  [[n int] [m int] [p int]]
+  (= (- (* n m) (* n p))
+     (* n (- m p))))
+
+(proof times-dist-minus-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (times-dist-minus n m p)))
+  (qed <a>))
+
 (defthm times-commute
   "Commutativity of multiplication."
   [[n int] [m int]]
@@ -1169,4 +1191,111 @@
   (qed <e>))
 
 
+(defthm times-assoc
+  "Associativity of multiplication."
+  [[n int] [m int] [p int]]
+  (= (* (* n m) p)
+     (* n (* m p))))
+
+(proof times-assoc
+    :script
+  "By induction on `p`."
+  (pose P := (lambda [k int]
+               (= (* (* n m) k)
+                  (* n (* m k)))))
+  "Base case"
+  (have <a1> (= (* (* n m) zero)
+                zero)
+        :by (times-zero (* n m)))
+  (have <a2> (= (* n (* m zero))
+                (* n zero))
+        :by (eq/eq-cong% (lambda [j int] (* n j))
+                         (times-zero m)))
+  (have <a3> (= (* n (* m zero))
+                zero)
+        :by (eq/eq-subst% (lambda [j int]
+                            (= (* n (* m zero))
+                               j))
+                          (times-zero n)
+                          <a2>))
+  (have <a4> (= zero
+               (* n (* m zero)))
+        :by (eq/eq-sym% <a3>))
+
+  (have <a> (P zero) :by (eq/eq-trans% <a1> <a4>))
+
+  "Inductive cases."
+  (assume [k int
+           Hind (= (* (* n m) k)
+                   (* n (* m k)))]
+
+    "Successor case."
+
+    (have <b1> (= (* (* n m) (succ k))
+                  (+ (* (* n m) k) (* n m)))
+          :by (times-succ (* n m) k))
+
+    (have <b2> (= (* (* n m) (succ k))
+                  (+ (* n (* m k)) (* n m)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (succ k))
+                                 (+ j (* n m))))
+                            Hind <b1>))
+
+    (have <b3> (= (* (* n m) (succ k))
+                  (* n (+ (* m k) m)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (succ k))
+                                 j))
+                            (times-dist-plus-sym n (* m k) m)
+                            <b2>))
+
+    (have <b> (P (succ k))
+      ;; (= (* (* n m) (succ k))
+      ;;    (* n (* m (succ k))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (succ k))
+                                 (* n j)))
+                            (times-succ-sym m k)
+                            <b3>))
+
+    "Predecessor case."
+
+    (have <c1> (= (* (* n m) (pred k))
+                  (- (* (* n m) k) (* n m)))
+          :by (times-pred (* n m) k))
+
+    (have <c2> (= (* (* n m) (pred k))
+                  (- (* n (* m k)) (* n m)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (pred k))
+                                 (- j (* n m))))
+                            Hind <c1>))
+
+    (have <c3> (= (* (* n m) (pred k))
+                  (* n (- (* m k) m)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (pred k))
+                                 j))
+                            (times-dist-minus-sym n (* m k) m)
+                            <c2>))
+
+    (have <c> (P (pred k))
+      ;; (= (* (* n m) (pred k))
+      ;;    (* n (* m (pred k))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* (* n m) (pred k))
+                                 (* n j)))
+                            (times-pred-sym m k)
+                            <c3>))
+
+    (have <d> _ :by (p/and-intro% <b> <c>)))
+
+  "We apply the inductive principle."
+
+  (have <e> (P p) :by ((int/int-induct (lambda [k int]
+                                         (= (* (* n m) k)
+                                            (* n (* m k)))))
+                       <a> <d> p))
+  (qed <e>))
 

@@ -1,4 +1,4 @@
-(defproject latte-integers "0.5.4-SNAPSHOT"
+(defproject latte-integers "0.5.5-SNAPSHOT"
   :description "A formalization of integers in LaTTe."
   :url "https://github.com/fredokun/latte-integers.git"
   :license {:name "MIT Licence"

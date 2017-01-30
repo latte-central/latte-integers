@@ -1299,3 +1299,16 @@
                        <a> <d> p))
   (qed <e>))
 
+(defthm times-assoc-sym
+  "The symmetric of [[times-assoc]]."
+  [[n int] [m int] [p int]]
+  (= (* n (* m p))
+     (* (* n m) p)))
+
+(proof times-assoc-sym
+    :script
+  (have <a> _ :by (eq/eq-sym% (times-assoc n m p)))
+  (qed <a>))
+
+
+

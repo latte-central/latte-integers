@@ -1310,5 +1310,57 @@
   (have <a> _ :by (eq/eq-sym% (times-assoc n m p)))
   (qed <a>))
 
+(defthm times-nat-closed
+  "The multiplication is closed for natural integers."
+  []
+  (forall-in [n int nat]
+    (forall-in [m int nat]
+      (elem int (* n m) nat))))
 
+(proof times-nat-closed
+    :script
+  (assume [n int
+           Hn (elem int n nat)]
+    (pose P := (lambda [k int]
+                 (elem int (* n k) nat)))
+    "We prove `P` by induction on naturals."
+    
+    "Base case"
+    
+    (have <a1> (= zero (* n zero))
+          :by (eq/eq-sym% (times-zero n)))
+    
+    (have <a> (P zero)
+          ;;(elem int (* n zero) nat)
+          :by (eq/eq-subst% (lambda [j int]
+                              (elem int j nat))
+                            <a1>
+                            (nat/nat-zero)))
+    
+    "Inductive case"
+    (assume [k int
+             Hk (elem int k nat)
+             Hind (elem int (* n k) nat)]
+      
+      (have <b1> (= (+ (* n k) n)
+                    (* n (succ k)))
+            :by (eq/eq-sym% (times-succ n k)))
+      
+      (have <b2> (elem int (+ (* n k) n) nat)
+            :by (plus/plus-nat-closed
+                 (* n k) Hind
+                 n Hn))
+      
+      (have <b> (P (succ k))
+            ;; (elem int (* n (succ m)) nat)
+            :by (eq/eq-subst% (lambda [j int]
+                                (elem int j nat))
+                              <b1> <b2>))) 
+
+    
+    (have <c> (forall-in [m int nat]
+                (elem int (* n m) nat))
+          :by ((nat/nat-induct P) <a> <b>)))
+
+  (qed <c>))
 

@@ -1,4 +1,4 @@
-(defproject latte-integers "0.5.5-SNAPSHOT"
+(defproject latte-integers "0.5.6-SNAPSHOT"
   :description "A formalization of integers in LaTTe."
   :url "https://github.com/fredokun/latte-integers.git"
   :license {:name "MIT Licence"
@@ -11,7 +11,7 @@
           :namespaces [latte-integers.core latte-integers.nat
                        latte-integers.rec latte-integers.plus
                        latte-integers.minus latte-integers.ord
-                       latte-integers.times]}
+                       latte-integers.times latte-integers.divides]}
   :plugins [[lein-codox "0.10.1"]]
   :profiles {:prof {:jvm-opts ["-Dcom.sun.management.jmxremote"
                                "-Dcom.sun.management.jmxremote.ssl=false"

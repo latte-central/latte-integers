@@ -1,7 +1,7 @@
 (ns latte-integers.times
   "The multiplication defined on ℤ."
 
-  (:refer-clojure :exclude [and or not int = + - *])
+  (:refer-clojure :exclude [and or not int = + - * < <= > >=])
 
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
@@ -19,7 +19,8 @@
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
-            [latte-integers.minus :as minus :refer [-]]))
+            [latte-integers.minus :as minus :refer [-]]
+            [latte-integers.ord :as ord :refer [< <= > >=]]))
 
 (definition plus-fun
   "The addition function used in multiplication."
@@ -1363,4 +1364,98 @@
           :by ((nat/nat-induct P) <a> <b>)))
 
   (qed <c>))
+
+
+(defthm mult-pos-pos
+  [[m int] [n int]]
+  (==> (positive m)
+       (positive n)
+       (positive (* m n))))
+
+(proof mult-pos-pos
+    :script
+  (assume [Hm (positive m)
+           Hn (positive n)]
+    ;; to prove
+    ;; (elem int (pred (* m n)) nat)
+    (have <a> (= (* m (succ (pred n)))
+                 (* m n))
+          :by (eq/eq-cong% (lambda [j int]
+                             (* m j))
+                           (int/succ-of-pred n)))
+    (have <b> _ :by (eq/eq-sym% <a>))
+    (have <c1> (= (* m n)
+                 (+ (* m (pred n)) m))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* m n)
+                                 j))
+                            (times-succ m (pred n))
+                            <b>))
+    (have <c2> (= (* m n)
+                 (+ m (* m (pred n))))
+          :by (eq/eq-subst% (lambda [j int]
+                              (= (* m n)
+                                 j))
+                            (plus/plus-commute (* m (pred n)) m)
+                            <c1>))
+
+    (have <c> (= (+ m (* m (pred n)))
+                 (* m n))
+          :by (eq/eq-sym% <c2>))
+    
+    (have <d> (> m zero)
+          :by ((ord/pos-gt-zero m) Hm))
+
+    (have <e1> (> (+ m (* m (pred n)))
+                  (+ zero (* m (pred n))))
+          :by ((ord/plus-lt-conv zero m (* m (pred n)))
+               <d>))
+
+    (have <e> (> (+ m (* m (pred n)))
+                 (* m (pred n)))
+          :by (eq/eq-subst% (lambda [j int]
+                              (> (+ m (* m (pred n)))
+                                 j))
+                            (plus/plus-zero-swap (* m (pred n)))
+                            <e1>))
+
+    (have <f> (> (* m n)
+                 (* m (pred n))) ;; separate thm ?
+          :by (eq/eq-subst% (lambda [j int]
+                              (> j (* m (pred n))))
+                            <c> <e>))
+
+    (have <g> (elem int m nat)
+          :by ((nat/positive-conv m) Hm))
+
+    (have <h> (elem int (* m (pred n)) nat)
+          :by (times-nat-closed m <g>
+                                (pred n) Hn))
+
+    (have <i> (>= (* m (pred n)) zero)
+          :by ((ord/nat-ge-zero (* m (pred n))) <h>))
+
+    (have <j> (> (* m n) zero)
+          :by ((ord/lt-trans-weak zero (* m (pred n)) (* m n))
+               <i> <f>))
+
+    (have <k> (positive (* m n))
+          :by ((ord/pos-gt-zero-conv (* m n)) <j>))
+
+    (qed <k>)))
+
+;; (defthm mult-split-zero
+;;   [[m int] [n int]]
+;;   (==> (= (* m n) zero)
+;;        (or (= m zero)
+;;            (= n zero))))
+
+;; (proof mult-split-zero
+;;     :script
+;;   (assume [H (= (* m n) zero)]
+;;     "We use the int splitting elimination principle"
+;;     (assume [Hz (= n zero)]
+;;       (have <a> _ :by (p/or-intro-right% (= m zero) Hz)))
+;;     (assume [Hp (positive n)]
+;;       )))
 

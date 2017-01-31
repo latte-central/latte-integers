@@ -459,6 +459,34 @@ and [[positive-succ-split-conv]]."
              <c>))
   (qed <d>))
 
+(defthm int-split-elim
+  "An elimination principle for integers."
+  [[A :type]]
+  (forall [n int]
+    (==> (==> (= n zero) A)
+         (==> (positive n) A)
+         (==> (negative n) A)
+         A)))
+
+(proof int-split-elim
+    :script
+  (assume [n int
+           H1 (==> (= n zero) A)
+           H2 (==> (positive n) A)
+           H3 (==> (negative n) A)]
+    "We want to apply the int-split principle."
+    (assume [Hzp (or (= n zero) (positive n))]
+      (assume [Hz (= n zero)]
+        (have <a> A :by (H1 Hz)))
+      (assume [Hp (positive n)]
+        (have <b> A :by (H2 Hp)))
+      (have <c> A :by (p/or-elim% Hzp A <a> <b>)))
+    (assume [Hn (negative n)]
+      (have <d> A :by (H3 Hn)))
+    (have <e> A :by (p/or-elim% (int-split n) A <c> <d>))
+    (qed <e>)))
+
+
 ;; The following is an attempt for a constructive
 ;; proof of int-split... which requires some
 ;; more informations about the fact of being

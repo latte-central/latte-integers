@@ -435,6 +435,49 @@
                                 (pos-gt-zero-conv n)))
   (qed <a>))
 
+(defthm nat-ge-zero
+  [[n int]]
+  (==> (elem int n nat)
+       (>= n zero)))
+
+(proof nat-ge-zero
+    :script
+  (assume [Hn (elem int n nat)]
+    "We proceed by nat-splitting."
+    (assume [Hz (= n zero)]
+      (have <a1> (= (- n zero)
+                    (- zero zero))
+            :by (eq/eq-cong% (lambda [j int] (- j zero))
+                             Hz))
+      (have <a2> (= (- n zero)
+                    zero)
+            :by (eq/eq-subst% (lambda [j int]
+                                (= (- n zero)
+                                   j))
+                              (minus/minus-zero zero)
+                              <a1>))
+
+      (have <a3> (= zero (- n zero))
+            :by (eq/eq-sym% <a2>))
+      
+      (have <a> (>= n zero)
+            ;;(elem int (- n zero) nat) 
+            :by (eq/eq-subst% (lambda [j int]
+                                (elem int j nat))
+                              <a3>
+                              (nat/nat-zero))))
+    (assume [Hp (positive n)]
+      (have <b1> (> n zero) :by ((pos-gt-zero n) Hp))
+      (have <b> (>= n zero) :by (p/and-elim-left% <b1>)))
+
+    (have <c1> (or (= n zero) (positive n))
+          :by (nat/nat-split n Hn))
+    
+    (have <c> _ :by (p/or-elim% <c1>
+                                (>= n zero)
+                                <a> <b>))
+    (qed <c>)))
+
 (defthm neg-lt-zero
   [[n int]]
   (==> (negative n)
@@ -463,6 +506,7 @@
       (have <e> p/absurd :by (Hneg <e2>)))
     (have <f> (< n zero) :by (p/and-intro% <d> <e>))
     (qed <f>)))
+
 
 (defthm neg-lt-zero-conv
   [[n int]]

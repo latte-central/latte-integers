@@ -1355,6 +1355,49 @@
              <f>))
   (qed <g>))
 
+(defthm times-opp-opp
+  [[m int] [n int]]
+  (= (* (-- m) (-- n))
+     (* m n)))
+
+(proof times-opp-opp
+    :script
+  (have <a> (= (* (-- m) (-- n))
+               (-- (* (-- m) n)))
+        :by (times-opp (-- m) n))
+  (have <b> (= (* (-- m) (-- n))
+               (-- (* n (-- m))))
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (* (-- m) (-- n))
+                               (-- k)))
+                          (times-commute (-- m) n)
+                          <a>))
+  (have <c> (= (* (-- m) (-- n))
+               (-- (--  (* n m))))
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (* (-- m) (-- n))
+                               (-- k)))
+                          (times-opp n m)
+                          <b>))
+
+  (have <d> (= (* (-- m) (-- n))
+               (* n m))
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (* (-- m) (-- n))
+                               k))
+                          (minus/opp-opp (* n m))
+                          <c>))
+
+  (have <e> (= (* (-- m) (-- n))
+               (* m n))
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (* (-- m) (-- n))
+                               k))
+                          (times-commute n m)
+                          <d>))
+  (qed <e>))
+
+
 (defthm times-nat-closed
   "The multiplication is closed for natural integers."
   []
@@ -1410,13 +1453,13 @@
   (qed <c>))
 
 
-(defthm mult-pos-pos
+(defthm times-pos-pos
   [[m int] [n int]]
   (==> (positive m)
        (positive n)
        (positive (* m n))))
 
-(proof mult-pos-pos
+(proof times-pos-pos
     :script
   (assume [Hm (positive m)
            Hn (positive n)]
@@ -1488,18 +1531,217 @@
 
     (qed <k>)))
 
-;; (defthm mult-split-zero
-;;   [[m int] [n int]]
-;;   (==> (= (* m n) zero)
-;;        (or (= m zero)
-;;            (= n zero))))
+(defthm times-pos-neg
+  [[m int] [n int]]
+  (==> (positive m)
+       (negative n)
+       (negative (* m n))))
 
-;; (proof mult-split-zero
+(proof times-pos-neg
+    :script
+  (assume [Hm (positive m)
+           Hn (negative n)]
+    (have <a> (< n zero)
+          :by ((ord/neg-lt-zero n) Hn))
+    (have <b> (> (-- n) zero)
+          :by ((ord/lt-zero-opp n) <a>))
+    (have <c> (positive (-- n))
+          :by ((ord/pos-gt-zero-conv (-- n)) <b>))
+    (have <d> (> (* m (-- n)) zero)
+          :by ((ord/pos-gt-zero (* m (-- n)))
+               ((times-pos-pos m (-- n)) Hm <c>)))
+    (have <e> (> (-- (* m n)) zero)
+          :by (eq/eq-subst% (lambda [k int] (> k zero))
+                            (times-opp m n)
+                            <d>))
+    (have <f> (< (* m n) zero)
+          :by ((ord/lt-zero-opp-conv (* m n)) <e>))
+
+    (have <g> (negative (* m n))
+          :by ((ord/neg-lt-zero-conv (* m n)) <f>))
+
+    (qed <g>)))
+
+(defthm times-neg-pos
+  [[m int] [n int]]
+  (==> (negative m)
+       (positive n)
+       (negative (* m n))))
+
+(proof times-neg-pos
+    :script
+  (assume [Hm (negative m)
+           Hn (positive n)]
+    (have <a> (negative (* n m))
+          :by ((times-pos-neg n m) Hn Hm))
+
+    (have <b> (negative (* m n))
+          :by (eq/eq-subst% negative
+                            (times-commute n m)
+                            <a>))
+
+    (qed <b>)))
+
+(defthm times-neg-neg
+  [[m int] [n int]]
+  (==> (negative m)
+       (negative n)
+       (positive (* m n))))
+
+(proof times-neg-neg
+    :script
+  (assume [Hm (negative m)
+           Hn (negative n)]
+    (have <a> (> (-- m) zero)
+          :by ((ord/lt-zero-opp m)
+               ((ord/neg-lt-zero m) Hm)))
+    (have <b> (positive (-- m))
+          :by ((ord/pos-gt-zero-conv (-- m)) <a>))
+    (have <c> (> (-- n) zero)
+          :by ((ord/lt-zero-opp n)
+               ((ord/neg-lt-zero n) Hn)))
+    (have <d> (positive (-- n))
+          :by ((ord/pos-gt-zero-conv (-- n)) <c>))
+    (have <e> (positive (* (-- m) (-- n)))
+          :by ((times-pos-pos (-- m) (-- n)) <b> <d>))
+    (have <f> (positive (* m n))
+          :by (eq/eq-subst% positive
+                            (times-opp-opp m n)
+                            <e>))
+    (qed <f>)))
+
+
+(defthm mult-split-zero
+  [[m int] [n int]]
+  (==> (= (* m n) zero)
+       (or (= m zero)
+           (= n zero))))
+
+(proof mult-split-zero
+    :script
+  (assume [H (= (* m n) zero)]
+    "We use the int splitting elimination principle"
+    (assume [Hz (= n zero)]
+      (have <a> _ :by (p/or-intro-right% (= m zero) Hz)))
+    (assume [Hp (positive n)]
+      (assume [Hmz (= m zero)]
+        (have <b> _ :by (p/or-intro-left% Hmz (= n zero))))
+      (assume [Hmp (positive m)]
+        "We show a contradiction."
+        (have <c1> (positive (* m n))
+              :by ((times-pos-pos m n) Hmp Hp))
+        (have <c2> (positive zero)
+              :by (eq/eq-subst% positive H <c1>))
+        (have <c3> p/absurd
+              :by (nat/nat-zero-has-no-pred <c2>))
+        (have <c> (or (= m zero)
+                      (= n zero))
+              :by (<c3> (or (= m zero)
+                            (= n zero)))))
+      (assume [Hmn (negative m)]
+        (have <d1> (negative (* m n))
+              :by ((times-neg-pos m n) Hmn Hp))
+        (have <d2> (negative zero)
+              :by (eq/eq-subst% negative
+                                H
+                                <d1>))
+        (have <d3> p/absurd
+              :by (<d2> nat/nat-zero))
+        (have <d> (or (= m zero)
+                      (= n zero))
+              :by (<d3> (or (= m zero)
+                            (= n zero)))))
+      (have <e> (or (= m zero)
+                    (= n zero))
+            :by ((nat/int-split-elim (or (= m zero)
+                                         (= n zero)))
+                 m <b> <c> <d>)))
+    (assume [Hn (negative n)]
+      (assume [Hmz (= m zero)]
+        (have <f> _ :by (p/or-intro-left% Hmz (= n zero))))
+      (assume [Hmp (positive m)]
+        (have <g1> (negative (* m n))
+              :by ((times-pos-neg m n) Hmp Hn))
+        (have <g2> (negative zero)
+              :by (eq/eq-subst% negative
+                                H
+                                <g1>))
+        (have <g3> p/absurd
+              :by (<g2> nat/nat-zero))
+        (have <g> (or (= m zero)
+                      (= n zero))
+              :by (<g3> (or (= m zero)
+                            (= n zero)))))
+      (assume [Hmn (negative m)]
+        "We show a contradiction."
+        (have <h1> (positive (* m n))
+              :by ((times-neg-neg m n) Hmn Hn))
+        (have <h2> (positive zero)
+              :by (eq/eq-subst% positive H <h1>))
+        (have <h3> p/absurd
+              :by (nat/nat-zero-has-no-pred <h2>))
+        (have <h> (or (= m zero)
+                      (= n zero))
+              :by (<h3> (or (= m zero)
+                            (= n zero)))))
+      (have <i> (or (= m zero)
+                    (= n zero))
+            :by ((nat/int-split-elim (or (= m zero)
+                                         (= n zero)))
+                 m <f> <g> <h>)))
+    "We summarize all cases."
+    (have <j> (or (= m zero)
+                  (= n zero))
+          :by ((nat/int-split-elim (or (= m zero)
+                                       (= n zero)))
+               n <a> <e> <i>))
+
+    (qed <j>)))
+
+;; (defthm times-right-cancel
+;;   [[m int] [n int] [p int]]
+;;   (==> (= (* m p) (* n p))
+;;        (not (= p zero))
+;;        (= m n)))
+
+;; (proof times-right-cancel
 ;;     :script
-;;   (assume [H (= (* m n) zero)]
-;;     "We use the int splitting elimination principle"
-;;     (assume [Hz (= n zero)]
-;;       (have <a> _ :by (p/or-intro-right% (= m zero) Hz)))
-;;     (assume [Hp (positive n)]
-;;       )))
+;;   (pose P := (lambda [k int]
+;;                (==> (= (* m k) (* n k))
+;;                     (not (= k zero))
+;;                     (= m n))))
+;;   "We proceed by induction on `k`."
 
+;;   "First the base case"
+;;   (assume [Hz1 (= (* m zero) (* n zero))
+;;            Hz2 (not (= zero zero))]
+;;     (have <a1> (= zero zero)
+;;           :by (eq/eq-refl int zero))
+;;     (have <a2> p/absurd :by (Hz2 <a1>))
+;;     (have <a> (= m n) :by (<a2> (= m n))))
+
+;;   "The inductive cases."
+;;   (assume [k int
+;;            Hind (==> (= (* m k) (* n k))
+;;                      (not (= k zero))
+;;                      (= m n))]
+;;     "Successor case"
+;;     (assume [Hs1 (= (* m (succ k))
+;;                     (* n (succ k)))
+;;              Hs2 (not (= (succ k) zero))]
+
+      
+;;       (have <b1> (= (+ (* m k) m)
+;;                     (* n (succ k)))
+;;             :by (eq/eq-subst% (lambda [j int]
+;;                                 (= j
+;;                                    (* n (succ k))))
+;;                               (times-succ m k)
+;;                               Hs1))
+;;       (have <b2> (= (+ (* m k) m)
+;;                     (+ (* n k) n))
+;;             :by (eq/eq-subst% (lambda [j int]
+;;                                 (= (+ (* m k) m)
+;;                                    j))
+;;                               (times-succ n k)
+;;                               <b1>)))))

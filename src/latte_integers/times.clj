@@ -19,7 +19,7 @@
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
-            [latte-integers.minus :as minus :refer [-]]
+            [latte-integers.minus :as minus :refer [- --]]
             [latte-integers.ord :as ord :refer [< <= > >=]]))
 
 (definition plus-fun
@@ -1310,6 +1310,50 @@
     :script
   (have <a> _ :by (eq/eq-sym% (times-assoc n m p)))
   (qed <a>))
+
+(defthm times-opp
+  [[m int] [n int]]
+  (= (* m (-- n))
+     (-- (* m n))))
+
+(proof times-opp
+    :script
+  (have <a> (= (+ (* m (-- n)) (* m n))
+               (* m (+ (-- n) n)))
+        :by (times-dist-plus-sym m (-- n) n))
+
+  (have <b> (= (+ (-- n) n) zero)
+        :by (minus/opp-plus-opp n))
+
+  (have <c> (= (+ (* m (-- n)) (* m n))
+               (* m zero))
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (+ (* m (-- n)) (* m n))
+                               (* m k)))
+                          <b> <a>))
+  (have <d> (= (+ (* m (-- n)) (* m n))
+               zero)
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (+ (* m (-- n)) (* m n))
+                               k))
+                          (times-zero m)
+                          <c>))
+
+  (have <e> (= zero
+               (+ (-- (* m n)) (* m n)))
+        :by (eq/eq-sym% (minus/opp-plus-opp (* m n))))
+
+  (have <f> (= (+ (* m (-- n)) (* m n))
+               (+ (-- (* m n)) (* m n)))
+        :by (eq/eq-trans% <d> <e>))
+
+  (have <g> (= (* m (-- n))
+               (-- (* m n)))
+        :by ((plus/plus-right-cancel (* m (-- n))
+                                     (-- (* m n))
+                                     (* m n))
+             <f>))
+  (qed <g>))
 
 (defthm times-nat-closed
   "The multiplication is closed for natural integers."

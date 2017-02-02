@@ -1698,50 +1698,91 @@
 
     (qed <j>)))
 
-;; (defthm times-right-cancel
-;;   [[m int] [n int] [p int]]
-;;   (==> (= (* m p) (* n p))
-;;        (not (= p zero))
-;;        (= m n)))
+(defthm times-right-cancel
+  [[m int] [n int] [p int]]
+  (==> (= (* m p) (* n p))
+       (not (= p zero))
+       (= m n)))
 
-;; (proof times-right-cancel
-;;     :script
-;;   (pose P := (lambda [k int]
-;;                (==> (= (* m k) (* n k))
-;;                     (not (= k zero))
-;;                     (= m n))))
-;;   "We proceed by induction on `k`."
+(proof times-right-cancel
+    :script
+    (assume [H1 (= (* m p) (* n p))
+             H2 (not (= p zero))]
+      (have <a> (= (- (* m p) (* m p))
+                   zero)
+            :by (minus/minus-cancel (* m p)))
 
-;;   "First the base case"
-;;   (assume [Hz1 (= (* m zero) (* n zero))
-;;            Hz2 (not (= zero zero))]
-;;     (have <a1> (= zero zero)
-;;           :by (eq/eq-refl int zero))
-;;     (have <a2> p/absurd :by (Hz2 <a1>))
-;;     (have <a> (= m n) :by (<a2> (= m n))))
+      (have <b> (= (- (* m p) (* n p))
+                   zero)
+            :by (eq/eq-subst% (lambda [k int]
+                                (= (- (* m p) k)
+                                   zero))
+                              H1
+                              <a>))
 
-;;   "The inductive cases."
-;;   (assume [k int
-;;            Hind (==> (= (* m k) (* n k))
-;;                      (not (= k zero))
-;;                      (= m n))]
-;;     "Successor case"
-;;     (assume [Hs1 (= (* m (succ k))
-;;                     (* n (succ k)))
-;;              Hs2 (not (= (succ k) zero))]
+      (have <c> (= (- (* p m) (* n p))
+                   zero)
+            :by (eq/eq-subst% (lambda [k int]
+                                (= (- k (* n p))
+                                   zero))
+                              (times-commute m p)
+                              <b>))
 
-      
-;;       (have <b1> (= (+ (* m k) m)
-;;                     (* n (succ k)))
-;;             :by (eq/eq-subst% (lambda [j int]
-;;                                 (= j
-;;                                    (* n (succ k))))
-;;                               (times-succ m k)
-;;                               Hs1))
-;;       (have <b2> (= (+ (* m k) m)
-;;                     (+ (* n k) n))
-;;             :by (eq/eq-subst% (lambda [j int]
-;;                                 (= (+ (* m k) m)
-;;                                    j))
-;;                               (times-succ n k)
-;;                               <b1>)))))
+      (have <d> (= (- (* p m) (* p n))
+                   zero)
+            :by (eq/eq-subst% (lambda [k int]
+                                (= (- (* p m) k)
+                                   zero))
+                              (times-commute n p)
+                              <c>))
+      (have <e> (= (* p (- m n))
+                   zero)
+            :by (eq/eq-subst% (lambda [k int]
+                                (= k zero))
+                              (times-dist-minus-sym p m n)
+                              <d>))
+
+      (have <f> (or (= p zero)
+                    (= (- m n) zero))
+            :by ((mult-split-zero p (- m n))
+                 <e>))
+
+      (assume [H3 (= p zero)]
+        (have <g1> p/absurd :by (H2 H3))
+        (have <g> (= m n) :by (<g1> (= m n))))
+      (assume [H4 (= (- m n) zero)]
+        (have <h> (= m n) :by ((minus/minus-zero-conv m n) H4)))
+
+      (have <i> (= m n) :by (p/or-elim% <f> (= m n) <g> <h>))
+
+      (qed <i>)))
+
+
+(defthm times-left-cancel
+  [[m int] [n int] [p int]]
+  (==> (= (* p m) (* p n))
+       (not (= p zero))
+       (= m n)))
+
+(proof times-left-cancel
+    :script
+    (assume [H1 (= (* p m) (* p n))
+             H2 (not (= p zero))]
+      (have <a> (= (* m p) (* p n))
+            :by (eq/eq-subst% (lambda [k int]
+                                (= k (* p n)))
+                              (times-commute p m)
+                              H1))
+      (have <b> (= (* m p) (* n p))
+            :by (eq/eq-subst% (lambda [k int]
+                                (= (* m p) k))
+                              (times-commute p n)
+                              <a>))
+
+      (have <c> (= m n)
+            :by ((times-right-cancel m n p)
+                 <b> H2))
+
+      (qed <c>)))
+
+

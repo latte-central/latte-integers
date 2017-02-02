@@ -166,6 +166,37 @@
              <c>))
   (qed <d>))
 
+(defthm minus-zero-conv
+  [[m int] [n int]]
+  (==> (= (- m n) zero)
+       (= m n)))
+
+(proof minus-zero-conv
+    :script
+  (assume [H (= (- m n) zero)]
+    (have <a> (= (+ (- m n) n)
+                 m)
+          :by (minus-prop m n))
+    (have <b> (= (+ zero n)
+                 n)
+          :by (plus/plus-zero-swap n))
+    (have <c> (= (+ (- m n) n)
+                 (+ zero n))
+          :by (eq/eq-cong% (lambda [k int]
+                             (+ k n))
+                           H))
+    (have <d> (= m (+ zero n))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= k (+ zero n)))
+                            <a>
+                            <c>))
+    (have <e> (= m n)
+          :by (eq/eq-subst% (lambda [k int]
+                              (= m k))
+                            <b>
+                            <d>))
+    (qed <e>)))
+
 (defthm minus-zero
   [[n int]]
   (= (- n zero) n))
@@ -1344,5 +1375,4 @@
   (assume [H (= (-- n) (-- m))]
     (have <a> (= n m) :by ((minus-left-cancel zero n m) H))
     (qed <a>)))
-
 

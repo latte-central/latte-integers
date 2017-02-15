@@ -33,6 +33,11 @@
   []
   (==> int int))
 
+(definition one
+  "The integer one."
+  []
+  (succ zero))
+
 (defaxiom succ-bijective
   "The successor function is bijective."
   []

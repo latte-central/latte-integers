@@ -15,7 +15,7 @@
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
-            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.core :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
@@ -1310,6 +1310,38 @@
     :script
   (have <a> _ :by (eq/eq-sym% (times-assoc n m p)))
   (qed <a>))
+
+(defthm times-one
+  [[n int]]
+  (= (* n one) n))
+
+(proof times-one
+    :script
+  (have <a> (= (* n one) (+ (* n zero) n))
+        :by (times-succ n zero))
+  (have <b> (= (+ (* n zero) n)
+               (+ zero n))
+        :by (eq/eq-cong% (lambda [k int]
+                           (+ k n))
+                         (times-zero n)))
+  (have <c> (= (+ zero n) n)
+        :by (plus/plus-zero-swap n))
+  (have <d> (= (* n one) n)
+        :by (eq/eq-trans* <a> <b> <c>))
+  (qed <d>))
+
+(defthm times-one-swap
+  [[n int]]
+  (= (* one n) n))
+
+(proof times-one-swap
+    :script
+  (have <a> (= (* one n) (* n one))
+        :by (times-commute one n))
+  (have <b> (= (* n one) n)
+        :by (times-one n))
+  (have <c> _ :by (eq/eq-trans% <a> <b>))
+  (qed <c>))
 
 (defthm times-opp
   [[m int] [n int]]

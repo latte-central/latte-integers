@@ -1877,24 +1877,24 @@
   (qed <c>))
 
 
-(defthm times-eq-one
-  [[m int] [n int]]
-  (==> (elem int m nat)
-       (= (* m n) one)
-       (= m one)))
+;; (defthm times-eq-one
+;;   [[m int] [n int]]
+;;   (==> (elem int m nat)
+;;        (= (* m n) one)
+;;        (= m one)))
 
-(proof times-eq-one
-    :script
-  (assume [Hm (elem int m nat)
-           H (= (* m n) one)]
-    (assume [Hzero (= m zero)]
-      (have <a1> (= zero m) :by (eq/eq-sym% Hzero))
-      (have <a2> (= (* m n) zero)
-            :by (eq/eq-subst% (lambda [k int] (= (* k n) zero))
-                              <a1>
-                              (times-zero-swap n)))
-      (have <a3> (= zero one)
-            :by (eq/eq-subst% (lambda [k int] (= k one))
-                              <a2> H)))
-    ))
+;; (proof times-eq-one
+;;     :script
+;;   (assume [Hm (elem int m nat)
+;;            H (= (* m n) one)]
+;;     (assume [Hzero (= m zero)]
+;;       (have <a1> (= zero m) :by (eq/eq-sym% Hzero))
+;;       (have <a2> (= (* m n) zero)
+;;             :by (eq/eq-subst% (lambda [k int] (= (* k n) zero))
+;;                               <a1>
+;;                               (times-zero-swap n)))
+;;       (have <a3> (= zero one)
+;;             :by (eq/eq-subst% (lambda [k int] (= k one))
+;;                               <a2> H)))
+;;     ))
 

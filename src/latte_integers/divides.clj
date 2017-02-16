@@ -177,110 +177,110 @@
     (qed <f>)))
 
 
-(defthm divides-nat-antisym
-  "Antisymmetry of divisibility only applies to naturals."
-  [[m int] [n int]]
-  (==> (elem int m nat)
-       (elem int n nat)
-       (divides m n)
-       (divides n m)
-       (= m n)))
+;; (defthm divides-nat-antisym
+;;   "Antisymmetry of divisibility only applies to naturals."
+;;   [[m int] [n int]]
+;;   (==> (elem int m nat)
+;;        (elem int n nat)
+;;        (divides m n)
+;;        (divides n m)
+;;        (= m n)))
 
-(proof divides-nat-antisym
-    :script
-  (assume [Hm (elem int m nat)
-           Hn (elem int n nat)
-           H1 (divides m n)
-           H2 (divides n m)]
-    (assume [a int
-             Ha (= (* m a) n)]
-      (assume [b int
-               Hb (= (* n b) m)]
-        ;; to show: (= m n)
-        (have <a1> (= n (* m a)) :by (eq/eq-sym% Ha))
-        (have <a2> (= (* (* m a) b) m)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= (* k b) m))
-                                <a1>
-                                Hb))
-        (have <a3> (= (* m (* a b)) m)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= k m))
-                                (times/times-assoc m a b)
-                                <a2>))
+;; (proof divides-nat-antisym
+;;     :script
+;;   (assume [Hm (elem int m nat)
+;;            Hn (elem int n nat)
+;;            H1 (divides m n)
+;;            H2 (divides n m)]
+;;     (assume [a int
+;;              Ha (= (* m a) n)]
+;;       (assume [b int
+;;                Hb (= (* n b) m)]
+;;         ;; to show: (= m n)
+;;         (have <a1> (= n (* m a)) :by (eq/eq-sym% Ha))
+;;         (have <a2> (= (* (* m a) b) m)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= (* k b) m))
+;;                                 <a1>
+;;                                 Hb))
+;;         (have <a3> (= (* m (* a b)) m)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= k m))
+;;                                 (times/times-assoc m a b)
+;;                                 <a2>))
 
-        (have <a4> (= (- (* m (* a b)) m) (- m m))
-              :by (eq/eq-cong% (lambda [k int] (- k m))
-                               <a3>))
+;;         (have <a4> (= (- (* m (* a b)) m) (- m m))
+;;               :by (eq/eq-cong% (lambda [k int] (- k m))
+;;                                <a3>))
 
-        (have <a5> (= (* m (pred (* a b))) (- m m))
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= k (- m m)))
-                                (times/times-pred-sym m (* a b))
-                                <a4>))
+;;         (have <a5> (= (* m (pred (* a b))) (- m m))
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= k (- m m)))
+;;                                 (times/times-pred-sym m (* a b))
+;;                                 <a4>))
 
-        (have <a> (= (* m (pred (* a b))) zero)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= (* m (pred (* a b))) k))
-                                (minus/minus-cancel m)
-                                <a5>))
+;;         (have <a> (= (* m (pred (* a b))) zero)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= (* m (pred (* a b))) k))
+;;                                 (minus/minus-cancel m)
+;;                                 <a5>))
         
-        (have <b1> (= m (* n b)) :by (eq/eq-sym% Hb))
-        (have <b2> (= (* (* n b) a) n)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= (* k a) n))
-                                <b1>
-                                Ha))
-        (have <b3> (= (* n (* b a)) n)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= k n))
-                                (times/times-assoc n b a)
-                                <b2>))
+;;         (have <b1> (= m (* n b)) :by (eq/eq-sym% Hb))
+;;         (have <b2> (= (* (* n b) a) n)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= (* k a) n))
+;;                                 <b1>
+;;                                 Ha))
+;;         (have <b3> (= (* n (* b a)) n)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= k n))
+;;                                 (times/times-assoc n b a)
+;;                                 <b2>))
 
-        (have <b4> (= (* n (* a b)) n)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= (* n k) n))
-                                (times/times-commute b a)
-                                <b3>))
+;;         (have <b4> (= (* n (* a b)) n)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= (* n k) n))
+;;                                 (times/times-commute b a)
+;;                                 <b3>))
 
-        (have <b5> (= (- (* n (* a b)) n) (- n n))
-              :by (eq/eq-cong% (lambda [k int] (- k n))
-                               <b4>))
+;;         (have <b5> (= (- (* n (* a b)) n) (- n n))
+;;               :by (eq/eq-cong% (lambda [k int] (- k n))
+;;                                <b4>))
 
-        (have <b6> (= (* n (pred (* a b))) (- n n))
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= k (- n n)))
-                                (times/times-pred-sym n (* a b))
-                                <b5>))
+;;         (have <b6> (= (* n (pred (* a b))) (- n n))
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= k (- n n)))
+;;                                 (times/times-pred-sym n (* a b))
+;;                                 <b5>))
 
-        (have <b> (= (* n (pred (* a b))) zero)
-              :by (eq/eq-subst% (lambda [k int]
-                                  (= (* n (pred (* a b))) k))
-                                (minus/minus-cancel n)
-                                <b6>))
+;;         (have <b> (= (* n (pred (* a b))) zero)
+;;               :by (eq/eq-subst% (lambda [k int]
+;;                                   (= (* n (pred (* a b))) k))
+;;                                 (minus/minus-cancel n)
+;;                                 <b6>))
 
-        (have <c1> (= zero (* n (pred (* a b))))
-              :by (eq/eq-sym% <b>))
+;;         (have <c1> (= zero (* n (pred (* a b))))
+;;               :by (eq/eq-sym% <b>))
 
 
-        (have <c> (= (* m (pred (* a b)))
-                     (* n (pred (* a b))))
-              :by (eq/eq-trans% <a> <c1>))
+;;         (have <c> (= (* m (pred (* a b)))
+;;                      (* n (pred (* a b))))
+;;               :by (eq/eq-trans% <a> <c1>))
 
-        "We apply the zero-splitting principle."
-        (assume [Hz (= (pred (* a b)) zero)]
-          (have <d1> (= (succ (pred (* a b))) one)
-                :by (eq/eq-cong% succ Hz))
+;;         "We apply the zero-splitting principle."
+;;         (assume [Hz (= (pred (* a b)) zero)]
+;;           (have <d1> (= (succ (pred (* a b))) one)
+;;                 :by (eq/eq-cong% succ Hz))
 
-          (have <d2> (= (* a b) one)
-                :by (eq/eq-subst% (lambda [k int]
-                                    (= k one))
-                                  (int/succ-of-pred (* a b))
-                                  <d1>)))
+;;           (have <d2> (= (* a b) one)
+;;                 :by (eq/eq-subst% (lambda [k int]
+;;                                     (= k one))
+;;                                   (int/succ-of-pred (* a b))
+;;                                   <d1>)))
 
-        ;; (assume [Hnz (not (= (pred (* a b)) zero))]
-        ;;   )
+;;         ;; (assume [Hnz (not (= (pred (* a b)) zero))]
+;;         ;;   )
         
-        ;;  or  (= m n)
-        ;; (= )
-        ))))
+;;         ;;  or  (= m n)
+;;         ;; (= )
+;;         ))))

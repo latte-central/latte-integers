@@ -364,6 +364,61 @@
                                 (plus-lt-conv n m p)))
   (qed <a>))
 
+(defthm plus-le-cong
+  [[m1 int] [m2 int] [n1 int] [n2 int]]
+  (==> (<= m1 n1)
+       (<= m2 n2)
+       (<= (+ m1 m2) (+ n1 n2))))
+
+(proof plus-le-cong
+    :script
+  (assume [H1 (<= m1 n1)
+           H2 (<= m2 n2)]
+    (have <a> (elem int (- n1 m1) nat) :by H1)
+    (have <b> (elem int (- n2 m2) nat) :by H2)
+    (have <c> (elem int (+ (- n1 m1) (- n2 m2)) nat)
+          :by (plus/plus-nat-closed (- n1 m1) <a> (- n2 m2) <b>))
+
+    (have <d1> (= (+ (- n1 m1) (- n2 m2))
+                  (- (+ (- n1 m1) n2) m2))
+          :by (minus/assoc-plus-minus (- n1 m1) n2 m2))
+    
+    (have <d2> (= (+ (- n1 m1) (- n2 m2))
+                  (- (+ n2 (- n1 m1)) m2))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (+ (- n1 m1) (- n2 m2))
+                                 (- k m2)))
+                            (plus/plus-commute (- n1 m1) n2)
+                            <d1>))
+    
+    (have <d3> (= (+ (- n1 m1) (- n2 m2))
+                  (- (- (+ n2 n1) m1) m2))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (+ (- n1 m1) (- n2 m2))
+                                 (- k m2)))
+                            (minus/assoc-plus-minus n2 n1 m1)
+                            <d2>))
+
+    (have <d4> (= (+ (- n1 m1) (- n2 m2))
+                  (- (+ n2 n1) (+ m1 m2)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (+ (- n1 m1) (- n2 m2))
+                                 k))
+                            (minus/assoc-minus-plus-sym (+ n2 n1) m1 m2)
+                            <d3>))
+
+    (have <d> (= (+ (- n1 m1) (- n2 m2))
+                 (- (+ n1 n2) (+ m1 m2)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (+ (- n1 m1) (- n2 m2))
+                                 (- k (+ m1 m2))))
+                            (plus/plus-commute n2 n1)
+                            <d4>))
+
+    (have <e> (elem int (- (+ n1 n2) (+ m1 m2)) nat)
+          :by (eq/eq-subst% (lambda [k int] (elem int k nat))
+                            <d> <c>))
+    (qed <e>)))
 
 (definition >=
   "The greater-or-equal order for integers."

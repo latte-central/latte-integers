@@ -1,4 +1,5 @@
 (ns latte-integers.times
+  
   "The multiplication defined on ℤ."
 
   (:refer-clojure :exclude [and or not int = + - * < <= > >=])
@@ -1817,4 +1818,83 @@
 
       (qed <c>)))
 
+
+(defthm times-le-nat
+  [[m int] [n int] [p int]]
+  (==> (<= m n)
+       (elem int p nat)
+       (<= (* m p) (* n p))))
+
+(proof times-le-nat
+    :script
+  (assume [Hmn (<= m n)
+           Hp (elem int p nat)]
+    "We proceed by induction on `p`"
+    (pose P := (lambda [k int]
+                 (<= (* m k) (* n k))))
+    "Base case"
+    (have <a1> (<= zero zero) :by (ord/le-refl zero))
+    (have <a2> (= zero (* m zero))
+          :by (eq/eq-sym% (times-zero m)))
+    (have <a3> (<= (* m zero) zero)
+          :by (eq/eq-subst% (lambda [k int]
+                              (<= k zero))
+                            <a2>
+                            <a1>))
+    (have <a4> (= zero (* n zero))
+          :by (eq/eq-sym% (times-zero n)))
+    (have <a> (P zero) :by (eq/eq-subst% (lambda [k int]
+                                           (<= (* m zero) k))
+                                         <a4> <a3>))
+
+    "Inductive case"
+    (assume [p int
+             Hp (elem int p nat)
+             Hind (<= (* m p) (* n p))]
+      (have <b1> (= (+ (* m p) m) (* m (succ p)))
+            :by (eq/eq-sym% (times-succ m p)))
+      (have <b2> (= (+ (* n p) n) (* n (succ p)))
+            :by (eq/eq-sym% (times-succ n p)))
+      (have <b3> (<= (+ (* m p) m) (+ (* n p) n))
+            :by ((ord/plus-le-cong (* m p) m (* n p) n)
+                 Hind Hmn))
+      (have <b4> (<= (* m (succ p)) (+ (* n p) n))
+            :by (eq/eq-subst% (lambda [k int]
+                                (<= k (+ (* n p) n)))
+                              <b1>
+                              <b3>))
+      (have <b> (P (succ p))
+            :by (eq/eq-subst% (lambda [k int]
+                                (<= (* m (succ p)) k))
+                              <b2>
+                              <b4>)))
+    
+    "We apply the induction principle"
+    (have <c> (<= (* m p) (* n p))
+          :by ((nat/nat-induct (lambda [k int]
+                                 (<= (* m k) (* n k))))
+               <a> <b> p Hp)))
+  (qed <c>))
+
+
+(defthm times-eq-one
+  [[m int] [n int]]
+  (==> (elem int m nat)
+       (= (* m n) one)
+       (= m one)))
+
+(proof times-eq-one
+    :script
+  (assume [Hm (elem int m nat)
+           H (= (* m n) one)]
+    (assume [Hzero (= m zero)]
+      (have <a1> (= zero m) :by (eq/eq-sym% Hzero))
+      (have <a2> (= (* m n) zero)
+            :by (eq/eq-subst% (lambda [k int] (= (* k n) zero))
+                              <a1>
+                              (times-zero-swap n)))
+      (have <a3> (= zero one)
+            :by (eq/eq-subst% (lambda [k int] (= k one))
+                              <a2> H)))
+    ))
 

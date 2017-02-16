@@ -176,6 +176,7 @@
                Hnm <e>))
     (qed <f>)))
 
+
 (defthm divides-nat-antisym
   "Antisymmetry of divisibility only applies to naturals."
   [[m int] [n int]]

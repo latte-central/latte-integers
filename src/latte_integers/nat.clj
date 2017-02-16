@@ -777,4 +777,51 @@ and [[negative-pred-split-conv]]."
     (have <a> p/absurd :by (H nat-zero)))
   (qed <a>))
 
+(defthm positive-not-zero
+  []
+  (not (positive zero)))
+
+(proof positive-not-zero
+    :script
+  (assume [H (positive zero)]
+    (have <a> p/absurd :by (nat-zero-has-no-pred H)))
+  (qed <a>))
+
+
+(defthm int-split-zero
+  "Yet another split principle for integers."
+  [[n int]]
+  (or (= n zero)
+      (not (= n zero))))
+
+(proof int-split-zero
+    :script
+  (assume [H1 (= n zero)]
+    (have <a> (or (= n zero)
+                  (not (= n zero)))
+          :by (p/or-intro-left% H1 (not (= n zero)))))
+  (assume [H2 (positive n)]
+    (assume [H2' (= n zero)]
+      (have <b1> (positive zero)
+            :by (eq/eq-subst% positive
+                              H2'
+                              H2))
+      (have <b2> p/absurd :by (positive-not-zero <b1>)))
+    (have <b> (or (= n zero)
+                  (not (= n zero)))
+          :by (p/or-intro-right% (= n zero) <b2>)))
+  (assume [H3 (negative n)]
+    (assume [H3' (= n zero)]
+      (have <c1> (negative zero)
+            :by (eq/eq-subst% negative H3' H3))
+      (have <c2> p/absurd :by (negative-not-zero <c1>)))
+    (have <c> (or (= n zero)
+                  (not (= n zero)))
+          :by (p/or-intro-right% (= n zero) <c2>)))
+  "We apply the more general integer splitting principle."
+  (have <d> _ :by ((int-split-elim (or (= n zero)
+                                       (not (= n zero))))
+                   n <a> <b> <c>))
+  (qed <d>))
+
 

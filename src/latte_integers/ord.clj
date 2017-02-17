@@ -16,7 +16,7 @@
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
-            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.core :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
@@ -786,6 +786,55 @@
                                 (lt-zero-opp-conv n)))
   (qed <a>))
 
+
+(defthm minus-lt
+  [[m int] [n int] [p int]]
+  (==> (< (- m p) (- n p))
+       (< m n)))
+
+(proof minus-lt
+    :script
+  (assume [H (< (- m p) (- n p))]
+    (have <a> (= (+ (- m p) p) m)
+          :by (minus/minus-prop m p))
+    (have <b> (= (+ (- n p) p) n)
+          :by (minus/minus-prop n p))
+    (have <c> (< (+ (- m p) p) (+ (- n p) p))
+          :by ((plus-lt-conv (- m p) (- n p) p) H))
+    (have <d> (< m (+ (- n p) p))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (+ (- n p) p)))
+                            <a> <c>))
+    (have <e> (< m n)
+          :by (eq/eq-subst% (lambda [k int]
+                              (< m k))
+                            <b> <d>))
+    (qed <e>)))
+
+(defthm minus-lt-conv
+  [[m int] [n int] [p int]]
+  (==> (< m n)
+       (< (- m p) (- n p))))
+
+(proof minus-lt-conv
+    :script
+  (assume [Hmn (< m n)]
+    (have <a> (= (+ m (-- p)) (- m p))
+          :by (minus/plus-opp-minus m p))
+    (have <b> (= (+ n (-- p)) (- n p))
+          :by (minus/plus-opp-minus n p))
+    (have <c> (< (+ m (-- p)) (+ n (-- p)))
+          :by ((plus-lt-conv m n (-- p)) Hmn))
+    (have <d> (< (- m p) (+ n (-- p)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (+ n (-- p))))
+                            <a> <c>))
+    (have <e> (< (- m p) (- n p))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< (- m p) k))
+                            <b> <d>))
+    (qed <e>)))
+
 (defthm lt-succ
   "Strict ordering of successors."
   [[n int]]
@@ -835,5 +884,140 @@
   (have <g> (< n (succ n)) :by (p/and-intro% <e> <f>))
 
   (qed <g>))
+
+
+(defthm lt-succ-cong
+  [[m int] [n int]]
+  (==> (< m n)
+       (< (succ m) (succ n))))
+
+(proof lt-succ-cong
+    :script
+  (assume [Hmn (< m n)]
+    (have <a> (= (+ m one) (succ m))
+          :by (plus/plus-one m))
+    (have <b> (= (+ n one) (succ n))
+          :by (plus/plus-one n))
+    (have <c> (< (+ m one) (+ n one))
+          :by ((plus-lt-conv m n one) Hmn))
+    (have <d> (< (succ m) (+ n one))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (+ n one)))
+                            <a> <c>))
+    (have <e> (< (succ m) (succ n))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< (succ m) k))
+                            <b> <d>))
+    (qed <e>)))
+
+
+(defthm lt-pred
+  [[m int]]
+  (< (pred m) m))
+
+(proof lt-pred
+    :script
+  (have <a> (< m (succ m))
+        :by (lt-succ m))
+  (have <b> (< (- m one) (- (succ m) one))
+        :by ((minus-lt-conv m (succ m) one) <a>))
+  (have <c> (= (- m one) (pred m))
+        :by (minus/minus-one m))
+  (have <d1> (= (- (succ m) one) (pred (succ m)))
+        :by (minus/minus-one (succ m)))
+  (have <d> (= (- (succ m) one) m)
+        :by (eq/eq-subst% (lambda [k int]
+                            (= (- (succ m) one) k))
+                          (int/pred-of-succ m)
+                          <d1>))
+  (have <e> (< (pred m) (- (succ m) one))
+        :by (eq/eq-subst% (lambda [k int]
+                            (< k (- (succ m) one)))
+                          <c> <b>))
+  (have <f> (< (pred m) m)
+        :by (eq/eq-subst% (lambda [k int]
+                            (< (pred m) k))
+                          <d> <e>))
+  (qed <f>))
+
+
+(defthm lt-succ-weak
+  [[m int] [n int]]
+  (==> (< m (succ n))
+       (<= m n)))
+
+(proof lt-succ-weak
+    :script
+  (assume [Hmn (< m (succ n))]
+    (have <a> (elem int (- (succ n) m) nat)
+          :by (p/and-elim-left% Hmn))
+    (have <b> (elem int (succ (- n m)) nat)
+          :by (eq/eq-subst% (lambda [k int]
+                              (elem int k nat))
+                            (minus/minus-succ n m)
+                            <a>))
+    "We use the nat-split principle."
+    (have <c> (or (= (succ (- n m)) zero)
+                  (positive (succ (- n m))))
+          :by (nat/nat-split (succ (- n m)) <b>))
+    (assume [Hzero (= (succ (- n m)) zero)]
+      (have <d1> (= (succ (- n m)) (- (succ n) m))
+            :by (eq/eq-sym% (minus/minus-succ n m)))
+      (have <d2> (= (- (succ n) m) zero)
+            :by (eq/eq-subst% (lambda [k int]
+                                (= k zero))
+                              <d1>
+                              Hzero))
+      (have <d3> (= m (succ n))
+            :by ((eq/eq-sym int (succ n) m)
+                 ((minus/minus-zero-conv (succ n) m) <d2>)))
+      (have <d4> (not (= m (succ n)))
+            :by (p/and-elim-right% Hmn))
+      (have <d5> p/absurd :by (<d4> <d3>))
+      (have <d> (<= m n) :by (<d5> (<= m n))))
+    (assume [Hpos (positive (succ (- n m)))]
+      (have <e> (<= m n)
+            :by (eq/eq-subst% (lambda [k int]
+                                (elem int k nat))
+                              (int/pred-of-succ (- n m))
+                              Hpos)))
+    "We apply the split rule."
+    (have <f> (<= m n) :by (p/or-elim% <c> (<= m n) <d> <e>))
+    (qed <f>)))
+
+
+(defthm pos-ge-one
+  [[n int]]
+  (==> (positive n)
+       (>= n one)))
+
+(proof pos-ge-one
+    :script
+  (assume [Hpos (positive n)]
+    (have <a> (> n zero) :by ((pos-gt-zero n) Hpos))
+    (have <b> (> (succ n) one)
+          :by ((lt-succ-cong zero n) <a>))
+    (have <c> (>= n one)
+          :by ((lt-succ-weak one n) <b>))
+    (qed <c>)))
+
+;; (defthm pos-one-split
+;;   "A split princple for positive numbers wrt. [[int/one]]."
+;;   [[n int]]
+;;   (==> (positive n)
+;;        (or (= n one)
+;;            (> n one))))
+
+;; (proof pos-one-split
+;;     :script
+;;   (assume [Hn (positive n)]
+;;     (have <a> (or (= (pred n) zero)
+;;                   (positive (pred n)))
+;;           :by (nat/nat-split (pred n) Hn))
+;;     (assume [H1 (= (pred n) zero)]
+;;       )))
+
+
+
 
 

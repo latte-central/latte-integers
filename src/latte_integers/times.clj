@@ -1876,6 +1876,60 @@
                <a> <b> p Hp)))
   (qed <c>))
 
+(defthm times-eq-one
+  [[m int] [n int]]
+  (==> (= (* m n) one)
+       (or (and (= m one) (= n one))
+           (and (= m (-- one)) (= n (-- one))))))
+
+(deflemma not-zero-times-one
+  [[m int] [n int]]
+  (==> (= m zero)
+       (not (= (* m n) one))))
+
+(proof not-zero-times-one
+    :script
+  (assume [Hmzero (= m zero)
+           Hmn (= (* m n) one)]
+    (have <a> (= zero (* zero n))
+          :by (eq/eq-sym% (times-zero-swap n)))
+    (have <b> (= (* zero n) one)
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (* k n) one))
+                            Hmzero
+                            Hmn))
+    (have <c> (= zero one)
+          :by (eq/eq-trans% <a> <b>))
+
+    (have <d> p/absurd
+          :by (nat/zero-is-not-one (eq/eq-sym% <c>))))
+  (qed <d>))
+
+;; (proof times-eq-one
+;;     :script
+;;   (assume [Hmn (= (* m n) one)]
+;;     "We proceed by case analysis for `m`."
+;;     (assume [Hmzero (= m zero)]
+;;       (have <a1> p/absurd
+;;             :by ((not-zero-times-one m n) Hmzero Hmn))
+;;       (have <a> _
+;;             :by (<a1> (or (and (= m one) (= n one))
+;;                           (and (= m (-- one)) (= n (-- one)))))))
+;;     (assume [Hmpos (positive m)]
+;;       "Case analysis for `n`."
+;;       (assume [Hnzero (= n zero)]
+;;         (have <b1> (= (* n m) one)
+;;               :by (eq/eq-subst% (lambda [k int] (= k one))
+;;                                 (times-commute m n)
+;;                                 Hmn))
+;;         (have <b2> p/absurd
+;;               :by ((not-zero-times-one n m) Hnzero <b1>))
+;;         (have <b> _
+;;               :by (<b2> (or (and (= m one) (= n one))
+;;                             (and (= m (-- one)) (= n (-- one)))))))
+;;       ;;(assume [Hnpos (positive n)])
+;;       )))
+
 
 ;; (defthm times-eq-one
 ;;   [[m int] [n int]]

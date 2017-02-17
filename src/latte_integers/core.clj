@@ -173,4 +173,3 @@
     (have <c> (forall [x int] (P x))
           :by ((int-induct P) <a> <b>))
     (qed <c>)))
-

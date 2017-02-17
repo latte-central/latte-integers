@@ -38,7 +38,7 @@
 </code></pre>
 <p><strong>Theorem</strong>: No documentation.</p></div></div></div><div class="public anchor" id="var-plus-nat-closed"><h3>plus-nat-closed</h3><div class="usage"><code>(plus-nat-closed)</code></div><div class="doc"><div class="markdown"><pre><code>(forall-in [n int nat] (forall-in [m int nat] (elem int (+ n m) nat)))
 </code></pre>
-<p><strong>Theorem</strong>: The addition is closed for natural integers.</p></div></div></div><div class="public anchor" id="var-plus-one"><h3>plus-one</h3><div class="usage"><code>(plus-one [n int])</code></div><div class="doc"><div class="markdown"><pre><code>(= (+ n (succ zero)) (succ n))
+<p><strong>Theorem</strong>: The addition is closed for natural integers.</p></div></div></div><div class="public anchor" id="var-plus-one"><h3>plus-one</h3><div class="usage"><code>(plus-one [n int])</code></div><div class="doc"><div class="markdown"><pre><code>(= (+ n one) (succ n))
 </code></pre>
 <p><strong>Theorem</strong>: No documentation.</p></div></div></div><div class="public anchor" id="var-plus-pred"><h3>plus-pred</h3><div class="usage"><code>(plus-pred [m int] [n int])</code></div><div class="doc"><div class="markdown"><pre><code>(= (+ m (pred n)) (pred (+ m n)))
 </code></pre>

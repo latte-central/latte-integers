@@ -16,7 +16,7 @@
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
-            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.core :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]))
@@ -365,7 +365,7 @@
 
 (defthm minus-one
   [[n int]]
-  (= (- n (succ zero)) (pred n)))
+  (= (- n one) (pred n)))
 
 (proof minus-one
     :script

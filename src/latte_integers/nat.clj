@@ -11,7 +11,7 @@
 
             [latte.equal :as eq :refer [equal]]
 
-            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.core :as int :refer [zero one succ pred int =]]
 
             [latte-sets.core :as set :refer [elem forall-in]]
 
@@ -96,6 +96,15 @@ This is the first Peano 'axiom' (here theorem, based
                  c H))
       (have e p/absurd :by (nat-zero-has-no-pred d))
       (qed e))))
+
+(defthm zero-is-not-one
+  "A direct consequence of [[nat-zero-is-not-succ]]."
+  []
+  (not (= one zero)))
+
+(proof zero-is-not-one
+    :term
+  (nat-zero-is-not-succ zero nat-zero))
 
 (defthm nat-succ-injective
   "Successor is injective, the second Peano 'axiom'

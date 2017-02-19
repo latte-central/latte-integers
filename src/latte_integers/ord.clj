@@ -221,6 +221,45 @@
     (qed <e>)))
 
 
+(defthm le-lt-split
+  [[m int] [n int]]
+  (==> (<= m n)
+       (or (= m n)
+           (< m n))))
+
+(proof le-lt-split
+    :script
+  (assume [Hmn (<= m n)]
+    (assume [H1 (= (- m n) zero)]
+      (have <a1> (= m n)
+            :by ((minus/minus-zero-alt m n) H1))
+      (have <a> _ :by (p/or-intro-left% <a1> (< m n))))
+    (assume [H2 (not (= (- m n) zero))]
+      (assume [Heq (= m n)]
+        (have <b1> (= (- m n) zero)
+              :by ((minus/minus-zero-alt-conv m n) Heq))
+        (have <b> p/absurd :by (H2 <b1>)))
+      (have <c1> (< m n)
+            :by (p/and-intro% Hmn <b>))
+      (have <c> _ :by (p/or-intro-right% (= m n) <c1>)))
+    (have <d> _ :by (p/or-elim% (nat/int-split-zero (- m n))
+                                (or (= m n)
+                                    (< m n))
+                                <a> <c>))
+    (qed <d>)))
+
+(defthm lt-le
+  [[m int] [n int]]
+  (==> (< m n)
+       (<= m n)))
+
+(proof lt-le
+    :script
+  (assume [Hmn (< m n)]
+    (have <a> (<= m n)
+          :by (p/and-elim-left% Hmn))
+    (qed <a>)))
+
 (defthm plus-le
   [[n int] [m int] [p int]]
   (==> (<= (+ n p) (+ m p))
@@ -970,7 +1009,7 @@
                               Hzero))
       (have <d3> (= m (succ n))
             :by ((eq/eq-sym int (succ n) m)
-                 ((minus/minus-zero-conv (succ n) m) <d2>)))
+                 ((minus/minus-zero-alt (succ n) m) <d2>)))
       (have <d4> (not (= m (succ n)))
             :by (p/and-elim-right% Hmn))
       (have <d5> p/absurd :by (<d4> <d3>))
@@ -1001,21 +1040,31 @@
           :by ((lt-succ-weak one n) <b>))
     (qed <c>)))
 
-;; (defthm pos-one-split
-;;   "A split princple for positive numbers wrt. [[int/one]]."
-;;   [[n int]]
-;;   (==> (positive n)
-;;        (or (= n one)
-;;            (> n one))))
+(defthm pos-one-split
+  "A split princple for positive numbers wrt. [[int/one]]."
+  [[n int]]
+  (==> (positive n)
+       (or (= n one)
+           (> n one))))
 
-;; (proof pos-one-split
-;;     :script
-;;   (assume [Hn (positive n)]
-;;     (have <a> (or (= (pred n) zero)
-;;                   (positive (pred n)))
-;;           :by (nat/nat-split (pred n) Hn))
-;;     (assume [H1 (= (pred n) zero)]
-;;       )))
+(proof pos-one-split
+    :script
+  (assume [Hn (positive n)]
+    (have <a> (>= n one) :by ((pos-ge-one n) Hn))
+    (have <b> (or (= one n)
+                  (> n one))
+          :by ((le-lt-split one n) <a>))
+    (assume [H1 (= one n)]
+      (have <c1> (= n one) :by (eq/eq-sym% H1))
+      (have <c> _ :by (p/or-intro-left% <c1> (> n one))))
+    (assume [H2 (> n one)]
+      (have <d> _ :by (p/or-intro-right% (= n one) H2)))
+    (have <e> _ :by (p/or-elim% <b> (or (= n one)
+                                        (> n one))
+                                <c> <d>))
+    (qed <e>)))
+
+
 
 
 

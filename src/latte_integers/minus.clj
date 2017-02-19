@@ -166,12 +166,12 @@
              <c>))
   (qed <d>))
 
-(defthm minus-zero-conv
+(defthm minus-zero-alt
   [[m int] [n int]]
   (==> (= (- m n) zero)
        (= m n)))
 
-(proof minus-zero-conv
+(proof minus-zero-alt
     :script
   (assume [H (= (- m n) zero)]
     (have <a> (= (+ (- m n) n)
@@ -210,6 +210,24 @@
                           (plus/plus-zero n)
                           <a>))
   (qed <b>))
+
+(defthm minus-zero-alt-conv
+  [[m int] [n int]]
+  (==> (= m n)
+       (= (- m n) zero)))
+
+(proof minus-zero-alt-conv
+    :script
+  (assume [Hmn (= m n)]
+    (have <a> (= (- m n) (- n n))
+          :by (eq/eq-cong% (lambda [k int] (- k n))
+                           Hmn))
+    (have <b> (= (- n n) zero)
+          :by (minus-cancel n))
+    (have <c> (= (- m n) zero)
+          :by (eq/eq-subst% (lambda [k int] (= (- m n) k))
+                            <b> <a>))
+    (qed <c>)))
 
 (defthm minus-succ-pred
   [[n int] [m int]]

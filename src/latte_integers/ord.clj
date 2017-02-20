@@ -949,7 +949,6 @@
                             <b> <d>))
     (qed <e>)))
 
-
 (defthm lt-pred
   [[m int]]
   (< (pred m) m))
@@ -979,6 +978,74 @@
                           <d> <e>))
   (qed <f>))
 
+(defthm lt-pred-cong
+  [[m int] [n int]]
+  (==> (< m n)
+       (< (pred m) (pred n))))
+
+(proof lt-pred-cong
+    :script
+  (assume [Hmn (< m n)]
+    (have <a> (= (- m one) (pred m))
+          :by (minus/minus-one m))
+    (have <b> (= (- n one) (pred n))
+          :by (minus/minus-one n))
+    (have <c> (< (- m one) (- n one))
+          :by ((minus-lt-conv m n one) Hmn))
+    (have <d> (< (pred m) (- n one))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (- n one)))
+                            <a> <c>))
+    (have <e> (< (pred m) (pred n))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< (pred m) k))
+                            <b> <d>))
+    (qed <e>)))
+
+(defthm lt-pred-cong-conv
+  [[m int] [n int]]
+  (==> (< (pred m) (pred n))
+       (< m n)))
+
+(proof lt-pred-cong-conv
+    :script
+  (assume [Hmn (< (pred m) (pred n))]
+    (have <a> (< (succ (pred m)) (succ (pred n)))
+          :by ((lt-succ-cong (pred m) (pred n)) Hmn))
+    (have <b> (< m (succ (pred n)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (succ (pred n))))
+                            (int/succ-of-pred m)
+                            <a>))
+    (have <c> (< m n)
+          :by (eq/eq-subst% (lambda [k int]
+                              (< m k))
+                            (int/succ-of-pred n)
+                            <b>))
+    (qed <c>)))
+
+
+(defthm lt-succ-cong-conv
+  [[m int] [n int]]
+  (==> (< (succ m) (succ n))
+       (< m n)))
+
+(proof lt-succ-cong-conv
+    :script
+  (assume [Hmn (< (succ m) (succ n))]
+    (have <a> (< (pred (succ m)) (pred (succ n)))
+          :by ((lt-pred-cong (succ m) (succ n)) Hmn))
+    (have <b> (< m (pred (succ n)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (< k (pred (succ n))))
+                            (int/pred-of-succ m)
+                            <a>))
+    (have <c> (< m n)
+          :by (eq/eq-subst% (lambda [k int]
+                              (< m k))
+                            (int/pred-of-succ n)
+                            <b>))
+    (qed <c>)))
 
 (defthm lt-succ-weak
   [[m int] [n int]]

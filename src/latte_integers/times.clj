@@ -1868,7 +1868,7 @@
                                 (<= (* m (succ p)) k))
                               <b2>
                               <b4>)))
-    
+
     "We apply the induction principle"
     (have <c> (<= (* m p) (* n p))
           :by ((nat/nat-induct (lambda [k int]
@@ -1876,64 +1876,95 @@
                <a> <b> p Hp)))
   (qed <c>))
 
-;; (defthm times-gt-pos-one
-;;   [[m int] [n int]]
-;;   (==> (positive n)
-;;        (> m one)
-;;        (> (* n m) one)))
 
-;; (proof times-gt-pos-one
-;;     :script
-;;   (assume [Hn (positive n)]
-;;     "By induction on `m`."
-;;     (pose P := (lambda [k int]
-;;                  (==> (> k one) (> (* n k) one))))
-;;     "Base case"
-;;     (assume [Hz (> zero one)]
-;;       (have <a1> ;; (<= one zero)
-;;         (elem int (-- one) nat)
-;;         :by (p/and-elim-left% Hz))
-;;       (have <a2> (positive one)
-;;             :by ((nat/positive-succ zero) (nat/nat-zero)))
-;;       (have <a3> (negative (-- one))
-;;             :by ((minus/opp-pos-neg one) <a2>))
-;;       (have <a4> p/absurd :by (<a3> <a1>))
-;;       (have <a> _ :by (<a4> (> (* n zero) one))))
-;;     "Inductive case"
-;;     (assume [m int
-;;              Hind (==> (> m one)
-;;                        (> (* n m) one))]
-;;       (assume [Hsm (> (succ m) one)]
-;;         ))))
+(defthm times-gt-pos
+  [[m int] [n int]]
+  (==> (positive n)
+       (> m one)
+       (> (* n m) n)))
 
-;; (defthm times-eq-one
-;;   [[m int] [n int]]
-;;   (==> (= (* m n) one)
-;;        (or (and (= m one) (= n one))
-;;            (and (= m (-- one)) (= n (-- one))))))
+(proof times-gt-pos
+    :script
+  (assume [Hn (positive n)
+           Hm (> m one)]
+    (have <a> (> (pred m) (pred (succ zero)))
+          :by ((ord/lt-pred-cong one m) Hm))
+    (have <b> (> (pred m) zero)
+          :by (eq/eq-subst% (lambda [k int]
+                              (> (pred m) k))
+                            (int/pred-of-succ zero)
+                            <a>))
+    (have <c> (positive (pred m))
+          :by ((ord/pos-gt-zero-conv (pred m)) <b>))
+    (have <d> (positive (* n (pred m)))
+          :by ((times-pos-pos n (pred m)) Hn <c>))
+    (have <e> (positive (- (* n m) n))
+          :by (eq/eq-subst% positive
+                            (times-pred n m)
+                            <d>))
+    (have <f> (> (- (* n m) n) zero)
+          :by ((ord/pos-gt-zero (- (* n m) n)) <e>))
+    (have <g> (> (+ (- (* n m) n) n) (+ zero n))
+          :by ((ord/plus-lt-conv zero (- (* n m) n) n) <f>))
+    (have <h> (> (* n m) (+ zero n))
+          :by (eq/eq-subst% (lambda [k int]
+                              (> k (+ zero n)))
+                            (minus/minus-prop (* n m) n)
+                            <g>))
+    (have <i> (> (* n m) n)
+          :by (eq/eq-subst% (lambda [k int]
+                              (> (* n m) k))
+                            (plus/plus-zero-swap n)
+                            <h>))
+    (qed <i>)))
 
-;; (deflemma not-zero-times-one
-;;   [[m int] [n int]]
-;;   (==> (= m zero)
-;;        (not (= (* m n) one))))
 
-;; (proof not-zero-times-one
-;;     :script
-;;   (assume [Hmzero (= m zero)
-;;            Hmn (= (* m n) one)]
-;;     (have <a> (= zero (* zero n))
-;;           :by (eq/eq-sym% (times-zero-swap n)))
-;;     (have <b> (= (* zero n) one)
-;;           :by (eq/eq-subst% (lambda [k int]
-;;                               (= (* k n) one))
-;;                             Hmzero
-;;                             Hmn))
-;;     (have <c> (= zero one)
-;;           :by (eq/eq-trans% <a> <b>))
+(defthm times-gt-pos-one
+  [[m int] [n int]]
+  (==> (positive n)
+       (> m one)
+       (> (* n m) one)))
 
-;;     (have <d> p/absurd
-;;           :by (nat/zero-is-not-one (eq/eq-sym% <c>))))
-;;   (qed <d>))
+(proof times-gt-pos-one
+    :script
+  (assume [Hn (positive n)
+           Hm (> m one)]
+    (have <a> (> (* n m) n)
+          :by ((times-gt-pos m n) Hn Hm))
+    (have <b> (>= n one)
+          :by ((ord/pos-ge-one n) Hn))
+    (have <c> (> (* n m) one)
+          :by ((ord/lt-trans-weak one n (* n m)) <b> <a>))
+    (qed <c>)))
+
+(defthm times-eq-one
+  [[m int] [n int]]
+  (==> (= (* m n) one)
+       (or (and (= m one) (= n one))
+           (and (= m (-- one)) (= n (-- one))))))
+
+(deflemma not-zero-times-one
+  [[m int] [n int]]
+  (==> (= m zero)
+       (not (= (* m n) one))))
+
+(proof not-zero-times-one
+    :script
+  (assume [Hmzero (= m zero)
+           Hmn (= (* m n) one)]
+    (have <a> (= zero (* zero n))
+          :by (eq/eq-sym% (times-zero-swap n)))
+    (have <b> (= (* zero n) one)
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (* k n) one))
+                            Hmzero
+                            Hmn))
+    (have <c> (= zero one)
+          :by (eq/eq-trans% <a> <b>))
+
+    (have <d> p/absurd
+          :by (nat/zero-is-not-one (eq/eq-sym% <c>))))
+  (qed <d>))
 
 ;; (proof times-eq-one
 ;;     :script

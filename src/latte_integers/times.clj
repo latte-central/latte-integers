@@ -2011,7 +2011,23 @@
 ;;                            <d5>
 ;;                            (and (= m (-- one)) (= n (-- one))))))
 ;;         (assume [Hm2 (> m one)]
-;;           ))
+;;           (have <e1> (> (* n m) one)
+;;                 :by ((times-gt-pos-one m n) Hnpos Hm2))
+
+;;           (have <e2> (not (= one (* n m)))
+;;                 :by (p/and-elim-right% <e1>))
+
+;;           (have <e3> (= one (* m n))
+;;                 :by (eq/eq-sym% Hmn))
+;;           (have <e4> (= one (* n m))
+;;                 :by (eq/eq-subst% (lambda [k int]
+;;                                     (= one k))
+;;                                   (times-commute m n)
+;;                                   <e3>))
+;;           (have <e4> p/absurd :by (<e2> <e4>))
+;;           (have <e> _ :by (<e4> (or (and (= m one) (= n one))
+;;                                     (and (= m (-- one)) (= n (-- one))))))))
+
 ;;       )))
 
 

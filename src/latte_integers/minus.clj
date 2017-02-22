@@ -949,7 +949,6 @@
                           <b>))
   (qed <c>))
 
-
 (defthm zero-opp-zero
   [[n int]]
   (==> (= n zero)
@@ -1393,4 +1392,23 @@
   (assume [H (= (-- n) (-- m))]
     (have <a> (= n m) :by ((minus-left-cancel zero n m) H))
     (qed <a>)))
+
+(defthm opp-eq
+  [[m int] [n int]]
+  (==> (= (-- m) n)
+       (= m (-- n))))
+
+(proof opp-eq
+    :script
+  (assume [H (= (-- m) n)]
+    (have <a> (= n (-- (-- n)))
+          :by (eq/eq-sym% (opp-opp n)))
+    (have <b> (= (-- m) (-- (-- n)))
+          :by (eq/eq-subst% (lambda [k int]
+                              (= (-- m) k))
+                            <a> H))
+    (have <c> (= m (-- n))
+          :by ((minus-opp-cancel m (-- n)) <b>))
+    (qed <c>)))
+
 

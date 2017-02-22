@@ -1966,70 +1966,209 @@
           :by (nat/zero-is-not-one (eq/eq-sym% <c>))))
   (qed <d>))
 
-;; (proof times-eq-one
-;;     :script
-;;   (assume [Hmn (= (* m n) one)]
-;;     "We proceed by case analysis for `m`."
-;;     (assume [Hmzero (= m zero)]
-;;       (have <a1> p/absurd
-;;             :by ((not-zero-times-one m n) Hmzero Hmn))
-;;       (have <a> _
-;;             :by (<a1> (or (and (= m one) (= n one))
-;;                           (and (= m (-- one)) (= n (-- one)))))))
-;;     (assume [Hmpos (positive m)]
-;;       "Case analysis for `n`."
-;;       (assume [Hnzero (= n zero)]
-;;         (have <b1> (= (* n m) one)
-;;               :by (eq/eq-subst% (lambda [k int] (= k one))
-;;                                 (times-commute m n)
-;;                                 Hmn))
-;;         (have <b2> p/absurd
-;;               :by ((not-zero-times-one n m) Hnzero <b1>))
-;;         (have <b> _
-;;               :by (<b2> (or (and (= m one) (= n one))
-;;                             (and (= m (-- one)) (= n (-- one)))))))
-;;       (assume [Hnpos (positive n)]
-;;         (have <c1> (or (= m one)
-;;                        (> m one))
-;;               :by ((ord/pos-one-split m) Hmpos))
-;;         (have <c2> (or (= n one)
-;;                        (> n one))
-;;               :by ((ord/pos-one-split n) Hnpos))
-;;         (assume [Hm1 (= m one)]
-;;           (have <d1> (= (* one n) one)
-;;                 :by (eq/eq-subst% (lambda [k int] (= (* k n) one))
-;;                                   Hm1 Hmn))
-;;           (have <d2> (= (* one n) (* n one))
-;;                 :by (times-commute one n))
-;;           (have <d3> (= (* one n) n)
-;;                 :by (eq/eq-trans% <d2> (times-one n)))
-;;           (have <d4> (= n one)
-;;                 :by (eq/eq-subst% (lambda [k int] (= k one))
-;;                                   <d3> <d1>))
-;;           (have <d5> _ :by (p/and-intro% Hm1 <d4>))
-;;           (have <d> _ :by (p/or-intro-left%
-;;                            <d5>
-;;                            (and (= m (-- one)) (= n (-- one))))))
-;;         (assume [Hm2 (> m one)]
-;;           (have <e1> (> (* n m) one)
-;;                 :by ((times-gt-pos-one m n) Hnpos Hm2))
+(proof times-eq-one
+    :script
+  (assume [Hmn (= (* m n) one)]
+    "We proceed by case analysis for `m`."
+    (assume [Hmzero (= m zero)]
+      (have <a1> p/absurd
+            :by ((not-zero-times-one m n) Hmzero Hmn))
+      (have <a> _
+            :by (<a1> (or (and (= m one) (= n one))
+                          (and (= m (-- one)) (= n (-- one)))))))
+    (assume [Hmpos (positive m)]
+      "Case analysis for `n`."
+      (assume [Hnzero (= n zero)]
+        (have <b1> (= (* n m) one)
+              :by (eq/eq-subst% (lambda [k int] (= k one))
+                                (times-commute m n)
+                                Hmn))
+        (have <b2> p/absurd
+              :by ((not-zero-times-one n m) Hnzero <b1>))
+        (have <b> _
+              :by (<b2> (or (and (= m one) (= n one))
+                            (and (= m (-- one)) (= n (-- one)))))))
+      (assume [Hnpos (positive n)]
+        (have <c1> (or (= m one)
+                       (> m one))
+              :by ((ord/pos-one-split m) Hmpos))
+        (have <c2> (or (= n one)
+                       (> n one))
+              :by ((ord/pos-one-split n) Hnpos))
+        (assume [Hm1 (= m one)]
+          (have <d1> (= (* one n) one)
+                :by (eq/eq-subst% (lambda [k int] (= (* k n) one))
+                                  Hm1 Hmn))
+          (have <d2> (= (* one n) (* n one))
+                :by (times-commute one n))
+          (have <d3> (= (* one n) n)
+                :by (eq/eq-trans% <d2> (times-one n)))
+          (have <d4> (= n one)
+                :by (eq/eq-subst% (lambda [k int] (= k one))
+                                  <d3> <d1>))
+          (have <d5> _ :by (p/and-intro% Hm1 <d4>))
+          (have <d> _
+                :by (p/or-intro-left%
+                     <d5>
+                     (and (= m (-- one)) (= n (-- one))))))
+        (assume [Hm2 (> m one)]
+          (have <e1> (> (* n m) one)
+                :by ((times-gt-pos-one m n) Hnpos Hm2))
 
-;;           (have <e2> (not (= one (* n m)))
-;;                 :by (p/and-elim-right% <e1>))
+          (have <e2> (not (= one (* n m)))
+                :by (p/and-elim-right% <e1>))
 
-;;           (have <e3> (= one (* m n))
-;;                 :by (eq/eq-sym% Hmn))
-;;           (have <e4> (= one (* n m))
-;;                 :by (eq/eq-subst% (lambda [k int]
-;;                                     (= one k))
-;;                                   (times-commute m n)
-;;                                   <e3>))
-;;           (have <e4> p/absurd :by (<e2> <e4>))
-;;           (have <e> _ :by (<e4> (or (and (= m one) (= n one))
-;;                                     (and (= m (-- one)) (= n (-- one))))))))
+          (have <e3> (= one (* m n))
+                :by (eq/eq-sym% Hmn))
+          (have <e4> (= one (* n m))
+                :by (eq/eq-subst% (lambda [k int]
+                                    (= one k))
+                                  (times-commute m n)
+                                  <e3>))
+          (have <e4> p/absurd :by (<e2> <e4>))
+          (have <e> _ :by (<e4> (or (and (= m one) (= n one))
+                                    (and (= m (-- one)) (= n (-- one)))))))
 
-;;       )))
+        (have <f> _ :by (p/or-elim% <c1>
+                                    (or (and (= m one) (= n one))
+                                        (and (= m (-- one)) (= n (-- one))))
+                                    <d>
+                                    <e>)))
+      (assume [Hnneg (negative n)]
+        (have <g1> (negative (* m n))
+              :by ((times-pos-neg m n) Hmpos Hnneg))
+        (have <g1> (negative one)
+              :by ((eq/eq-impl int negative (* m n) one)
+                   Hmn <g1>))
+        (have <g2> (negative (pred (succ zero)))
+              :by ((nat/negative-pred (succ zero)) <g1>))
+        (have <g3> (negative zero)
+              :by (eq/eq-subst% negative
+                                (int/pred-of-succ zero)
+                                <g2>))
+        (have <g4> p/absurd
+              :by (nat/negative-not-zero <g3>))
+        (have <g> _ :by (<g4> (or (and (= m one) (= n one))
+                                  (and (= m (-- one)) (= n (-- one)))))))
+      "We can finish the subcase for positive `m`."
+      (have <h> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
+                                               (and (= m (-- one)) (= n (-- one)))))
+                       n <b> <f> <g>)))
 
+    "We do the same thing but working on opposites
+Remark: we could probably factorize better..."
+
+     (assume [Hmneg (negative m)]
+       (have <i> (positive (-- m))
+             :by ((minus/opp-neg-pos m) Hmneg))
+       "Case analysis for `(-- n)`."
+       (assume [Hnzero (= (-- n) zero)]
+         (have <j1> (= n zero)
+               :by ((minus/zero-opp-zero-conv n) Hnzero))
+         (have <j2> (= (* n m) one)
+               :by (eq/eq-subst% (lambda [k int] (= k one))
+                                 (times-commute m n)
+                                 Hmn))
+         (have <j3> p/absurd
+               :by ((not-zero-times-one n m) <j1> <j2>))
+         (have <j> _
+               :by (<j3> (or (and (= m one) (= n one))
+                             (and (= m (-- one)) (= n (-- one)))))))
+       (assume [Hnpos (positive (-- n))]
+         (have <k1> (or (= (-- m) one)
+                        (> (-- m) one))
+               :by ((ord/pos-one-split (-- m)) <i>))
+         (have <k2> (or (= (-- n) one)
+                        (> (-- n) one))
+               :by ((ord/pos-one-split (-- n)) Hnpos))
+         (assume [Hm1 (= (-- m) one)]
+           (have <l1> (= m (-- one))
+                 :by ((minus/opp-eq m one) Hm1)) 
+           (have <l2> (= (* (-- one) n) one)
+                 :by (eq/eq-subst% (lambda [k int] (= (* k n) one))
+                                   <l1> Hmn))
+           (have <l3> (= (* n (-- one)) one)
+                 :by (eq/eq-subst% (lambda [k int] (= k one))
+                                   (times-commute (-- one) n)
+                                   <l2>))
+           (have <l4> (= (-- (* n one)) one)
+                 :by (eq/eq-subst% (lambda [k int] (= k one))
+                                   (times-opp n one)
+                                   <l3>))
+           (have <l5> (= (* n one) (-- one))
+                 :by ((minus/opp-eq (* n one) one) <l4>))
+           (have <l6> (= n (-- one))
+                 :by (eq/eq-subst% (lambda [k int] (= k (-- one)))
+                                   (times-one n)
+                                   <l5>))
+    
+           (have <l7> (and (= m (-- one)) (= n (-- one))) :by (p/and-intro% <l1> <l6>))
+           (have <l> (or (and (= m one) (= n one))
+                         (and (= m (-- one)) (= n (-- one))))
+                 :by (p/or-intro-right%
+                      (and (= m one) (= n one))
+                      <l7>)))
+         (assume [Hm2 (> (-- m) one)]
+           (have <m1> (> (* (-- n) (-- m)) one)
+                 :by ((times-gt-pos-one (-- m) (-- n)) Hnpos Hm2))
+           (have <m2> (> (* n m) one)
+                 :by (eq/eq-subst% (lambda [k int] (> k one))
+                                   (times-opp-opp n m)
+                                   <m1>))
+
+           (have <m3> (not (= one (* n m)))
+                 :by (p/and-elim-right% <m2>))
+
+           (have <m4> (= one (* m n))
+                 :by (eq/eq-sym% Hmn))
+           (have <m5> (= one (* n m))
+                 :by (eq/eq-subst% (lambda [k int]
+                                     (= one k))
+                                   (times-commute m n)
+                                   <m4>))
+           (have <m6> p/absurd :by (<m3> <m5>))
+           (have <m> _ :by (<m6> (or (and (= m one) (= n one))
+                                     (and (= m (-- one)) (= n (-- one)))))))
+
+         (have <n> _ :by (p/or-elim% <k1>
+                                     (or (and (= m one) (= n one))
+                                         (and (= m (-- one)) (= n (-- one))))
+                                     <l>
+                                     <m>)))
+       (assume [Hnneg (negative (-- n))]
+         (have <o1> (positive (-- (-- n)))
+               :by ((minus/opp-neg-pos (-- n)) Hnneg))
+         (have <o2> (positive n)
+               :by (eq/eq-subst% positive
+                                 (minus/opp-opp n)
+                                 <o1>))
+         (have <o3> (negative (* m n))
+               :by ((times-neg-pos m n) Hmneg <o2>))
+         ;; TODO: the rest should be in a lemma (factorization) ...
+         (have <o4> (negative one)
+               :by ((eq/eq-impl int negative (* m n) one)
+                    Hmn <o3>))
+         (have <o5> (negative (pred (succ zero)))
+               :by ((nat/negative-pred (succ zero)) <o4>))
+
+         (have <o6> (negative zero)
+               :by (eq/eq-subst% negative
+                                 (int/pred-of-succ zero)
+                                 <o5>))
+         (have <o7> p/absurd
+               :by (nat/negative-not-zero <o6>))
+         (have <o> _ :by (<o7> (or (and (= m one) (= n one))
+                                   (and (= m (-- one)) (= n (-- one)))))))
+       "We can finish the subcase for negative `m`."
+       (have <p> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
+                                                (and (= m (-- one)) (= n (-- one)))))
+                        (-- n) <j> <n> <o>)))
+     "And now we eliminate one last time"
+     (have <q> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
+                                              (and (= m (-- one)) (= n (-- one)))))
+                      m <a> <h> <p>))
+     (qed <q>)))
+     
 
 ;; (defthm times-eq-one
 ;;   [[m int] [n int]]

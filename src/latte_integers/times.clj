@@ -2083,7 +2083,7 @@ Remark: we could probably factorize better..."
                :by ((ord/pos-one-split (-- n)) Hnpos))
          (assume [Hm1 (= (-- m) one)]
            (have <l1> (= m (-- one))
-                 :by ((minus/opp-eq m one) Hm1)) 
+                 :by ((minus/opp-eq m one) Hm1))
            (have <l2> (= (* (-- one) n) one)
                  :by (eq/eq-subst% (lambda [k int] (= (* k n) one))
                                    <l1> Hmn))
@@ -2101,7 +2101,7 @@ Remark: we could probably factorize better..."
                  :by (eq/eq-subst% (lambda [k int] (= k (-- one)))
                                    (times-one n)
                                    <l5>))
-    
+
            (have <l7> (and (= m (-- one)) (= n (-- one))) :by (p/and-intro% <l1> <l6>))
            (have <l> (or (and (= m one) (= n one))
                          (and (= m (-- one)) (= n (-- one))))
@@ -2168,26 +2168,60 @@ Remark: we could probably factorize better..."
                                               (and (= m (-- one)) (= n (-- one)))))
                       m <a> <h> <p>))
      (qed <q>)))
-     
 
-;; (defthm times-eq-one
-;;   [[m int] [n int]]
-;;   (==> (elem int m nat)
-;;        (= (* m n) one)
-;;        (= m one)))
+(defthm times-eq-one-nat
+  [[m int] [n int]]
+  (==> (elem int m nat)
+       (= (* m n) one)
+       (= m one)))
 
-;; (proof times-eq-one
-;;     :script
-;;   (assume [Hm (elem int m nat)
-;;            H (= (* m n) one)]
-;;     (assume [Hzero (= m zero)]
-;;       (have <a1> (= zero m) :by (eq/eq-sym% Hzero))
-;;       (have <a2> (= (* m n) zero)
-;;             :by (eq/eq-subst% (lambda [k int] (= (* k n) zero))
-;;                               <a1>
-;;                               (times-zero-swap n)))
-;;       (have <a3> (= zero one)
-;;             :by (eq/eq-subst% (lambda [k int] (= k one))
-;;                               <a2> H)))
-;;     ))
+(proof times-eq-one-nat
+    :script
+  (assume [Hm (elem int m nat)
+           H (= (* m n) one)]
+    (assume [H1 (and (= m one) (= n one))]
+      (have <a> (= m one) :by (p/and-elim-left% H1)))
+    (assume [H2 (and (= m (-- one)) (= n (-- one)))]
+      (have <b1> (positive one)
+            :by ((nat/positive-succ zero) nat/nat-zero))
+      (have <b2> (negative (-- one))
+            :by ((minus/opp-pos-neg one) <b1>))
+      (have <b3> (= (-- one) m)
+            :by ((eq/eq-sym int m (-- one)) (p/and-elim-left% H2)))
+      (have <b4> (negative m)
+            :by (eq/eq-subst% negative
+                              <b3>
+                              <b2>))
+      (have <b5> p/absurd :by (<b4> Hm))
+      (have <b> (= m one) :by (<b5> (= m one))))
+    (have <c> (or (and (= m one) (= n one))
+                  (and (= m (-- one)) (= n (-- one))))
+          :by ((times-eq-one m n) H))
+    (have <d> (= m one) :by (p/or-elim% <c> (= m one)
+                                        <a> <b>))
+    (qed <d>)))
+
+(defthm times-eq-one-nat-swap
+  [[m int] [n int]]
+  (==> (elem int m nat)
+       (= (* m n) one)
+       (= n one)))
+
+(proof times-eq-one-nat-swap
+    :script
+  (assume [Hm (elem int m nat)
+           H (= (* m n) one)]
+    (have <a> (= m one)
+          :by ((times-eq-one-nat m n) Hm H))
+    (have <b> (= (* one n) one)
+          :by (eq/eq-subst% (lambda [k int] (= (* k n) one))
+                            <a> H))
+    (have <c> (= n one)
+          :by (eq/eq-subst% (lambda [k int] (= k one))
+                            (times-one-swap n)
+                            <b>))
+    (qed <c>)))
+
+
+
 

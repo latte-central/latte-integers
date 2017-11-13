@@ -47,7 +47,7 @@
   []
   (fun/surjective succ))
 
-(proof 'succ-surjective :script
+(proof 'succ-surjective
   (qed ((fun/bijective-is-surjective int int succ) succ-bijective)))
 
 (defthm succ-injective
@@ -55,7 +55,7 @@
   []
   (fun/injective succ))
 
-(proof 'succ-injective :script
+(proof 'succ-injective
   (qed ((fun/bijective-is-injective int int succ) succ-bijective)))
 
 (defthm succ-ex
@@ -63,7 +63,7 @@
   [[y int]]
   (exists [x int] (= (succ x) y)))
 
-(proof 'succ-ex :script
+(proof 'succ-ex
   (qed (succ-surjective y)))
 
 (defthm succ-single
@@ -71,7 +71,7 @@
   [[y int]]
   (q/single (lambda [x int] (= (succ x) y))))
 
-(proof 'succ-single :script
+(proof 'succ-single
   (qed ((fun/injective-single int int succ)
         succ-injective
         y)))
@@ -81,7 +81,7 @@
   [[y int]]
   (q/unique  (lambda [x int] (= (succ x) y))))
 
-(proof 'succ-unique :script
+(proof 'succ-unique
   (qed ((fun/bijective-unique int int succ)
         succ-bijective
         y)))
@@ -96,50 +96,46 @@
   [[y int]]
   (= (succ (pred y)) y))
 
-(proof 'succ-of-pred
-    :script
+(proof 'succ-of-pred   
   (qed ((fun/inverse-prop int int succ succ-bijective)
         y)))
-
-;;; ************* UPDATED UNTIL HERE *****************
 
 (defthm pred-of-succ
   "The predecessor of the successor of `y` is ... `y`."
   [[y int]]
   (= (pred (succ y)) y))
 
-(proof pred-of-succ
-    :term
-  ((fun/inverse-prop-conv int int succ succ-bijective)
-   y))
+(proof 'pred-of-succ
+    (qed
+     ((fun/inverse-prop-conv int int succ succ-bijective)
+      y)))
 
 (defthm pred-bijective
   "The predecessor function is bijective"
   []
-  (fun/bijective int int pred))
+  (fun/bijective pred))
 
-(proof pred-bijective
-    :term
-  (fun/inverse-bijective int int succ succ-bijective))
+(proof 'pred-bijective
+    (qed
+     (fun/inverse-bijective int int succ succ-bijective)))
 
 (defthm pred-surjective
   "The predecessor function is surjective."
   []
-  (fun/surjective int int pred))
+  (fun/surjective pred))
 
-(proof pred-surjective
-    :term
-  (fun/inverse-surjective int int succ succ-bijective))
+(proof 'pred-surjective
+    (qed
+     (fun/inverse-surjective int int succ succ-bijective)))
 
 (defthm pred-injective
   "The predecessor function is injective"
   []
-  (fun/injective int int pred))
+  (fun/injective pred))
 
-(proof pred-injective
-    :term
-  (fun/inverse-injective int int succ succ-bijective))
-
+(proof 'pred-injective
+    (qed
+     (fun/inverse-injective int int succ succ-bijective)))
 
 (defaxiom int-induct
   "The induction principle for integers
@@ -160,17 +156,16 @@
                             (P (pred x))))
        (forall [x int] (P x))))
 
-(proof int-case
-    :script
-  (assume [Hz (P zero)
-           Hsp (forall [x int] (and (P (succ x))
-                                    (P (pred x))))]
-    (have <a> (P zero) :by Hz)
-    (assume [x int
-             Hx (P x)]
-      (have <b> (and (P (succ x))
-                     (P (pred x)))
-            :by (Hsp x)))
-    (have <c> (forall [x int] (P x))
-          :by ((int-induct P) <a> <b>))
-    (qed <c>)))
+(proof 'int-case
+    (assume [Hz (P zero)
+             Hsp (forall [x int] (and (P (succ x))
+                                      (P (pred x))))]
+      (have <a> (P zero) :by Hz)
+      (assume [x int
+               Hx (P x)]
+        (have <b> (and (P (succ x))
+                       (P (pred x)))
+              :by (Hsp x)))
+      (have <c> (forall [x int] (P x))
+            :by ((int-induct P) <a> <b>)))
+  (qed <c>))

@@ -4,8 +4,8 @@
   :license {:name "MIT Licence"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.9.0-RC1"]
-                 [latte "0.99.8-SNAPSHOT"]
-                 [latte-sets "0.4.0-SNAPSHOT"]]
+                 [latte "0.99.9-SNAPSHOT"]
+                 [latte-sets "0.4.1-SNAPSHOT"]]
   :codox {:output-path "docs/"
           :metadata {:doc/format :markdown}
           :namespaces [latte-integers.core latte-integers.nat

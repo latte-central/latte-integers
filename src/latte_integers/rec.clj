@@ -7,7 +7,7 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
-                                          pose try-proof ==>]]
+                                          pose try-proof qed]]
 
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]

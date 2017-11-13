@@ -184,7 +184,6 @@ derived from [[int-induct]]."
          (positive x))))
 
 (proof positive-nat-split
-   
   (pose P := (lambda [x int]
                (==> (not (= x zero))
                     (elem (pred x) nat))))
@@ -218,7 +217,6 @@ derived from [[int-induct]]."
        (forall-in [n int nat] (P n))))
 
 (proof nat-case
-   
   (assume [Hz (P zero)
            Hs (forall-in [k int nat] (P (succ k)))]
     "We proceed by induction on n"
@@ -237,7 +235,6 @@ derived from [[int-induct]]."
        (positive (succ n))))
 
 (proof positive-succ
-   
   (assume [Hn (elem n nat)]
     (have <a> (not (= (succ n) zero))
           :by (nat-zero-is-not-succ n Hn))
@@ -254,7 +251,6 @@ derived from [[int-induct]]."
        (elem n nat)))
 
 (proof positive-conv
-   
   (assume [H (positive n)]
     (have <a> (elem (succ (pred n)) nat)
           :by ((nat-succ (pred n))
@@ -273,7 +269,6 @@ derived from [[int-induct]]."
        (elem n nat)))
 
 (proof positive-zero-conv
-   
   (assume [H (or (= n zero)
                  (positive n))]
     (assume [H1 (= n zero)]
@@ -298,7 +293,6 @@ is (obiously) a natural number"
        (elem n nat)))
 
 (proof positive-succ-conv
-   
   (assume [H (positive (succ n))]
     (have <a> (elem n nat)
           :by ((eq/eq-subst int nat (pred (succ n)) n)
@@ -313,7 +307,6 @@ is (obiously) a natural number"
        (positive (succ n))))
 
 (proof positive-succ-strong
-   
   (assume [H (positive n)]
     (have <a> (elem n nat) :by ((positive-conv n) H))
     (have <b> (positive (succ n))
@@ -327,7 +320,6 @@ is (obiously) a natural number"
        (elem n nat)))
 
 (proof positive-succ-equiv
-   
   (have <a> (==> (positive (succ n))
                  (elem n nat))
         :by (positive-succ-conv n))
@@ -345,7 +337,6 @@ is (obiously) a natural number"
         (positive n))))
 
 (proof nat-split
-   
   (pose P := (lambda [k int]
                (or (= k zero)
                    (positive k))))
@@ -374,7 +365,6 @@ is (obiously) a natural number"
            (positive n))))
 
 (proof positive-succ-split
-   
   (assume [H (positive (succ n))]
     (have <a> (elem n nat)
           :by ((positive-succ-conv n) H))
@@ -391,7 +381,6 @@ is (obiously) a natural number"
        (positive (succ n))))
 
 (proof positive-succ-split-conv
-   
   (assume [H (or (= n zero)
                  (positive n))]
     (assume [H1 (= n zero)]
@@ -418,7 +407,6 @@ and [[positive-succ-split-conv]]."
            (positive n))))
 
 (proof positive-succ-split-equiv
-   
   (have <a> _ :by (p/and-intro% (positive-succ-split n)
                                 (positive-succ-split-conv n)))
   (qed <a>))
@@ -437,7 +425,6 @@ and [[positive-succ-split-conv]]."
       (negative n)))
 
 (proof int-split
-   
   (have <a> (or (elem n nat)
                 (not (elem n nat)))
         :by (classic/excluded-middle-ax (elem n nat)))
@@ -477,7 +464,6 @@ and [[positive-succ-split-conv]]."
          A)))
 
 (proof int-split-elim
-   
   (assume [n int
            H1 (==> (= n zero) A)
            H2 (==> (positive n) A)
@@ -501,8 +487,7 @@ and [[positive-succ-split-conv]]."
 ;; negative...
 ;;
 ;; (proof int-split
-;;    
-;;   "The proof is by induction on n"
+;; ;;   "The proof is by induction on n"
 
 ;;   (have P _ :by (lambda [x int]
 ;;                   (or (or (= x zero)
@@ -605,7 +590,6 @@ and [[positive-succ-split-conv]]."
     (not (negative n))))
 
 (proof negative-nat
-   
   (assume [n int
            Hn (elem n nat)]
     (assume [Hneg (negative n)]
@@ -620,7 +604,6 @@ and [[positive-succ-split-conv]]."
       (not (elem n nat))))
 
 (proof int-split-alt
-   
   (have <or> (or (or (= n zero)
                      (positive n))
                  (negative n)) :by (int-split n))
@@ -653,7 +636,6 @@ and [[positive-succ-split-conv]]."
        (negative (pred n))))
 
 (proof negative-pred
-   
   (assume [Hn (negative n)]
     (have <split> (or (elem (pred n) nat)
                       (not (elem (pred n) nat)))
@@ -694,7 +676,6 @@ and [[positive-succ-split-conv]]."
        (negative (pred n))))
 
 (proof negative-pred-split-conv
-   
   (assume [H (or (= n zero)
                  (negative n))]
     (assume [H1 (= n zero)]
@@ -719,7 +700,6 @@ and [[positive-succ-split-conv]]."
            (negative n))))
 
 (proof negative-pred-split
-   
   (assume [H (negative (pred n))]
     (have <split> (or (or (= n zero)
                           (positive n))
@@ -780,7 +760,6 @@ and [[negative-pred-split-conv]]."
   (not (negative zero)))
 
 (proof negative-not-zero
-   
   (assume [H (negative zero)]
     (have <a> p/absurd :by (H nat-zero)))
   (qed <a>))
@@ -790,7 +769,6 @@ and [[negative-pred-split-conv]]."
   (not (positive zero)))
 
 (proof positive-not-zero
-   
   (assume [H (positive zero)]
     (have <a> p/absurd :by (nat-zero-has-no-pred H)))
   (qed <a>))
@@ -803,7 +781,6 @@ and [[negative-pred-split-conv]]."
       (not (= n zero))))
 
 (proof int-split-zero
-   
   (assume [H1 (= n zero)]
     (have <a> (or (= n zero)
                   (not (= n zero)))

@@ -3,11 +3,10 @@
 
   (:refer-clojure :exclude [and or not int =])
 
-  (:require [latte.core :as latte :refer [defprimitive defaxiom defthm definition
-                                          ==> lambda forall
+  (:require [latte.core :as latte :refer [defaxiom defthm definition
+                                          lambda forall
                                           proof try-proof assume have qed]]
             [latte.prop :as p :refer [and or not <=>]]
-            [latte.rel :as rel]
             [latte.fun :as fun]
             [latte.quant :as q :refer [exists]]
             [latte.equal :as eq :refer [equal]]
@@ -21,7 +20,7 @@
 (definition =
   "The equality on integers."
   [[n int] [m int]]
-  (equal int n m))
+  (eq/equality int n m))
 
 (defaxiom zero
   "The integer zero."
@@ -41,66 +40,68 @@
 (defaxiom succ-bijective
   "The successor function is bijective."
   []
-  (fun/bijective int int succ))
+  (fun/bijective succ))
 
 (defthm succ-surjective
   "The successor function is surjective."
   []
-  (fun/surjective int int succ))
+  (fun/surjective succ))
 
-(proof succ-surjective :term
-  ((fun/bijective-is-surjective int int succ) succ-bijective))
+(proof 'succ-surjective :script
+  (qed ((fun/bijective-is-surjective int int succ) succ-bijective)))
 
 (defthm succ-injective
   "The successor function is injective."
   []
-  (fun/injective int int succ))
+  (fun/injective succ))
 
-(proof succ-injective :term
-  ((fun/bijective-is-injective int int succ) succ-bijective))
+(proof 'succ-injective :script
+  (qed ((fun/bijective-is-injective int int succ) succ-bijective)))
 
 (defthm succ-ex
   "An integer `y` is the successor of  *at least* another integer."
   [[y int]]
-  (exists [x int] (equal int (succ x) y)))
+  (exists [x int] (= (succ x) y)))
 
-(proof succ-ex :term
-  (succ-surjective y))
+(proof 'succ-ex :script
+  (qed (succ-surjective y)))
 
 (defthm succ-single
   "An integer `y` is the successor of *at most* another integer."
   [[y int]]
-  (q/single int (lambda [x int] (= (succ x) y))))
+  (q/single (lambda [x int] (= (succ x) y))))
 
-(proof succ-single :term
-  ((fun/injective-single int int succ)
-   succ-injective
-   y))
+(proof 'succ-single :script
+  (qed ((fun/injective-single int int succ)
+        succ-injective
+        y)))
  
 (defthm succ-unique
   "There is a unique successor to an integer `y`."
   [[y int]]
-  (q/unique int (lambda [x int] (= (succ x) y))))
+  (q/unique  (lambda [x int] (= (succ x) y))))
 
-(proof succ-unique :term
-  ((fun/bijective-unique int int succ)
-   succ-bijective
-   y))
+(proof 'succ-unique :script
+  (qed ((fun/bijective-unique int int succ)
+        succ-bijective
+        y)))
 
 (definition pred
   "The predecessor as the inverse of the successor."
   []
-  (fun/inverse int int succ succ-bijective))
+  (fun/inverse succ succ-bijective))
 
 (defthm succ-of-pred
   "The succesor of the predecessor of `y` is ... `y`."
   [[y int]]
   (= (succ (pred y)) y))
 
-(proof succ-of-pred
-    :term
-  ((fun/inverse-prop int int succ succ-bijective)
-   y))
+(proof 'succ-of-pred
+    :script
+  (qed ((fun/inverse-prop int int succ succ-bijective)
+        y)))
+
+;;; ************* UPDATED UNTIL HERE *****************
 
 (defthm pred-of-succ
   "The predecessor of the successor of `y` is ... `y`."

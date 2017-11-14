@@ -94,16 +94,14 @@ This is the first Peano 'axiom' (here theorem, based
         (have <e> p/absurd :by (nat-zero-has-no-pred <d>))))
   (qed <e>))
 
-;;;; ****************** UPDATED UNTIL HERE ********************
-
 (defthm zero-is-not-one
   "A direct consequence of [[nat-zero-is-not-succ]]."
   []
   (not (= one zero)))
 
-(proof zero-is-not-one
-    :term
-  (nat-zero-is-not-succ zero nat-zero))
+(proof 'zero-is-not-one
+    (qed
+     (nat-zero-is-not-succ zero nat-zero)))
 
 (defthm nat-succ-injective
   "Successor is injective, the second Peano 'axiom'
@@ -115,15 +113,15 @@ here a simple consequence of [[succ-injective]]."
          (= (succ x) (succ y))
          (= x y))))
 
-(proof nat-succ-injective
+(proof 'nat-succ-injective
   (assume [x int
            y int
            H1 (elem x nat)
            H2 (elem y nat)
            H3 (= (succ x) (succ y))]
-    (have a (= x y)
-          :by (int/succ-injective x y H3))
-    (qed a)))
+    (have <a> (= x y)
+          :by (int/succ-injective x y H3)))
+  (qed <a>))
 
 (defthm nat-induct
   "The induction principle for natural integers.
@@ -139,37 +137,36 @@ derived from [[int-induct]]."
          (==> (elem x nat)
               (P x)))))
 
-(proof nat-induct
+(proof 'nat-induct
   (pose Q := (lambda [z int]
-               (and (elem z nat)
-                    (P z))))
+                     (and (elem z nat)
+                          (P z))))
   (assume [Hz (P zero)
            Hs (forall [x int]
-                (==> (elem x nat)
-                     (P x)
-                     (P (succ x))))]
+                      (==> (elem x nat)
+                           (P x)
+                           (P (succ x))))]
     (have <a> (Q zero)
-          :by (p/and-intro% 
-               nat-zero Hz))
+          :by (p/and-intro nat-zero Hz))
     (assume [y int
              Hy (Q y)]
       (have <b> (elem y nat)
-            :by (p/and-elim-left% Hy))
+            :by (p/and-elim-left Hy))
       (have <c> (P y)
-            :by (p/and-elim-right% Hy))
+            :by (p/and-elim-right Hy))
       (have <d> (elem (succ y) nat)
             :by ((nat-succ y) <b>))
       (have <e> (==> (P y) (P (succ y)))
             :by (Hs y <b>))
       (have <f> (P (succ y)) :by (<e> <c>))
-      (have <g> (Q (succ y)) :by (p/and-intro% <d> <f>)))
+      (have <g> (Q (succ y)) :by (p/and-intro <d> <f>)))
     (have <h> (and (Q zero)
-                   (nat-succ-prop Q)) :by (p/and-intro% <a> <g>))
+                   (nat-succ-prop Q)) :by (p/and-intro <a> <g>))
     (assume [x int
              Hx (elem x nat)]
       (have <i> (Q x) :by (Hx Q <h>))
-      (have <j> (P x) :by (p/and-elim-right% <i>))
-      (qed <j>))))
+      (have <j> (P x) :by (p/and-elim-right <i>))))
+  (qed <j>))
 
 (definition positive
   "The integer `n` is strictly positive."
@@ -183,14 +180,14 @@ derived from [[int-induct]]."
     (==> (not (= x zero))
          (positive x))))
 
-(proof positive-nat-split
+(proof 'positive-nat-split
   (pose P := (lambda [x int]
-               (==> (not (= x zero))
-                    (elem (pred x) nat))))
+                (==> (not (= x zero))
+                     (elem (pred x) nat))))
   "Let's proceed by induction"
   "First with (P zero)"
   (assume [Hnz (not (= zero zero))]
-    (have <a1> (= zero zero) :by (eq/eq-refl int zero))
+    (have <a1> (= zero zero) :by (eq/eq-refl zero))
     (have <a2> p/absurd :by (Hnz <a1>))
     (have <a> (elem (pred zero) nat) :by (<a2> (elem (pred zero) nat))))
   "Then the inductive case."
@@ -200,14 +197,12 @@ derived from [[int-induct]]."
     "We aim to prove (P (succ n))"
     (assume [Hs (not (= (succ n) zero))]
       (have <b1> (= n (pred (succ n)))
-            :by ((eq/eq-sym int (pred (succ n)) n) (int/pred-of-succ n)))
+            :by (eq/eq-sym (int/pred-of-succ n)))
       (have <b> (elem (pred (succ n)) nat)
-            :by ((eq/eq-subst int nat n (pred (succ n)))
-                 <b1> Hn))))
+            :by (eq/eq-subst nat <b1> Hn))))
   (have <c> (forall-in [x int nat] (P x))
         :by ((nat-induct P) <a> <b>))
   (qed <c>))
-
 
 (defthm nat-case
   "Case analysis for natural numbers."
@@ -216,7 +211,7 @@ derived from [[int-induct]]."
        (forall-in [k int nat] (P (succ k)))
        (forall-in [n int nat] (P n))))
 
-(proof nat-case
+(proof 'nat-case
   (assume [Hz (P zero)
            Hs (forall-in [k int nat] (P (succ k)))]
     "We proceed by induction on n"
@@ -225,8 +220,8 @@ derived from [[int-induct]]."
              Hx (elem x nat)
              HPx (P x)]
       (have <b> (P (succ x)) :by (Hs x Hx)))
-    (have <c> _ :by ((nat-induct P) <a> <b>))
-    (qed <c>)))
+    (have <c> _ :by ((nat-induct P) <a> <b>)))
+  (qed <c>))
 
 (defthm positive-succ
   "The successor of a natural number is positive."
@@ -234,15 +229,15 @@ derived from [[int-induct]]."
   (==> (elem n nat)
        (positive (succ n))))
 
-(proof positive-succ
+(proof 'positive-succ
   (assume [Hn (elem n nat)]
     (have <a> (not (= (succ n) zero))
           :by (nat-zero-is-not-succ n Hn))
     (have <b> (positive (succ n))
           :by (positive-nat-split (succ n)
                                   ((nat-succ n) Hn)
-                                  <a>))
-    (qed <b>)))
+                                  <a>)))
+  (qed <b>))
 
 (defthm positive-conv
   "A positive natural number is (obiously) a natural number"
@@ -250,16 +245,14 @@ derived from [[int-induct]]."
   (==> (positive n)
        (elem n nat)))
 
-(proof positive-conv
+(proof 'positive-conv
   (assume [H (positive n)]
     (have <a> (elem (succ (pred n)) nat)
           :by ((nat-succ (pred n))
                H))
     (have <b> (elem n nat)
-          :by ((eq/eq-subst int nat (succ (pred n)) n)
-               (int/succ-of-pred n)
-               <a>))
-    (qed <b>)))
+          :by (eq/eq-subst nat (int/succ-of-pred n) <a>)))
+  (qed <b>))
 
 (defthm positive-zero-conv
   "A positive or null number is ... natural"
@@ -268,22 +261,19 @@ derived from [[int-induct]]."
            (positive n))
        (elem n nat)))
 
-(proof positive-zero-conv
+(proof 'positive-zero-conv
   (assume [H (or (= n zero)
                  (positive n))]
     (assume [H1 (= n zero)]
       (have <a> (elem n nat)
-            :by ((eq/eq-subst int nat zero n)
-                 ((eq/eq-sym int n zero) H1)
-                 nat-zero)))
+            :by (eq/eq-subst nat (eq/eq-sym  H1) nat-zero)))
     (assume [H2 (positive n)]
       (have <b> (elem n nat)
             :by ((positive-conv n) H2)))
     (have <c> (elem n nat)
-          :by (p/or-elim% H
-                          (elem n nat)
-                          <a> <b>))
-    (qed <c>)))
+          :by (p/or-elim H (elem n nat)
+                         <a> <b>)))
+  (qed <c>))
 
 (defthm positive-succ-conv
   "A successor of a positive natural number 
@@ -291,6 +281,8 @@ is (obiously) a natural number"
   [[n int]]
   (==> (positive (succ n))
        (elem n nat)))
+
+;;;; ****************** UPDATED UNTIL HERE ********************
 
 (proof positive-succ-conv
   (assume [H (positive (succ n))]

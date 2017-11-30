@@ -107,7 +107,6 @@
 ;; now that we have the main property we can make
 ;; the basic definitions opaque
 (u/set-opacity! #'mult-prop true)
-(u/set-opacity! #'mult-unique true)
 
 (defthm times-zero
   [[n int]]

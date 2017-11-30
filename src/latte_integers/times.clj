@@ -7,13 +7,13 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           deflemma
                                           lambda forall proof assume have
-                                          pose try-proof ==>]]
+                                          pose try-proof]]
 
+            [latte.utils :as u]
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
             [latte.quant :as q :refer [exists]]
-            [latte.fun :as fun]
-
+            [latte.fun :as fun]            
             [latte-sets.core :as set :refer [elem forall-in]]
 
             [latte-integers.core :as int :refer [zero one succ pred int =]]

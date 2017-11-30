@@ -6,6 +6,7 @@
   (:require [latte.core :as latte :refer [defaxiom defthm definition
                                           lambda forall
                                           proof try-proof assume have qed]]
+            [latte.utils :as u]
             [latte.prop :as p :refer [and or not <=>]]
             [latte.fun :as fun]
             [latte.quant :as q :refer [exists]]
@@ -169,3 +170,6 @@
       (have <c> (forall [x int] (P x))
             :by ((int-induct P) <a> <b>)))
   (qed <c>))
+
+;; predecessor is opaque
+(u/set-opacity! #'pred true)

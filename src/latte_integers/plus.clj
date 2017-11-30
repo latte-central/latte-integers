@@ -9,6 +9,7 @@
                                           lambda forall proof assume have
                                           pose try-proof qed]]
 
+            [latte.utils :as u]
             [latte.prop :as p :refer [and or not <=>]]
             [latte.equal :as eq :refer [equal]]
             [latte.quant :as q :refer [exists]]
@@ -71,6 +72,13 @@
 
 (proof 'plus-succ
   (qed ((p/and-elim-right (plus-prop m)) n)))
+
+
+;; make the basic definitions opaque
+;; (otherwise terms become extra-large)
+(u/set-opacity! #'plus-prop true)
+(u/set-opacity! #'plus true)
+(u/set-opacity! #'+ true)
 
 (defthm plus-succ-sym
   [[m int] [n int]]

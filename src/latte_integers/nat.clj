@@ -7,6 +7,8 @@
                                           lambda forall proof assume have pose
                                           qed]]
 
+            [latte.utils :as u]
+            
             [latte.prop :as p :refer [and or not <=>]]
 
             [latte.equal :as eq :refer [equal]]
@@ -766,3 +768,7 @@ and [[negative-pred-split-conv]]."
         n <a> <b> <c>)))
 
 
+
+
+;; opacity
+(u/set-opacity! #'nat true)

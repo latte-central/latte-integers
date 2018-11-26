@@ -10,10 +10,12 @@
                                           pose try-proof qed]]
 
             [latte.utils :as u]
-            [latte.prop :as p :refer [and or not <=>]]
-            [latte.equal :as eq :refer [equal]]
-            [latte.quant :as q :refer [exists]]
-            [latte.fun :as fun]            
+            
+            [latte-prelude.prop :as p :refer [and or not <=>]]
+            [latte-prelude.equal :as eq :refer [equal]]
+            [latte-prelude.quant :as q :refer [exists]]
+            [latte-prelude.fun :as fun]            
+
             [latte-sets.core :as set :refer [elem forall-in]]
 
             [latte-integers.core :as int :refer [zero one succ pred int =]]

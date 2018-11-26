@@ -7,10 +7,10 @@
                                           lambda forall
                                           proof try-proof assume have qed]]
             [latte.utils :as u]
-            [latte.prop :as p :refer [and or not <=>]]
-            [latte.fun :as fun]
-            [latte.quant :as q :refer [exists]]
-            [latte.equal :as eq :refer [equal]]
+            [latte-prelude.prop :as p :refer [and or not <=>]]
+            [latte-prelude.fun :as fun]
+            [latte-prelude.quant :as q :refer [exists]]
+            [latte-prelude.equal :as eq :refer [equal]]
             [latte-sets.core :as set :refer [elem]]))
 
 (defaxiom int

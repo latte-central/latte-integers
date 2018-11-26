@@ -9,11 +9,11 @@
                                           lambda forall proof assume have
                                           pose try-proof qed]]
 
-            [latte.prop :as p :refer [and or not <=>]]
-            [latte.equal :as eq :refer [equal]]
-            [latte.quant :as q]
-            [latte.classic :as classic]
-            [latte.fun :as fun]
+            [latte-prelude.prop :as p :refer [and or not <=>]]
+            [latte-prelude.equal :as eq :refer [equal]]
+            [latte-prelude.quant :as q]
+            [latte-prelude.classic :as classic]
+            [latte-prelude.fun :as fun]
 
             [latte-sets.core :as set :refer [elem forall-in]]
 

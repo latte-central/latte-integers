@@ -8,16 +8,15 @@
                                           qed]]
 
             [latte.utils :as u]
+
+            [latte-prelude.prop :as p :refer [and or not <=>]]
+            [latte-prelude.equal :as eq :refer [equal]]
+            [latte-prelude.classic :as classic]
+
             
-            [latte.prop :as p :refer [and or not <=>]]
-
-            [latte.equal :as eq :refer [equal]]
-
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
-
             [latte-sets.core :as set :refer [elem forall-in]]
-
-            [latte.classic :as classic]))
+            [latte-integers.core :as int :refer [zero one succ pred int =]]
+))
 
 (definition nat-succ-prop
   "A property verified by all successors of natural integers."

@@ -4,7 +4,7 @@
   :license {:name "MIT Licence"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [latte "0.103.0-SNAPSHOT"]
+                 [latte "1.0b1-SNAPSHOT"]
                  [latte-sets "0.7.0-SNAPSHOT"]]
   :main latte-integers.main
   :aliases {"certify" ["run" ":certify"]

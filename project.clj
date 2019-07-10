@@ -1,11 +1,10 @@
-(defproject latte-integers "0.9.0-SNAPSHOT"
+(defproject latte-integers "1.0b2-SNAPSHOT"
   :description "A formalization of integers in LaTTe."
   :url "https://github.com/fredokun/latte-integers.git"
   :license {:name "MIT Licence"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [latte "1.0b1-SNAPSHOT"]
-                 [latte-sets "0.7.0-SNAPSHOT"]]
+  :dependencies [[org.clojure/clojure "1.10.0"]
+                 [latte-sets "1.0b2-SNAPSHOT"]]
   :main latte-integers.main
   :aliases {"certify" ["run" ":certify"]
             "clear-cert" ["run" ":clear-cert"]}

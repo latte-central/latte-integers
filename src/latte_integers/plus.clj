@@ -534,8 +534,8 @@
 (defthm plus-nat-closed
   "The addition is closed for natural integers."
   []
-  (forall-in [n int nat]
-    (forall-in [m int nat]
+  (forall-in [n nat]
+    (forall-in [m nat]
       (elem (+ n m) nat))))
 
 (proof 'plus-nat-closed
@@ -562,7 +562,7 @@
                              (eq/eq-sym (plus-succ n k))
                              <b1>)))
     "And finally we apply the induction principle."
-    (have <c> (forall-in [m int nat]
+    (have <c> (forall-in [m nat]
                 (elem (+ n m) nat))
           :by ((nat/nat-induct P) <a> <b>)))
   (qed <c>))

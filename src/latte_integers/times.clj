@@ -1401,8 +1401,8 @@
 (defthm times-nat-closed
   "The multiplication is closed for natural integers."
   []
-  (forall-in [n int nat]
-    (forall-in [m int nat]
+  (forall-in [n nat]
+    (forall-in [m nat]
       (elem (* n m) nat))))
 
 (proof 'times-nat-closed
@@ -1445,7 +1445,7 @@
                              <b1> <b2>))) 
 
     
-    (have <c> (forall-in [m int nat]
+    (have <c> (forall-in [m nat]
                 (elem (* n m) nat))
           :by ((nat/nat-induct P) <a> <b>)))
 

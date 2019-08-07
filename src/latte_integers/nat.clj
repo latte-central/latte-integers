@@ -177,7 +177,7 @@ derived from [[int-induct]]."
 (defthm positive-nat-split
   "Any non-zero natural number is positive."
   []
-  (forall-in [x int nat]
+  (forall-in [x nat]
     (==> (not (= x zero))
          (positive x))))
 
@@ -201,7 +201,7 @@ derived from [[int-induct]]."
             :by (eq/eq-sym (int/pred-of-succ n)))
       (have <b> (elem (pred (succ n)) nat)
             :by (eq/eq-subst nat <b1> Hn))))
-  (have <c> (forall-in [x int nat] (P x))
+  (have <c> (forall-in [x nat] (P x))
         :by ((nat-induct P) <a> <b>))
   (qed <c>))
 
@@ -209,12 +209,12 @@ derived from [[int-induct]]."
   "Case analysis for natural numbers."
   [[P (==> int :type)]]
   (==> (P zero)
-       (forall-in [k int nat] (P (succ k)))
-       (forall-in [n int nat] (P n))))
+       (forall-in [k nat] (P (succ k)))
+       (forall-in [n nat] (P n))))
 
 (proof 'nat-case
   (assume [Hz (P zero)
-           Hs (forall-in [k int nat] (P (succ k)))]
+           Hs (forall-in [k nat] (P (succ k)))]
     "We proceed by induction on n"
     (have <a> (P zero) :by Hz)
     (assume [x int
@@ -322,7 +322,7 @@ is (obiously) a natural number"
 (defthm nat-split
   "A natural number is either zero or it is positive"
   []
-  (forall-in [n int nat] 
+  (forall-in [n nat] 
     (or (= n zero)
         (positive n))))
 
@@ -341,7 +341,7 @@ is (obiously) a natural number"
                   (positive (succ n)))
           :by (p/or-intro-right (= (succ n) zero)
                                 <b1>)))
-  (have <c> (forall-in [n int nat] (P n))
+  (have <c> (forall-in [n nat] (P n))
         :by ((nat-case P) <a> <b>))
   (qed <c>))
 
@@ -563,7 +563,7 @@ and [[positive-succ-split-conv]]."
 
 (defthm negative-nat
   []
-  (forall-in [n int nat]
+  (forall-in [n nat]
     (not (negative n))))
 
 (proof 'negative-nat

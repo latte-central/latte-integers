@@ -14,7 +14,7 @@
             [latte-prelude.classic :as classic]
 
             
-            [latte-sets.core :as set :refer [elem forall-in]]
+            [latte-sets.set :as set :refer [elem forall-in]]
             [latte-integers.core :as int :refer [zero one succ pred int =]]
 ))
 

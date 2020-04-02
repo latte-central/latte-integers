@@ -16,7 +16,7 @@
             [latte-prelude.quant :as q :refer [exists]]
             [latte-prelude.fun :as fun]            
 
-            [latte-sets.core :as set :refer [elem forall-in]]
+            [latte-sets.set :as set :refer [elem forall-in]]
 
             [latte-integers.core :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]

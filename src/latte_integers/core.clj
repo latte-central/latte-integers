@@ -11,7 +11,7 @@
             [latte-prelude.fun :as fun]
             [latte-prelude.quant :as q :refer [exists]]
             [latte-prelude.equal :as eq :refer [equal]]
-            [latte-sets.core :as set :refer [elem]]))
+            [latte-sets.set :as set :refer [elem]]))
 
 (defaxiom int
   "The type of integers."

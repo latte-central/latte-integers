@@ -15,7 +15,7 @@
             [latte-prelude.classic :as classic]
             [latte-prelude.fun :as fun]
 
-            [latte-sets.core :as set :refer [elem]]
+            [latte-sets.set :as set :refer [elem]]
 
             [latte-integers.core :as int :refer [zero succ pred int =]]
             [latte-integers.nat :as nat :refer [positive negative]]))

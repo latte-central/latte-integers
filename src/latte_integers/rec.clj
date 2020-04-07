@@ -1,4 +1,3 @@
-
 (ns latte-integers.rec
   "The recursion theorems for ℤ."
 
@@ -17,13 +16,13 @@
 
             [latte-sets.set :as set :refer [elem]]
 
-            [latte-integers.core :as int :refer [zero succ pred int =]]
+            [latte-integers.int :as int :refer [zero succ pred int =]]
             [latte-integers.nat :as nat :refer [positive negative]]))
 
 (definition int-recur-prop
   "The property of the recursion principle
 for integers."
-  [[T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
+  [[?T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
   (lambda [g (==> int T)]
     (and (equal (g zero) x)
          (forall [y int]
@@ -40,14 +39,14 @@ cf. [[int-recur-prop]]
 According to [TT&FP,p. 318], this is derivable,
  but we introduce it as an axiom since the
 derivation seems rather complex."
-  [[T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
-  (q/unique (int-recur-prop T x f-succ f-pred)))
+  [[?T :type] [x T] [f-succ (==> T T)] [f-pred (==> T T)]]
+  (q/unique (int-recur-prop x f-succ f-pred)))
 
 (definition int-recur-bijection-prop
   "Property of the recursion principle for integers, for bijections.
 This is a much simpler principle if the function under study
  is bijective on ℤ (e.g. addition)."
-  [[T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
+  [[?T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
   (lambda [g (==> int T)]
     (and (equal (g zero) x)
          (forall [y int]
@@ -56,8 +55,8 @@ This is a much simpler principle if the function under study
 (defthm int-recur-bijection
   "The recursion principle for integers, for bijections.
 This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
-  [[T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
-  (q/unique (int-recur-bijection-prop T x f b)))
+  [[?T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
+  (q/unique (int-recur-bijection-prop x f b)))
 
 (deflemma int-recur-bijection-lemma-1
   [[T :type] [f (==> T T)] [b (fun/bijective f)] [g (==> int T)]]
@@ -98,10 +97,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
       (assume [Hnat (or (= y zero)
                         (positive y))]
         (have <c> (equal (g (succ y)) (f (g y)))
-              :by (p/or-elim 
-                   Hnat
-                   (equal (g (succ y)) (f (g y)))
-                   <b> <a>)))
+              :by (p/or-elim Hnat <b> <a>)))
       "  - third case: y is negative"
       (assume [Hneg (negative y)]
         (have <d1> (negative (pred (succ y)))
@@ -116,16 +112,13 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
         (have <d4> (equal (f (g y)) (f (inv-f (g (succ y)))))
               :by (eq/eq-cong f <d3>))
         (have <d5> (equal (f (inv-f (g (succ y)))) (g (succ y)))
-              :by ((fun/inverse-prop T T f b)
+              :by ((fun/inverse-prop f b)
                    (g (succ y))))
         (have <d> (equal (g (succ y)) (f (g y)))
               :by (eq/eq-sym (eq/eq-trans <d4> <d5>))))
       "We regroup the cases (or elimination)"
       (have <e> (equal (g (succ y)) (f (g y)))
-            :by (p/or-elim 
-                 (nat/int-split y)
-                 (equal (g (succ y)) (f (g y)))
-                 <c> <d>))))
+            :by (p/or-elim (nat/int-split y) <c> <d>))))
   (qed <e>))
 
 (deflemma int-recur-bijection-lemma-2
@@ -157,7 +150,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
         (have <b4> (equal (inv-f (f (g (pred y)))) (inv-f (g y)))
               :by (eq/eq-cong inv-f <b3>))
         (have <b5> (equal (inv-f (f (g (pred y)))) (g (pred y)))
-              :by ((fun/inverse-prop-conv T T f b) (g (pred y))))
+              :by ((fun/inverse-prop-conv f b) (g (pred y))))
         (have <b6> (equal (g (pred y)) (inv-f (f (g (pred y)))))
               :by (eq/eq-sym <b5>))
         (have <b> (equal (g (pred y)) (inv-f (g y)))
@@ -167,7 +160,7 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
   (qed <c>))
 
 (deflemma int-recur-bijection-lemma
-  [[T :type] [f (==> T T)] [b (fun/bijective f)] [g (==> int T)]]
+  [[?T :type] [f (==> T T)] [b (fun/bijective f)] [g (==> int T)]]
   (<=> (forall [y int]
          (and (==> (positive (succ y))
                    (equal (g (succ y)) (f (g y))))
@@ -176,52 +169,50 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
        (forall [y int]
          (equal (g (succ y)) (f (g y))))))
 
-(proof 'int-recur-bijection-lemma
+(proof 'int-recur-bijection-lemma-lemma
   (qed (p/iff-intro (int-recur-bijection-lemma-1 T f b g)
                     (int-recur-bijection-lemma-2 T f b g))))
 
 (deflemma int-recur-bijection-ex
-  [[T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
-  (q/ex (int-recur-bijection-prop T x f b)))
+  [[?T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
+  (q/ex (int-recur-bijection-prop x f b)))
 
-(proof 'int-recur-bijection-ex
-  (have <ex> (q/ex (int-recur-prop T x f (fun/inverse f b)))
-        :by (p/and-elim-left (int-recur T x f (fun/inverse f b))))
+(proof 'int-recur-bijection-ex-lemma
+  (have <ex> (q/ex (int-recur-prop x f (fun/inverse f b)))
+        :by (p/and-elim-left (int-recur x f (fun/inverse f b))))
   "Our goal is to eliminate the existential."
   (assume [g (==> int T)
-           Hg ((int-recur-prop T x f (fun/inverse f b)) g)] 
-    (have <a> ((int-recur-bijection-prop T x f b) g)
+           Hg ((int-recur-prop x f (fun/inverse f b)) g)] 
+    (have <a> ((int-recur-bijection-prop x f b) g)
           :by (p/and-intro
                (p/and-elim-left Hg)
                (((int-recur-bijection-lemma-1 T f b) g)
                 (p/and-elim-right Hg))))
-    (have <b> (q/ex (int-recur-bijection-prop T x f b))
-          :by ((q/ex-intro (int-recur-bijection-prop T x f b) g)
+    (have <b> (q/ex (int-recur-bijection-prop x f b))
+          :by ((q/ex-intro (int-recur-bijection-prop x f b) g)
                <a>)))
-  (qed ((q/ex-elim (int-recur-prop T x f (fun/inverse f b))
-                   (q/ex (int-recur-bijection-prop T x f b)))
-        <ex> <b>)))
+  (qed (q/ex-elim <ex> <b>)))
 
 (deflemma int-recur-bijection-single
-  [[T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
-  (q/single (int-recur-bijection-prop T x f b)))
+  [[?T :type] [x T] [f (==> T T)] [b (fun/bijective f)]]
+  (q/single (int-recur-bijection-prop x f b)))
 
-(proof 'int-recur-bijection-single
+(proof 'int-recur-bijection-single-lemma
   (have <single> (forall [g h (==> int T)]
-                   (==> ((int-recur-prop T x f (fun/inverse f b)) g)
-                        ((int-recur-prop T x f (fun/inverse f b)) h)
+                   (==> ((int-recur-prop x f (fun/inverse f b)) g)
+                        ((int-recur-prop x f (fun/inverse f b)) h)
                         (equal g h)))
-        :by (p/and-elim-right (int-recur T x f (fun/inverse f b))))
+        :by (p/and-elim-right (int-recur x f (fun/inverse f b))))
   (assume [g (==> int T)
            h (==> int T)
-           Hg ((int-recur-bijection-prop T x f b) g)
-           Hh ((int-recur-bijection-prop T x f b) h)]
-    (have <a> ((int-recur-prop T x f (fun/inverse f b)) g)
+           Hg ((int-recur-bijection-prop x f b) g)
+           Hh ((int-recur-bijection-prop x f b) h)]
+    (have <a> ((int-recur-prop x f (fun/inverse f b)) g)
           :by (p/and-intro
                (p/and-elim-left Hg)
                ((int-recur-bijection-lemma-2 T f b g)
                 (p/and-elim-right Hg))))
-    (have <b> ((int-recur-prop T x f (fun/inverse f b)) h)
+    (have <b> ((int-recur-prop x f (fun/inverse f b)) h)
           :by (p/and-intro
                (p/and-elim-left Hh)
                ((int-recur-bijection-lemma-2 T f b h)
@@ -229,7 +220,9 @@ This is a consequence of [[int-rec]], cf. [[int-recur-bijection-prop]]."
     (have <c> (equal g h) :by (<single> g h <a> <b>)))
   (qed <c>))
 
-(proof 'int-recur-bijection
-  (qed (p/and-intro (int-recur-bijection-ex T x f b)
-                    (int-recur-bijection-single T x f b))))
+(proof 'int-recur-bijection-thm
+  (qed (p/and-intro (int-recur-bijection-ex x f b)
+                    (int-recur-bijection-single x f b))))
+
+
 

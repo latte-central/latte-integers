@@ -18,7 +18,7 @@
 
             [latte-sets.set :as set :refer [elem]]
 
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
+            [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
@@ -71,10 +71,7 @@
                              <a> Hp))
       (have <c> (= n zero) :by (eq/eq-sym <b>)))
     (have <d> (= n zero)
-          :by ((q/ex-elim (lambda [p int]
-                            (= (* zero p) n))
-                          (= n zero))
-               Hn <c>)))
+          :by (q/ex-elim Hn <c>)))
   (qed <d>))
 
 (defthm divides-opp
@@ -97,10 +94,7 @@
             :by ((q/ex-intro (lambda [k int]
                                (= (* (-- m) k) n)) (-- p))
                  <b>)))
-    (have <d> _ :by ((q/ex-elim (lambda [k int]
-                                  (= (* m k) n))
-                                (divides (-- m) n))
-                     Hnm <c>)))
+    (have <d> _ :by (q/ex-elim Hnm <c>)))
   (qed <d>))
 
 (defthm divides-one
@@ -158,15 +152,9 @@
                                  (= (* m k) p)) (* a b))
                    <c>)))
       (have <e> (divides m p)
-            :by ((q/ex-elim (lambda [k int]
-                              (= (* n k) p))
-                            (divides m p))
-                 Hmp <d>)))
+            :by (q/ex-elim Hmp <d>)))
     (have <f> (divides m p)
-          :by ((q/ex-elim (lambda [k int]
-                            (= (* m k) n))
-                          (divides m p))
-               Hnm <e>)))
+          :by (q/ex-elim Hnm <e>)))
   (qed <f>))
 
 (defthm divides-nat-antisym
@@ -323,9 +311,9 @@
               (have <i3> p/absurd :by (<i2> Hm))
               (have <i> (= m n) :by (<i3> (= m n))))
 
-            (have <j> (= m n) :by (p/or-elim <g> (= m n) <h> <i>)))
+            (have <j> (= m n) :by (p/or-elim <g> <h> <i>)))
 
-          (have <k> (= m n) :by (p/or-elim <d> (= m n) <e> <j>)))
+          (have <k> (= m n) :by (p/or-elim <d> <e> <j>)))
 
         (assume [Hnz (not (= (pred (* a b)) zero))]
           (have <l> (= m n)
@@ -337,15 +325,10 @@
                       (not (= (pred (* a b)) zero)))
               :by (nat/int-split-zero (pred (* a b))))
 
-        (have <n> (= m n)
-              :by (p/or-elim <m> (= m n) <k> <l>)))
+        (have <n> (= m n) :by (p/or-elim <m> <k> <l>)))
       "Now we eliminate the existentials."
-      (have <o> (= m n) :by ((q/ex-elim (lambda [b int]
-                                          (= (* n b) m)) (= m n))
-                             H2 <n>)))
-    (have <p> (= m n) :by ((q/ex-elim (lambda [a int]
-                                        (= (* m a) n)) (= m n))
-                           H1 <o>)))
+      (have <o> (= m n) :by (q/ex-elim H2 <n>)))
+    (have <p> (= m n) :by (q/ex-elim H1 <o>)))
   (qed <p>))
 
 

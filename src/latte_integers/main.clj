@@ -2,7 +2,7 @@
 (ns latte-integers.main
   (:gen-class)
   (:require [latte.main :refer [latte-main]]
-            [latte-integers.core]
+            [latte-integers.int]
             [latte-integers.nat]
             [latte-integers.rec]
             [latte-integers.plus]
@@ -13,7 +13,7 @@
 
 (defn -main [& args]
   (latte-main args "latte-integers"
-              '[latte-integers.core
+              '[latte-integers.int
                 latte-integers.nat
                 latte-integers.rec
                 latte-integers.plus

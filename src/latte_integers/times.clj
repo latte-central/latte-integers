@@ -16,9 +16,10 @@
             [latte-prelude.quant :as q :refer [exists]]
             [latte-prelude.fun :as fun]            
 
-            [latte-sets.set :as set :refer [elem forall-in]]
+            [latte-sets.set :as set :refer [elem]]
+            [latte-sets.quant :as sq :refer [forall-in]]
 
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
+            [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
@@ -83,13 +84,12 @@
   (q/unique (mult-prop m)))
 
 (proof 'mult-unique
-  (qed (rec/int-recur-bijection int zero (plus-fun m) (plus-fun-bijective m))))
+  (qed (rec/int-recur-bijection zero (plus-fun m) (plus-fun-bijective m))))
 
 (definition times
   "The function that multiplies `m` to an integer"
   [[m int]]
-  (q/the (mult-prop m)
-         (mult-unique m)))
+  (q/the (mult-unique m)))
 
 (definition *
   "The function that multiplies `m` with `n`."
@@ -104,7 +104,7 @@
             (+ (* m n) m)))))
 
 (proof 'times-prop
-  (qed (q/the-prop (mult-prop m) (mult-unique m))))
+  (qed (q/the-prop (mult-unique m))))
 
 ;; now that we have the main property we can make
 ;; the basic definitions opaque
@@ -1647,9 +1647,7 @@
                             (= n zero)))))
       (have <e> (or (= m zero)
                     (= n zero))
-            :by ((nat/int-split-elim (or (= m zero)
-                                         (= n zero)))
-                 m <b> <c> <d>)))
+            :by (nat/int-split-elim m <b> <c> <d>)))
     (assume [Hn (negative n)]
       (assume [Hmz (= m zero)]
         (have <f> _ :by (p/or-intro-left Hmz (= n zero))))
@@ -1680,15 +1678,11 @@
                             (= n zero)))))
       (have <i> (or (= m zero)
                     (= n zero))
-            :by ((nat/int-split-elim (or (= m zero)
-                                         (= n zero)))
-                 m <f> <g> <h>)))
+            :by (nat/int-split-elim m <f> <g> <h>)))
     "We summarize all cases."
     (have <j> (or (= m zero)
                   (= n zero))
-          :by ((nat/int-split-elim (or (= m zero)
-                                       (= n zero)))
-               n <a> <e> <i>)))
+          :by (nat/int-split-elim n <a> <e> <i>)))
 
   (qed <j>))
 
@@ -1746,7 +1740,7 @@
       (assume [H4 (= (- m n) zero)]
         (have <h> (= m n) :by ((minus/minus-zero-alt m n) H4)))
 
-      (have <i> (= m n) :by (p/or-elim <f> (= m n) <g> <h>)))
+      (have <i> (= m n) :by (p/or-elim <f> <g> <h>)))
 
     (qed <i>))
 
@@ -1982,11 +1976,9 @@
           (have <e> _ :by (<e5> (or (and (= m one) (= n one))
                                     (and (= m (-- one)) (= n (-- one)))))))
 
-        (have <f> _ :by (p/or-elim <c1>
-                                    (or (and (= m one) (= n one))
-                                        (and (= m (-- one)) (= n (-- one))))
-                                    <d>
-                                    <e>)))
+        (have <f> (or (and (= m one) (= n one))
+                      (and (= m (-- one)) (= n (-- one))))
+              :by (p/or-elim <c1> <d> <e>)))
       (assume [Hnneg (negative n)]
         (have <g0> (negative (* m n))
               :by ((times-pos-neg m n) Hmpos Hnneg))
@@ -2003,9 +1995,9 @@
         (have <g> _ :by (<g4> (or (and (= m one) (= n one))
                                   (and (= m (-- one)) (= n (-- one)))))))
       "We can finish the subcase for positive `m`."
-      (have <h> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
-                                               (and (= m (-- one)) (= n (-- one)))))
-                       n <b> <f> <g>)))
+      (have <h> (or (and (= m one) (= n one))
+                    (and (= m (-- one)) (= n (-- one))))
+            :by (nat/int-split-elim n <b> <f> <g>)))
 
     "We do the same thing but working on opposites
 Remark: we could probably factorize better..."
@@ -2082,11 +2074,9 @@ Remark: we could probably factorize better..."
            (have <m> _ :by (<m6> (or (and (= m one) (= n one))
                                      (and (= m (-- one)) (= n (-- one)))))))
 
-         (have <n> _ :by (p/or-elim <k1>
-                                     (or (and (= m one) (= n one))
-                                         (and (= m (-- one)) (= n (-- one))))
-                                     <l>
-                                     <m>)))
+         (have <n> (or (and (= m one) (= n one))
+                       (and (= m (-- one)) (= n (-- one))))
+               :by (p/or-elim <k1> <l> <m>)))
        (assume [Hnneg (negative (-- n))]
          (have <o1> (positive (-- (-- n)))
                :by ((minus/opp-neg-pos (-- n)) Hnneg))
@@ -2111,13 +2101,13 @@ Remark: we could probably factorize better..."
          (have <o> _ :by (<o7> (or (and (= m one) (= n one))
                                    (and (= m (-- one)) (= n (-- one)))))))
        "We can finish the subcase for negative `m`."
-       (have <p> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
-                                                (and (= m (-- one)) (= n (-- one)))))
-                        (-- n) <j> <n> <o>)))
+       (have <p> (or (and (= m one) (= n one))
+                     (and (= m (-- one)) (= n (-- one)))) 
+             :by (nat/int-split-elim (-- n) <j> <n> <o>)))
      "And now we eliminate one last time"
-     (have <q> _ :by ((nat/int-split-elim (or (and (= m one) (= n one))
-                                              (and (= m (-- one)) (= n (-- one)))))
-                      m <a> <h> <p>)))
+     (have <q> (or (and (= m one) (= n one))
+                   (and (= m (-- one)) (= n (-- one))))
+           :by (nat/int-split-elim m <a> <h> <p>)))
   (qed <q>))
 
 (defthm times-eq-one-nat
@@ -2147,8 +2137,7 @@ Remark: we could probably factorize better..."
     (have <c> (or (and (= m one) (= n one))
                   (and (= m (-- one)) (= n (-- one))))
           :by ((times-eq-one m n) H))
-    (have <d> (= m one) :by (p/or-elim <c> (= m one)
-                                        <a> <b>)))
+    (have <d> (= m one) :by (p/or-elim <c> <a> <b>)))
   (qed <d>))
 
 (defthm times-eq-one-nat-swap

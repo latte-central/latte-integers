@@ -1,4 +1,4 @@
-(ns latte-integers.core
+(ns latte-integers.int
   "A formalization of the type of integers."
 
   (:refer-clojure :exclude [and or not int =])
@@ -21,7 +21,7 @@
 (definition =
   "The equality on integers."
   [[n int] [m int]]
-  (eq/equality int n m))
+  (eq/equal n m))
 
 (defaxiom zero
   "The integer zero."
@@ -49,7 +49,7 @@
   (fun/surjective succ))
 
 (proof 'succ-surjective
-  (qed ((fun/bijective-is-surjective int int succ) succ-bijective)))
+  (qed ((fun/bijective-is-surjective succ) succ-bijective)))
 
 (defthm succ-injective
   "The successor function is injective."
@@ -57,7 +57,7 @@
   (fun/injective succ))
 
 (proof 'succ-injective
-  (qed ((fun/bijective-is-injective int int succ) succ-bijective)))
+  (qed ((fun/bijective-is-injective succ) succ-bijective)))
 
 (defthm succ-ex
   "An integer `y` is the successor of  *at least* another integer."
@@ -73,7 +73,7 @@
   (q/single (lambda [x int] (= (succ x) y))))
 
 (proof 'succ-single
-  (qed ((fun/injective-single int int succ)
+  (qed ((fun/injective-single succ)
         succ-injective
         y)))
  
@@ -83,7 +83,7 @@
   (q/unique  (lambda [x int] (= (succ x) y))))
 
 (proof 'succ-unique
-  (qed ((fun/bijective-unique int int succ)
+  (qed ((fun/bijective-unique succ)
         succ-bijective
         y)))
 
@@ -98,7 +98,7 @@
   (= (succ (pred y)) y))
 
 (proof 'succ-of-pred   
-  (qed ((fun/inverse-prop int int succ succ-bijective)
+  (qed ((fun/inverse-prop succ succ-bijective)
         y)))
 
 (defthm pred-of-succ
@@ -108,7 +108,7 @@
 
 (proof 'pred-of-succ
     (qed
-     ((fun/inverse-prop-conv int int succ succ-bijective)
+     ((fun/inverse-prop-conv succ succ-bijective)
       y)))
 
 (defthm pred-bijective
@@ -118,7 +118,7 @@
 
 (proof 'pred-bijective
     (qed
-     (fun/inverse-bijective int int succ succ-bijective)))
+     (fun/inverse-bijective succ succ-bijective)))
 
 (defthm pred-surjective
   "The predecessor function is surjective."
@@ -127,7 +127,7 @@
 
 (proof 'pred-surjective
     (qed
-     (fun/inverse-surjective int int succ succ-bijective)))
+     (fun/inverse-surjective succ succ-bijective)))
 
 (defthm pred-injective
   "The predecessor function is injective"
@@ -136,7 +136,7 @@
 
 (proof 'pred-injective
     (qed
-     (fun/inverse-injective int int succ succ-bijective)))
+     (fun/inverse-injective succ succ-bijective)))
 
 (defaxiom int-induct
   "The induction principle for integers

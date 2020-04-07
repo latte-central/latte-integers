@@ -16,9 +16,9 @@
             [latte-prelude.quant :as q :refer [exists]]
             [latte-prelude.fun :as fun]
 
-            [latte-sets.core :as set :refer [elem]]
+            [latte-sets.set :as set :refer [elem]]
 
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
+            [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]
@@ -107,11 +107,7 @@
     (have <c> (or (= (- m n) zero)
                   (positive (- m n)))
           :by (nat/nat-split (- m n) Hnm))
-    (have <d> _
-          :by (p/or-elim <c>
-                         (= n m)
-                         <a> <b>)))
-  
+    (have <d> (= n m) :by (p/or-elim <c> <a> <b>)))
   (qed <d>))
 
 (definition <
@@ -223,10 +219,9 @@
       (have <c1> (< m n)
             :by (p/and-intro Hmn <b>))
       (have <c> _ :by (p/or-intro-right (= m n) <c1>)))
-    (have <d> _ :by (p/or-elim (nat/int-split-zero (- m n))
-                               (or (= m n)
-                                   (< m n))
-                               <a> <c>)))
+    (have <d> (or (= m n)
+                  (< m n)) 
+          :by (p/or-elim (nat/int-split-zero (- m n)) <a> <c>)))
   (qed <d>))
 
 (defthm lt-le
@@ -482,7 +477,7 @@
     (have <f> (or (= n zero) (positive n))
           :by (nat/nat-split n <c>))
     (have <g> (positive n)
-          :by (p/or-elim <f> (positive n) <d> <e>)))
+          :by (p/or-elim <f> <d> <e>)))
   (qed <g>))
 
 (defthm pos-gt-zero-equiv
@@ -531,9 +526,7 @@
     (have <c1> (or (= n zero) (positive n))
           :by (nat/nat-split n Hn))
     
-    (have <c> _ :by (p/or-elim <c1>
-                               (>= n zero)
-                               <a> <b>)))
+    (have <c> (>= n zero) :by (p/or-elim <c1> <a> <b>)))
   (qed <c>))
 
 (defthm neg-lt-zero
@@ -584,8 +577,7 @@
       (have <e> (negative n) :by (<e1> (negative n))))
     (assume [H2 (negative n)]
       (have <f> (negative n) :by H2))
-    (have <g> (negative n) :by (p/or-elim <d> (negative n)
-                                          <e> <f>)))
+    (have <g> (negative n) :by (p/or-elim <d> <e> <f>)))
   (qed <g>))
 
 (defthm neg-lt-zero-equiv
@@ -617,8 +609,9 @@
       (have <b> (or (= n zero)
                     (> n zero))
             :by (p/or-intro-right (= n zero) <b1>)))
-    (have <c1> _ :by (p/or-elim H1 (or (= n zero)
-                                       (> n zero)) <a> <b>))
+    (have <c1> (or (= n zero)
+                   (> n zero)) 
+          :by (p/or-elim H1 <a> <b>))
     (have <c> (or (or (= n zero)
                       (> n zero))
                   (< n zero))
@@ -631,10 +624,9 @@
           :by (p/or-intro-right (or (= n zero) (> n zero))
                                 <d1>)))
   "We use int-splitting"
-  (have <e> _ :by (p/or-elim (nat/int-split n)
-                             (or (or (= n zero) (> n zero))
-                                 (< n zero))
-                             <c> <d>))
+  (have <e> (or (or (= n zero) (> n zero))
+                (< n zero)) 
+        :by (p/or-elim (nat/int-split n) <c> <d>))
   (qed <e>))
 
 (defthm lt-opp
@@ -733,8 +725,7 @@
       (have <g> (> (-- n) zero)
             :by (p/and-intro <e> <f>)))
     
-    (have <h> _ :by (p/or-elim <c> (> (-- n) zero)
-                               <d> <g>)))
+    (have <h> (> (-- n) zero) :by (p/or-elim <c> <d> <g>)))
   (qed <h>))
 
 (defthm lt-zero-opp-conv
@@ -763,7 +754,7 @@
       (have <e> (< n zero) :by (<e3> (< n zero))))
     (assume [H2 (negative n)]
       (have <f> (< n zero) :by ((neg-lt-zero n) H2)))
-    (have <g> _ :by (p/or-elim <d> (< n zero) <e> <f>)))
+    (have <g> (< n zero) :by (p/or-elim <d> <e> <f>)))
   (qed <g>))
 
 (defthm lt-zero-opp-equiv
@@ -1022,7 +1013,7 @@
                              (int/pred-of-succ (- n m))
                              Hpos)))
     "We apply the split rule."
-    (have <f> (<= m n) :by (p/or-elim <c> (<= m n) <d> <e>)))
+    (have <f> (<= m n) :by (p/or-elim <c> <d> <e>)))
   (qed <f>))
 
 
@@ -1058,10 +1049,12 @@
       (have <c> _ :by (p/or-intro-left <c1> (> n one))))
     (assume [H2 (> n one)]
       (have <d> _ :by (p/or-intro-right (= n one) H2)))
-    (have <e> _ :by (p/or-elim <b> (or (= n one)
-                                       (> n one))
-                               <c> <d>)))
+    (have <e> (or (= n one)
+                  (> n one))
+          :by (p/or-elim <b> <c> <d>)))
   (qed <e>))
+
+
 
 
 

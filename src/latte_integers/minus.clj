@@ -18,7 +18,7 @@
 
             [latte-sets.set :as set :refer [elem]]
 
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
+            [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]
             [latte-integers.plus :as plus :refer [+]]))
@@ -63,12 +63,8 @@
               :by ((q/ex-intro (lambda [p int] (= (+ p (pred m)) n))
                                (succ p))
                    <c2>)))
-      (have <d1> _ :by ((q/ex-elim (lambda [p int] (= (+ p m) n))
-                                   (exists [p int] (= (+ p (succ m)) n)))
-                        Hind <b3>))
-      (have <d2> _ :by ((q/ex-elim (lambda [p int] (= (+ p m) n))
-                                   (exists [p int] (= (+ p (pred m)) n)))
-                        Hind <c3>))
+      (have <d1> _ :by (q/ex-elim Hind <b3>))
+      (have <d2> _ :by (q/ex-elim Hind <c3>))
       (have <d> _ :by (p/and-intro <d1> <d2>)))
     "We apply integer induction."
     (have <e> (forall [m int]
@@ -77,12 +73,10 @@
                <a> <d>)))
   (qed <e>))
 
-
 (deflemma minus-single
   [[n int] [m int]]
   (q/single (lambda [p int]
               (= (+ p m) n))))
-
 
 (proof 'minus-single
   (assume [p1 int
@@ -111,7 +105,7 @@
 (definition -
   "Integer subtraction."
   [[n int] [m int]]
-  (q/the (lambda [p int] (= (+ p m) n)) (minus-unique n m)))
+  (q/the (minus-unique n m)))
 
 (defthm minus-prop
   "The defining property of subtraction."
@@ -119,7 +113,7 @@
   (= (+ (- n m) m) n))
 
 (proof 'minus-prop
-  (qed (q/the-prop (lambda [p int] (= (+ p m) n)) (minus-unique n m))))
+  (qed (q/the-prop (minus-unique n m))))
 
 ;; with minus-prop we can hide the definition
 (u/set-opacity! #'- true)
@@ -783,10 +777,7 @@
                              <h>
                              <b>)))
     (have <j> (positive (- n m))
-          :by ((q/ex-elim (lambda [k int]
-                            (and (positive k) (= (+ (- m n) k) zero)))
-                          (positive (- n m)))
-               <a> <i>)))
+          :by (q/ex-elim <a> <i>)))
   (qed <j>))
 
 (defthm minus-pos-neg-equiv
@@ -1073,11 +1064,10 @@
           :by (p/or-intro-right (or (= n zero)
                                     (positive n))
                                 <b1>)))
-  (have <c> _ :by (p/or-elim (nat/int-split n)
-                             (or (or (= n zero)
-                                     (positive n))
-                                 (positive (-- n)))
-                             <a> <b>))
+  (have <c> (or (or (= n zero)
+                    (positive n))
+                (positive (-- n)))
+        :by (p/or-elim (nat/int-split n) <a> <b>))
   (qed <c>))
 
 (defthm opp-neg-split
@@ -1105,10 +1095,10 @@
             :by (p/or-intro-right (or (= n zero)
                                        (negative n))
                                    ((opp-pos-neg n) H3))))
-    (have <c> _ :by (p/or-elim H1 (or (or (= n zero)
-                                           (negative n))
-                                       (negative (-- n)))
-                                <a> <b>)))
+    (have <c> (or (or (= n zero)
+                      (negative n))
+                  (negative (-- n))) 
+          :by (p/or-elim H1 <a> <b>)))
   (assume [H4 (positive (-- n))]
     (have <d1> (or (= n zero)
                    (negative n))
@@ -1118,11 +1108,10 @@
                       (negative n))
                   (negative (-- n)))
           :by (p/or-intro-left <d1> (negative (-- n)))))
-  (have <e> _ :by (p/or-elim (opp-pos-split n)
-                             (or (or (= n zero)
-                                     (negative n))
-                                 (negative (-- n)))
-                             <c> <d>))
+  (have <e> (or (or (= n zero)
+                    (negative n))
+                (negative (-- n))) 
+        :by (p/or-elim (opp-pos-split n) <c> <d>))
   (qed <e>))
 
 (defthm opp-nat-split
@@ -1148,10 +1137,9 @@
       (have <c> (or (= n zero)
                     (negative n))
             :by (p/or-intro-right (= n zero) <c1>)))
-    (have <d> _
-          :by (p/or-elim <a> (or (= n zero)
-                                 (negative n))
-                         <b> <c>)))
+    (have <d> (or (= n zero)
+                  (negative n))
+          :by (p/or-elim <a> <b> <c>)))
   (qed <d>))
 
 
@@ -1180,8 +1168,7 @@
             :by (eq/eq-subst (lambda [k int] (elem k nat))
                              (int/succ-of-pred (-- n))
                              <b2>)))
-    (have <c> _ :by (p/or-elim H (elem (-- n) nat)
-                               <a> <b>)))
+    (have <c> (elem (-- n) nat) :by (p/or-elim H <a> <b>)))
   (qed <c>))
 
 (defthm opp-nat-split-equiv
@@ -1217,9 +1204,9 @@
       (have <b> (or (elem n nat)
                     (elem (-- n) nat))
             :by (p/or-intro-left <b1> (elem (-- n) nat))))
-    (have <c> _ :by (p/or-elim H1 (or (elem n nat)
-                                      (elem (-- n) nat))
-                               <a> <b>)))
+    (have <c> (or (elem n nat)
+                  (elem (-- n) nat))
+          :by (p/or-elim H1 <a> <b>)))
   (assume [H4 (negative n)]
     (have <d1> (or (= n zero) (negative n))
           :by (p/or-intro-right (= n zero) H4))
@@ -1227,10 +1214,9 @@
           :by ((opp-nat-split-conv n) <d1>))
     (have <d> _ :by (p/or-intro-right (elem n nat) <d2>)))
   "We use int splitting"
-  (have <e> _ :by (p/or-elim (nat/int-split n)
-                             (or (elem n nat)
-                                 (elem (-- n) nat))
-                             <c> <d>))
+  (have <e> (or (elem n nat)
+                (elem (-- n) nat)) 
+        :by (p/or-elim (nat/int-split n) <c> <d>))
   (qed <e>))
 
 (defthm opp-and-zero
@@ -1254,15 +1240,12 @@
         (have <d2> p/absurd :by (<d1> <b>))
         (have <d> (= n zero) :by (<d2> (= n zero))))
       (have <e> (= n zero)
-            :by (p/or-elim H1 (= n zero)
-                           <c> <d>)))
+            :by (p/or-elim H1 <c> <d>)))
     (assume [H4 (negative n)]
       (have <f1> p/absurd :by (H4 <a>))
       (have <f> (= n zero) :by (<f1> (= n zero))))
     "Use integer splitting"
-    (have <g> _ :by (p/or-elim (nat/int-split n)
-                               (= n zero)
-                               <e> <f>)))
+    (have <g> (= n zero) :by (p/or-elim (nat/int-split n) <e> <f>)))
   (qed <g>))
 
 

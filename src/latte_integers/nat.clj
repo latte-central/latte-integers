@@ -14,9 +14,10 @@
             [latte-prelude.classic :as classic]
 
             
-            [latte-sets.set :as set :refer [elem forall-in]]
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
-))
+            [latte-sets.set :as set :refer [elem]]
+            [latte-sets.quant :as setq :refer [forall-in]]
+
+            [latte-integers.int :as int :refer [zero one succ pred int =]]))
 
 (definition nat-succ-prop
   "A property verified by all successors of natural integers."
@@ -272,8 +273,7 @@ derived from [[int-induct]]."
       (have <b> (elem n nat)
             :by ((positive-conv n) H2)))
     (have <c> (elem n nat)
-          :by (p/or-elim H (elem n nat)
-                         <a> <b>)))
+          :by (p/or-elim H <a> <b>)))
   (qed <c>))
 
 (defthm positive-succ-conv
@@ -380,8 +380,7 @@ is (obiously) a natural number"
       (have <b> (positive (succ n))
             :by ((positive-succ-strong n) H2)))
     (have <c> (positive (succ n))
-          :by (p/or-elim 
-               H (positive (succ n)) <a> <b>)))
+          :by (p/or-elim H <a> <b>)))
   (qed <c>))
 
 (defthm positive-succ-split-equiv
@@ -423,15 +422,9 @@ and [[positive-succ-split-conv]]."
     (have <c> _ :by (p/or-intro-right (or (= n zero)
                                           (positive n))
                                       <c1>)))
-  (qed (p/or-elim
-        <a>
-        (or (or (= n zero)
-                (positive n))
-            (negative n))
-        <b>
-             <c>)))
+  (qed (p/or-elim <a> <b> <c>)))
 
-(defthm int-split-elim
+(defthm int-split-elim-rule
   "An elimination principle for integers."
   [[A :type]]
   (forall [n int]
@@ -440,7 +433,7 @@ and [[positive-succ-split-conv]]."
          (==> (negative n) A)
          A)))
 
-(proof 'int-split-elim
+(proof 'int-split-elim-rule
   (assume [n int
            H1 (==> (= n zero) A)
            H2 (==> (positive n) A)
@@ -451,12 +444,19 @@ and [[positive-succ-split-conv]]."
         (have <a> A :by (H1 Hz)))
       (assume [Hp (positive n)]
         (have <b> A :by (H2 Hp)))
-      (have <c> A :by (p/or-elim Hzp A <a> <b>)))
+      (have <c> A :by (p/or-elim Hzp <a> <b>)))
     (assume [Hn (negative n)]
       (have <d> A :by (H3 Hn)))
-    (have <e> A :by (p/or-elim (int-split n) A <c> <d>)))
+    (have <e> A :by (p/or-elim (int-split n) <c> <d>)))
   (qed <e>))
 
+(defthm int-split-elim
+  "An elimination princile for integers, cf. [[int-split-elim-rule]]."
+  [[?A :type] [n int] [pz (==> (= n zero) A)] [ppos (==> (positive n) A)] [pneg (==> (negative n) A)]]
+  A)
+
+(proof 'int-split-elim-thm
+  (qed ((int-split-elim-rule A) n pz ppos pneg)))
 
 ;; The following is an attempt for a constructive
 ;; proof of int-split... which requires some
@@ -596,10 +596,7 @@ and [[positive-succ-split-conv]]."
     (have <b> _
           :by (p/or-intro-right (elem n nat)
                                 <b1>)))
-  (qed (p/or-elim 
-         <or> (or (elem n nat)
-                  (not (elem n nat)))
-         <a> <b>)))
+  (qed (p/or-elim <or> <a> <b>)))
 
 (defthm negative-pred
   "Negative predecessors."
@@ -624,10 +621,7 @@ and [[positive-succ-split-conv]]."
     (assume [H2 (not (elem (pred n) nat))]
       (have <b> (negative (pred n)) :by H2))
     (have <c> (negative (pred n))
-          :by (p/or-elim
-               <split>
-               (negative (pred n))
-               <a> <b>)))
+          :by (p/or-elim <split> <a> <b>)))
   (qed <c>))
 
 (defthm negative-pred-zero
@@ -657,8 +651,7 @@ and [[positive-succ-split-conv]]."
       (have <b> (negative (pred n))
             :by ((negative-pred n) H2)))
     (have <c> (negative (pred n))
-          :by (p/or-elim
-               H (negative (pred n)) <a> <b>)))
+          :by (p/or-elim H <a> <b>)))
   (qed <c>))
 
 
@@ -688,17 +681,15 @@ and [[positive-succ-split-conv]]."
                       (negative n))
               :by (<b1> (or (= n zero)
                             (negative n)))))
-      (have <c> _ :by (p/or-elim H1 (or (= n zero)
-                                        (negative n)) <a> <b>)))
+      (have <c> (or (= n zero)
+                    (negative n)) :by (p/or-elim H1 <a> <b>)))
     (assume [H2 (negative n)]
       (have <d> (or (= n zero)
                      (negative n))
             :by (p/or-intro-right (= n zero)
                                   H2)))
-    (have <e> _ :by (p/or-elim
-                     <split> (or (= n zero)
-                                 (negative n))
-                     <c> <d>)))
+    (have <e> (or (= n zero)
+                  (negative n)) :by (p/or-elim <split> <c> <d>)))
   (qed <e>))
 
 (defthm negative-pred-split-equiv
@@ -712,7 +703,6 @@ and [[negative-pred-split-conv]]."
 (proof 'negative-pred-split-equiv
   (qed (p/iff-intro (negative-pred-split n)
                     (negative-pred-split-conv n))))
-
 
 (defthm negative-not-zero
   []
@@ -762,12 +752,7 @@ and [[negative-pred-split-conv]]."
                   (not (= n zero)))
           :by (p/or-intro-right (= n zero) <c2>)))
   "We apply the more general integer splitting principle."
-  (qed ((int-split-elim (or (= n zero)
-                            (not (= n zero))))
-        n <a> <b> <c>)))
-
-
-
+  (qed (int-split-elim n <a> <b> <c>)))
 
 ;; opacity
 (u/set-opacity! #'nat true)

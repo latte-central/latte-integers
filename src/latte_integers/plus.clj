@@ -16,9 +16,10 @@
             [latte-prelude.quant :as q :refer [exists]]
             [latte-prelude.fun :as fun]
 
-            [latte-sets.core :as set :refer [elem forall-in]]
+            [latte-sets.set :as set :refer [elem]]
+            [latte-sets.quant :as sq :refer [forall-in]]
 
-            [latte-integers.core :as int :refer [zero one succ pred int =]]
+            [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
             [latte-integers.rec :as rec]))
 
@@ -36,13 +37,12 @@
   (q/unique (add-prop m)))
 
 (proof 'add-unique
-  (qed (rec/int-recur-bijection int m succ int/succ-bijective)))
+  (qed (rec/int-recur-bijection m succ int/succ-bijective)))
 
 (definition plus
   "The function that adds `m` to an integer"
   [[m int]]
-  (q/the (add-prop m)
-         (add-unique m)))
+  (q/the (add-unique m)))
 
 (definition +
   "The function that adds `m` to `n`."
@@ -57,7 +57,7 @@
             (succ ((plus m) n))))))
 
 (proof 'plus-prop
-  (qed (q/the-prop (add-prop m) (add-unique m))))
+  (qed (q/the-prop (add-unique m))))
 
 (defthm plus-zero
   [[m int]]
@@ -699,10 +699,7 @@
         "Apply or-elimation."
         (have <e1> (and (positive (pred m))
                         (= (+ (succ n) (pred m)) zero))
-              :by (p/or-elim <b4>
-                             (and (positive (pred m))
-                                  (= (+ (succ n) (pred m)) zero))
-                             <c> <d>))
+              :by (p/or-elim <b4> <c> <d>))
 
         (have <e> (exists [p int]
                     (and (positive p)
@@ -717,13 +714,7 @@
       (have <f> (exists [p int]
                   (and (positive p)
                        (= (+ (succ n) p) zero)))
-            :by ((q/ex-elim (lambda [m int]
-                                    (and (positive m)
-                                         (= (+ n m) zero)))
-                            (exists [p int]
-                              (and (positive p)
-                                   (= (+ (succ n) p) zero))))
-                 <b3> <e>)))
+            :by (q/ex-elim <b3> <e>)))
    
     "Second inductive case for `(pred n)`."
     (assume [Hpred (negative (pred n))]
@@ -790,22 +781,13 @@
         (have <i> (exists [p int]
                     (and (positive p)
                          (= (+ (pred n) p) zero)))
-              :by ((q/ex-elim (lambda [m int]
-                                      (and (positive m)
-                                           (= (+ n m) zero)))
-                              (exists [p int]
-                                (and (positive p)
-                                     (= (+ (pred n) p) zero))))
-                   <i1> <i5>)))
+              :by (q/ex-elim <i1> <i5>)))
       
       "or-elimination follows."
       (have <j> (exists [p int]
                   (and (positive p)
                        (= (+ (pred n) p) zero)))
-            :by (p/or-elim <g> (exists [p int]
-                                 (and (positive p)
-                                      (= (+ (pred n) p) zero)))
-                           <h> <i>)))
+            :by (p/or-elim <g> <h> <i>)))
     
     (have <k> _ :by (p/and-intro <f> <j>)))
   "We can finally apply the induction principle."
@@ -865,20 +847,14 @@
           (have <c3> p/absurd :by (<c2> <c1>))
           (have <c> (negative n) :by (<c3> (negative n))))
         "Regroup the two subcases."
-        (have <d> (negative n)
-              :by (p/or-elim Hnl (negative n) <b> <c>)))
+        (have <d> (negative n) :by (p/or-elim Hnl <b> <c>)))
       "Second case: `n` is negative"
       (assume [Hnr (negative n)]
         (have <e> (negative n) :by Hnr))
       "Regroup all the cases."
-      (have <f> (negative n)
-            :by (p/or-elim <a> (negative n) <d> <e>)))
+      (have <f> (negative n) :by (p/or-elim <a> <d> <e>)))
     (have <g> (negative n)
-          :by ((q/ex-elim (lambda [k int]
-                                  (and (positive k)
-                                       (= (+ n k) zero)))
-                          (negative n))
-               Hex <f>)))
+          :by (q/ex-elim Hex <f>)))
   (qed <g>))
 
 (defthm negative-pos-plus-equiv
@@ -952,21 +928,10 @@
         (have <k> (negative (+ n m))
               :by (negative-pos-plus-conv (+ n m) <j>)))
       (have <l> (negative (+ n m))
-            :by ((q/ex-elim (lambda [k int]
-                              (and (positive k)
-                                   (= (+ m k) zero)))
-                            (negative (+ n m)))
-                 (negative-pos-plus m Hm)
-                 <k>)))
+            :by (q/ex-elim (negative-pos-plus m Hm) <k>)))
     (have <m> (negative (+ n m))
-          :by ((q/ex-elim (lambda [k int]
-                            (and (positive k)
-                                 (= (+ n k) zero)))
-                          (negative (+ n m)))
-               (negative-pos-plus n Hn)
-               <l>)))
+          :by (q/ex-elim (negative-pos-plus n Hn) <l>)))
   (qed <m>))
-
 
 (defthm plus-one
   [[n int]]

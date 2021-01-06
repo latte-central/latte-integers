@@ -14,5 +14,5 @@
                        latte-integers.rec latte-integers.plus
                        latte-integers.minus latte-integers.ord
                        latte-integers.times latte-integers.divides]}
-  :plugins [[lein-codox "0.10.6"]])
+  :plugins [[lein-codox "0.10.7"]])
 

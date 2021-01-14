@@ -1310,4 +1310,5 @@
           :by ((minus-opp-cancel m (-- n)) <b>)))
   (qed <c>))
 
-
+;; The opposite is now made opaque
+(u/set-opacity! #'-- true)

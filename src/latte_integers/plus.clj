@@ -100,21 +100,13 @@
         :by (plus-succ m (pred n)))
   (have <b> (= (+ m n)
                (succ (+ m (pred n))))
-        :by (eq/eq-subst
-             (lambda [k int]
-                     (= (+ m k)
-                        (succ (+ m (pred n)))))
-             (int/succ-of-pred n)
-             <a>))
+        :by (eq/rewrite <a> (int/succ-of-pred n)))
   (have <c> (= (pred (+ m n))
                (pred (succ (+ m (pred n)))))
         :by (eq/eq-cong pred <b>))
   (have <d> (= (pred (+  m n))
                (+ m (pred n)))
-        :by (eq/eq-subst (lambda [k int]
-                                 (= (pred (+ m n)) k))
-                         (int/pred-of-succ (+ m (pred n)))
-                         <c>))
+        :by (eq/rewrite <c> (int/pred-of-succ (+ m (pred n)))))
   (qed (eq/eq-sym <d>)))
 
 
@@ -145,20 +137,14 @@
           :by (plus-pred zero m))
     (have <b> (= (+ zero (pred m))
                  (pred m))
-          :by (eq/eq-subst (lambda [k int]
-                                   (= (+ zero (pred m))
-                                      (pred k)))
-                           Hind <b1>))
+          :by (eq/rewrite <b1> Hind))
     "and also  and `(P (succ m))`."
     (have <c1> (= (+ zero (succ m))
                   (succ (+ zero m)))
           :by (plus-succ zero m))
     (have <c> (= (+ zero (succ m))
                  (succ m))
-          :by (eq/eq-subst (lambda [k int]
-                                   (= (+ zero (succ m))
-                                      (succ k)))
-                           Hind <c1>))
+          :by (eq/rewrite <c1> Hind))
     (have <d> _ :by (p/and-intro <c> <b>)))
   (qed (((int/int-induct (lambda [m int]
                                  (= (+ zero m) m)))
@@ -194,21 +180,14 @@
           :by (eq/eq-trans <b1> <b2>))
     (have <b4> (= (+ (succ m) (pred n))
                   (+ m n))
-          :by (eq/eq-subst (lambda [k int]
-                                   (= (+ (succ m) (pred n))
-                                      k))
-                           (int/pred-of-succ (+ m n))
-                           <b3>))
+          :by (eq/rewrite <b3> (int/pred-of-succ (+ m n))))
     (have <b5> (= (+ m (succ (pred n)))
                   (succ (+ m (pred n))))
           :by (plus-succ m (pred n)))
     (have <b6> (= (+ m n)
                   (+ m (succ (pred n))))
-          :by (eq/eq-subst (lambda [k int]
-                                   (= (+ m n)
-                                      (+ m k)))
-                           (eq/eq-sym (int/succ-of-pred n))
-                           (eq/eq-refl (+ m n))))
+          :by (eq/nrewrite 2 (eq/eq-refl (+ m n))
+                           (eq/eq-sym (int/succ-of-pred n))))
     (have <b7> (= (+ m n)
                   (succ (+ m (pred n))))
           :by (eq/eq-trans <b6> <b5>))
@@ -249,23 +228,14 @@
         :by (plus-succ-swap (pred m) n))
   (have <b> (= (+ m n)
                (succ (+ (pred m) n)))
-        :by (eq/eq-subst (lambda [k int]
-                                 (= (+ k n)
-                                    (succ (+ (pred m) n))))
-                          (int/succ-of-pred m)
-                          <a>))
+        :by (eq/rewrite <a> (int/succ-of-pred m)))
   (have <c> (= (pred (+ m n))
                (pred (succ (+ (pred m) n))))
         :by (eq/eq-cong pred <b>))
   (have <d> (= (pred (+ m n))
                (+ (pred m) n))
-        :by (eq/eq-subst (lambda [k int]
-                                 (= (pred (+ m n))
-                                    k))
-                         (int/pred-of-succ (+ (pred m) n))
-                         <c>))
+        :by (eq/rewrite <c> (int/pred-of-succ (+ (pred m) n))))
   (qed (eq/eq-sym <d>)))
-
 
 (defthm plus-commute
   [[n int] [m int]]
@@ -323,11 +293,7 @@
                (succ (+ n m))) :by (plus-succ n m))
   (have <c> (= (+ (pred n) (succ m))
                (pred (succ (+ n m))))
-        :by (eq/eq-subst
-             (lambda [k int]
-                     (= (+ (pred n) (succ m))
-                        (pred k)))
-             <b> <a>))
+        :by (eq/rewrite <a> <b>))
   (have <d> (= (pred (succ (+ n m)))
                (+ n m))
         :by (int/pred-of-succ (+ n m)))
@@ -445,13 +411,9 @@
   "Base case."
   (assume [Hz (= (+ n zero) (+ m zero))]
     (have <a1> (= n (+ m zero))
-          :by (eq/eq-subst (lambda [k int] (= k (+ m zero)))
-                           (plus-zero n)
-                           Hz))
+          :by (eq/rewrite Hz (plus-zero n)))
     (have <a> (= n m)
-          :by (eq/eq-subst (lambda [k int] (= n k))
-                           (plus-zero m)
-                           <a1>)))
+          :by (eq/rewrite <a1> (plus-zero m))))
   "Inductive cases."
   (assume [k int
            Hk (==> (= (+ n k) (+ m k))
@@ -459,25 +421,17 @@
     "Successor case."
     (assume [Hsucc (= (+ n (succ k)) (+ m (succ k)))]
       (have <b1> (= (succ (+ n k)) (+ m (succ k)))
-            :by (eq/eq-subst (lambda [i int] (= i (+ m (succ k))))
-                             (plus-succ n k)
-                             Hsucc))
+            :by (eq/rewrite Hsucc (plus-succ n k)))
       (have <b2> (= (succ (+ n k)) (succ (+ m k)))
-            :by (eq/eq-subst (lambda [i int] (= (succ (+ n k)) i))
-                             (plus-succ m k)
-                             <b1>))
+            :by (eq/rewrite <b1> (plus-succ m k)))
       (have <b3> (= (+ n k) (+ m k)) :by (int/succ-injective (+ n k) (+ m k) <b2>))
       (have <b> (= n m) :by (Hk <b3>)))
     "Predecessor case."
     (assume [Hpred (= (+ n (pred k)) (+ m (pred k)))]
       (have <c1> (= (pred (+ n k)) (+ m (pred k)))
-            :by (eq/eq-subst (lambda [i int] (= i (+ m (pred k))))
-                             (plus-pred n k)
-                             Hpred))
+            :by (eq/rewrite Hpred (plus-pred n k)))
       (have <c2> (= (pred (+ n k)) (pred (+ m k)))
-            :by (eq/eq-subst (lambda [i int] (= (pred (+ n k)) i))
-                             (plus-pred m k)
-                             <c1>))
+            :by (eq/rewrite <c1> (plus-pred m k)))
       (have <c3> (= (+ n k) (+ m k))
             :by (int/pred-injective (+ n k) (+ m k) <c2>))
       (have <c> (= n m) :by (Hk <c3>)))
@@ -496,13 +450,9 @@
 (proof 'plus-left-cancel
   (assume [H (= (+ p n) (+ p m))]
     (have <a> (= (+ n p) (+ p m))
-          :by (eq/eq-subst (lambda [k int] (= k (+ p m)))
-                           (plus-commute p n)
-                           H))
+          :by (eq/rewrite H (plus-commute p n)))
     (have <b> (= (+ n p) (+ m p))
-          :by (eq/eq-subst (lambda [k int] (= (+ n p) k))
-                           (plus-commute p m)
-                           <a>))
+          :by (eq/rewrite <a> (plus-commute p m)))
     (have <c> (= n m) :by ((plus-right-cancel n m p) <b>)))
   (qed <c>))
 
@@ -546,10 +496,7 @@
     "We prove `P` by natural induction."
     "First let's prove `(P zero)`."
     (have <a> (P zero)
-          :by (eq/eq-subst (lambda [k int]
-                              (elem k nat))
-                           (eq/eq-sym (plus-zero n))
-                           Hn))
+          :by (eq/rewrite Hn (eq/eq-sym (plus-zero n))))
     "Then the inductive case."
     (assume [k int
              Hk (elem k nat)
@@ -558,9 +505,7 @@
       (have <b1> (elem (succ (+ n k)) nat)
             :by ((nat/nat-succ (+ n k)) Hind))
       (have <b> (P (succ k))
-            :by (eq/eq-subst (lambda [i int] (elem i nat))
-                             (eq/eq-sym (plus-succ n k))
-                             <b1>)))
+            :by (eq/rewrite <b1> (eq/eq-sym (plus-succ n k)))))
     "And finally we apply the induction principle."
     (have <c> (forall-in [m nat]
                 (elem (+ n m) nat))
@@ -582,21 +527,14 @@
     (have <a> (elem (+ (pred n) (pred m)) nat)
           :by (plus-nat-closed (pred n) Hn (pred m) Hm))
     (have <b> (elem (pred (+ (pred n) m)) nat)
-          :by (eq/eq-subst nat
-                           (plus-pred (pred n) m)
-                           <a>))
+          :by (eq/rewrite <a> (plus-pred (pred n) m)))
     (have <c> (positive (pred (+ n m)))
-          :by (eq/eq-subst (lambda [k int]
-                                   (elem (pred k) nat))
-                           (plus-pred-swap n m)
-                           <b>))
+          :by (eq/rewrite <b> (plus-pred-swap n m)))
     (have <d> (positive (succ (pred (+ n m))))
           :by ((nat/positive-succ-strong (pred (+ n m)))
                <c>))
     (have <e> (positive (+ n m))
-          :by (eq/eq-subst positive
-                           (int/succ-of-pred (+ n m))
-                           <d>)))
+          :by (eq/rewrite <d> (int/succ-of-pred (+ n m)))))
   (qed <e>))
 
 (defthm negative-pos-plus
@@ -629,9 +567,7 @@
             :by ((nat/negative-pred (succ n))
                  Hsucc))
       (have <b2> (negative n)
-            :by (eq/eq-subst negative
-                             (int/pred-of-succ n)
-                             <b1>))
+            :by (eq/rewrite <b1> (int/pred-of-succ n)))
       (have <b3> (exists [m int]
                    (and (positive m)
                         (= (+ n m) zero)))
@@ -648,38 +584,24 @@
           (have <c1> (= (succ (pred m)) (succ zero))
                 :by (eq/eq-cong succ Hmz))
           (have <c2> (= m (succ zero))
-                :by (eq/eq-subst (lambda [k int] (= k (succ zero)))
-                                 (int/succ-of-pred m)
-                                 <c1>))
+                :by (eq/rewrite <c1> (int/succ-of-pred m)))
           (have <c3> (= (+ n (succ zero)) zero)
-                :by (eq/eq-subst (lambda [k int]
-                                         (= (+ n k) zero))
-                                 <c2> (p/and-elim-right Hm)))
+                :by (eq/rewrite (p/and-elim-right Hm) <c2>))
           (have <c4> (= (succ (+ n zero)) zero)
-                :by (eq/eq-subst (lambda [k int]
-                                         (= k zero))
-                                 (plus-succ n zero)
-                                 <c3>))
+                :by (eq/rewrite <c3> (plus-succ n zero)))
           (have <c5> (= (pred (succ (+ n zero))) (pred zero))
                 :by (eq/eq-cong pred <c4>))
           (have <c6> (= (+ n zero) (pred zero))
-                :by (eq/eq-subst (lambda [k int] (= k (pred zero)))
-                                 (int/pred-of-succ (+ n zero))
-                                 <c5>))
+                :by (eq/rewrite <c5> (int/pred-of-succ (+ n zero))))
           (have <c7> (= n (pred zero))
-                :by (eq/eq-subst (lambda [k int] (= k (pred zero)))
-                                 (plus-zero n)
-                                 <c6>))
+                :by (eq/rewrite <c6> (plus-zero n)))
           (have <c8> (= (succ n) (succ (pred zero)))
                 :by (eq/eq-cong succ <c7>))
           (have <c9> (= (succ n) zero)
-                :by (eq/eq-subst (lambda [k int] (= (succ n) k))
-                                 (int/succ-of-pred zero)
-                                 <c8>))
+                :by (eq/rewrite <c8> (int/succ-of-pred zero)))
           (have <c10> (elem (succ n) nat)
-                :by (eq/eq-subst (lambda [k int] (elem k nat))
-                                 (eq/eq-sym <c9>)
-                                 (nat/nat-zero)))
+                :by (eq/rewrite (nat/nat-zero)
+                                (eq/eq-sym <c9>)))
           (have <c11> p/absurd :by (Hsucc <c10>))
           (have <c> _
                 :by (<c11> (and (positive (pred m))
@@ -729,17 +651,10 @@
               :by (plus-pred-succ zero zero))
         (have <h2> (= (+ (pred zero) (succ zero))
                       zero)
-              :by (eq/eq-subst (lambda [k int]
-                                       (= (+ (pred zero) (succ zero))
-                                          k))
-                                (plus-zero zero)
-                                <h1>))
+              :by (eq/rewrite <h1> (plus-zero zero)))
         (have <h3> (= (+ (pred n) (succ zero))
                       zero)
-              :by (eq/eq-subst (lambda [k int]
-                                       (= (+ (pred k) (succ zero)) zero))
-                               (eq/eq-sym Hnz)
-                               <h2>))        
+              :by (eq/rewrite <h2> (eq/eq-sym Hnz)))        
         (have <h4> (positive (succ zero))
               :by ((nat/positive-succ zero)
                    (nat/nat-zero)))
@@ -822,18 +737,12 @@
         "Subcase: `n` is zero."
         (assume [Hnl1 (= n zero)]
           (have <b1> (= (+ zero m) zero)
-                :by (eq/eq-subst (lambda [k int]
-                                         (= (+ k m) zero))
-                                 Hnl1 (p/and-elim-right Hm)))
+                :by (eq/rewrite (p/and-elim-right Hm) Hnl1))
           (have <b2> (= m zero)
-                :by (eq/eq-subst (lambda [k int]
-                                         (= k zero))
-                                 (plus-zero-swap m)
-                                 <b1>))
+                :by (eq/rewrite <b1> (plus-zero-swap m)))
           (have <b3> (not (positive m))
-                :by (eq/eq-subst (lambda [k int] (not (positive k)))
-                                 (eq/eq-sym <b2>)
-                                 nat/nat-zero-has-no-pred))
+                :by (eq/rewrite nat/nat-zero-has-no-pred
+                                (eq/eq-sym <b2>)))
           (have <b4> p/absurd :by (<b3> (p/and-elim-left Hm)))
           (have <b> (negative n) :by (<b4> (negative n))))
         "Subcase: `n` is positive."
@@ -841,9 +750,7 @@
           (have <c1> (positive (+ n m))
                 :by (positive-plus n m Hnl2 (p/and-elim-left Hm)))
           (have <c2> (not (positive (+ n m)))
-                :by (eq/eq-subst (lambda [k int] (not (positive k)))
-                                 (eq/eq-sym (p/and-elim-right Hm))
-                                 nat/nat-zero-has-no-pred))
+                :by (eq/rewrite nat/nat-zero-has-no-pred (eq/eq-sym (p/and-elim-right Hm))))
           (have <c3> p/absurd :by (<c2> <c1>))
           (have <c> (negative n) :by (<c3> (negative n))))
         "Regroup the two subcases."
@@ -891,32 +798,19 @@
               :by ((plus-right-cancel-conv (+ n p) zero (+ m q))
                    (p/and-elim-right Hp)))
         (have <c> (= (+ (+ n p) (+ m q)) (+ zero zero))
-              :by (eq/eq-subst (lambda [k int] (= (+ (+ n p) (+ m q)) (+ zero k)))
-                               (p/and-elim-right Hq) <b>))
+              :by (eq/nrewrite 2 <b> (p/and-elim-right Hq)))
         (have <d> (= (+ (+ n p) (+ m q)) zero)
-              :by (eq/eq-subst (lambda [k int] (= (+ (+ n p) (+ m q)) k))
-                               (plus-zero zero)
-                               <c>))
+              :by (eq/rewrite <c> (plus-zero zero)))
         (have <e> (= (+ (+ (+ n p) m) q) zero)
-              :by (eq/eq-subst (lambda [k int] (= k zero))
-                               (plus-assoc (+ n p) m q)
-                               <d>))
+              :by (eq/rewrite <d> (plus-assoc (+ n p) m q)))
         (have <f> (= (+ (+ n (+ p m)) q) zero)
-              :by (eq/eq-subst (lambda [k int] (= (+ k q) zero))
-                                (eq/eq-sym (plus-assoc n p m))
-                                <e>))
+              :by (eq/rewrite <e> (eq/eq-sym (plus-assoc n p m))))
         (have <g> (= (+ (+ n (+ m p)) q) zero)
-              :by (eq/eq-subst (lambda [k int] (= (+ (+ n k) q) zero))
-                               (plus-commute p m)
-                               <f>))
+              :by (eq/rewrite <f> (plus-commute p m)))
         (have <h> (= (+ (+ (+ n m) p) q) zero)
-              :by (eq/eq-subst (lambda [k int] (= (+ k q) zero))
-                               (plus-assoc n m p)
-                               <g>))
+              :by (eq/rewrite <g> (plus-assoc n m p)))
         (have <i> (= (+ (+ n m) (+ p q)) zero)
-              :by (eq/eq-subst (lambda [k int] (= k zero))
-                               (eq/eq-sym (plus-assoc (+ n m) p q))
-                               <h>))
+              :by (eq/rewrite <h> (eq/eq-sym (plus-assoc (+ n m) p q))))
         (have <j> (exists [r int]
                     (and (positive r)
                          (= (+ (+ n m) r) zero)))

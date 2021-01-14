@@ -92,7 +92,7 @@ This is the first Peano 'axiom' (here theorem, based
         (have <c> (= x (pred zero))
               :by (eq/eq-trans <b> <a>))
         (have <d> (elem (pred zero) nat)
-              :by (eq/eq-subst nat <c> H))
+              :by (eq/rewrite H <c>))
         (have <e> p/absurd :by (nat-zero-has-no-pred <d>))))
   (qed <e>))
 
@@ -201,7 +201,7 @@ derived from [[int-induct]]."
       (have <b1> (= n (pred (succ n)))
             :by (eq/eq-sym (int/pred-of-succ n)))
       (have <b> (elem (pred (succ n)) nat)
-            :by (eq/eq-subst nat <b1> Hn))))
+            :by (eq/rewrite Hn <b1>))))
   (have <c> (forall-in [x nat] (P x))
         :by ((nat-induct P) <a> <b>))
   (qed <c>))
@@ -253,7 +253,7 @@ derived from [[int-induct]]."
           :by ((nat-succ (pred n))
                H))
     (have <b> (elem n nat)
-          :by (eq/eq-subst nat (int/succ-of-pred n) <a>)))
+          :by (eq/rewrite <a> (int/succ-of-pred n))))
   (qed <b>))
 
 (defthm positive-zero-conv
@@ -268,7 +268,7 @@ derived from [[int-induct]]."
                  (positive n))]
     (assume [H1 (= n zero)]
       (have <a> (elem n nat)
-            :by (eq/eq-subst nat (eq/eq-sym  H1) nat-zero)))
+            :by (eq/rewrite nat-zero (eq/eq-sym H1))))
     (assume [H2 (positive n)]
       (have <b> (elem n nat)
             :by ((positive-conv n) H2)))
@@ -283,12 +283,10 @@ is (obiously) a natural number"
   (==> (positive (succ n))
        (elem n nat)))
 
-;;;; ****************** UPDATED UNTIL HERE ********************
-
 (proof 'positive-succ-conv
   (assume [H (positive (succ n))]
     (have <a> (elem n nat)
-          :by (eq/eq-subst nat (int/pred-of-succ n) H)))
+          :by (eq/rewrite H (int/pred-of-succ n))))
   (qed <a>))
 
 (defthm positive-succ-strong
@@ -373,7 +371,7 @@ is (obiously) a natural number"
                  (positive n))]
     (assume [H1 (= n zero)]
       (have <a1> (elem n nat)
-            :by (eq/eq-subst nat (eq/eq-sym H1) nat-zero))
+            :by (eq/rewrite nat-zero (eq/eq-sym H1)))
       (have <a> (positive (succ n))
             :by ((positive-succ n) <a1>)))
     (assume [H2 (positive n)]
@@ -614,7 +612,7 @@ and [[positive-succ-split-conv]]."
             :by ((nat-succ (pred n))
                  H1))
       (have <a2> (elem n nat)
-            :by (eq/eq-subst nat (int/succ-of-pred n) <a1>))
+            :by (eq/rewrite <a1> (int/succ-of-pred n)))
       (have <a3> p/absurd :by (Hn <a2>))
       (have <a> (negative (pred n))
             :by (<a3> (negative (pred n)))))
@@ -644,9 +642,8 @@ and [[positive-succ-split-conv]]."
                  (negative n))]
     (assume [H1 (= n zero)]
       (have <a> (negative (pred n))
-            :by (eq/eq-subst (lambda [k int] (negative (pred k)))
-                             (eq/eq-sym H1)
-                             negative-pred-zero)))
+            :by (eq/rewrite negative-pred-zero
+                            (eq/eq-sym H1))))
     (assume [H2 (negative n)]
       (have <b> (negative (pred n))
             :by ((negative-pred n) H2)))
@@ -736,9 +733,7 @@ and [[negative-pred-split-conv]]."
   (assume [H2 (positive n)]
     (assume [H2' (= n zero)]
       (have <b1> (positive zero)
-            :by (eq/eq-subst positive
-                             H2'
-                             H2))
+            :by (eq/rewrite H2 H2'))
       (have <b2> p/absurd :by (positive-not-zero <b1>)))
     (have <b> (or (= n zero)
                   (not (= n zero)))
@@ -746,7 +741,7 @@ and [[negative-pred-split-conv]]."
   (assume [H3 (negative n)]
     (assume [H3' (= n zero)]
       (have <c1> (negative zero)
-            :by (eq/eq-subst negative H3' H3))
+            :by (eq/rewrite H3 H3'))
       (have <c2> p/absurd :by (negative-not-zero <c1>)))
     (have <c> (or (= n zero)
                   (not (= n zero)))

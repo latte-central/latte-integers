@@ -1250,9 +1250,7 @@
           :by ((times-pos-neg n m) Hn Hm))
 
     (have <b> (negative (* m n))
-          :by (eq/eq-subst negative
-                            (times-commute n m)
-                            <a>)))
+          :by (eq/rewrite <a> (times-commute n m))))
 
   (qed <b>))
 
@@ -1278,9 +1276,7 @@
     (have <e> (positive (* (-- m) (-- n)))
           :by ((times-pos-pos (-- m) (-- n)) <b> <d>))
     (have <f> (positive (* m n))
-          :by (eq/eq-subst positive
-                            (times-opp-opp m n)
-                            <e>)))
+          :by (eq/rewrite <e> (times-opp-opp m n))))
   (qed <f>))
 
 
@@ -1303,7 +1299,7 @@
         (have <c1> (positive (* m n))
               :by ((times-pos-pos m n) Hmp Hp))
         (have <c2> (positive zero)
-              :by (eq/eq-subst positive H <c1>))
+              :by (eq/rewrite <c1> H))
         (have <c3> p/absurd
               :by (nat/nat-zero-has-no-pred <c2>))
         (have <c> (or (= m zero)
@@ -1314,9 +1310,7 @@
         (have <d1> (negative (* m n))
               :by ((times-neg-pos m n) Hmn Hp))
         (have <d2> (negative zero)
-              :by (eq/eq-subst negative
-                                H
-                                <d1>))
+              :by (eq/rewrite <d1> H))
         (have <d3> p/absurd
               :by (<d2> nat/nat-zero))
         (have <d> (or (= m zero)
@@ -1333,9 +1327,7 @@
         (have <g1> (negative (* m n))
               :by ((times-pos-neg m n) Hmp Hn))
         (have <g2> (negative zero)
-              :by (eq/eq-subst negative
-                                H
-                                <g1>))
+              :by (eq/rewrite <g1> H))
         (have <g3> p/absurd
               :by (<g2> nat/nat-zero))
         (have <g> (or (= m zero)
@@ -1347,7 +1339,7 @@
         (have <h1> (positive (* m n))
               :by ((times-neg-neg m n) Hmn Hn))
         (have <h2> (positive zero)
-              :by (eq/eq-subst positive H <h1>))
+              :by (eq/rewrite <h1> H))
         (have <h3> p/absurd
               :by (nat/nat-zero-has-no-pred <h2>))
         (have <h> (or (= m zero)
@@ -1379,33 +1371,19 @@
 
       (have <b> (= (- (* m p) (* n p))
                    zero)
-            :by (eq/eq-subst (lambda [k int]
-                                (= (- (* m p) k)
-                                   zero))
-                              H1
-                              <a>))
+            :by (eq/nrewrite 2 <a> H1))
 
       (have <c> (= (- (* p m) (* n p))
                    zero)
-            :by (eq/eq-subst (lambda [k int]
-                                (= (- k (* n p))
-                                   zero))
-                              (times-commute m p)
-                              <b>))
+            :by (eq/rewrite <b> (times-commute m p)))
 
       (have <d> (= (- (* p m) (* p n))
                    zero)
-            :by (eq/eq-subst (lambda [k int]
-                                (= (- (* p m) k)
-                                   zero))
-                              (times-commute n p)
-                              <c>))
+            :by (eq/rewrite <c> (times-commute n p)))
+
       (have <e> (= (* p (- m n))
                    zero)
-            :by (eq/eq-subst (lambda [k int]
-                                (= k zero))
-                              (times-dist-minus-sym p m n)
-                              <d>))
+            :by (eq/rewrite <d> (times-dist-minus-sym p m n)))
 
       (have <f> (or (= p zero)
                     (= (- m n) zero))
@@ -1433,15 +1411,9 @@
     (assume [H1 (= (* p m) (* p n))
              H2 (not (= p zero))]
       (have <a> (= (* m p) (* p n))
-            :by (eq/eq-subst (lambda [k int]
-                                (= k (* p n)))
-                              (times-commute p m)
-                              H1))
+            :by (eq/rewrite H1 (times-commute p m)))
       (have <b> (= (* m p) (* n p))
-            :by (eq/eq-subst (lambda [k int]
-                                (= (* m p) k))
-                              (times-commute p n)
-                              <a>))
+            :by (eq/rewrite <a> (times-commute p n)))
 
       (have <c> (= m n)
             :by ((times-right-cancel m n p)
@@ -1467,15 +1439,13 @@
     (have <a2> (= zero (* m zero))
           :by (eq/eq-sym (times-zero m)))
     (have <a3> (<= (* m zero) zero)
-          :by (eq/eq-subst (lambda [k int]
-                              (<= k zero))
-                            <a2>
-                            <a1>))
+          :by (eq/rewrite <a1> <a2>))
+
     (have <a4> (= zero (* n zero))
           :by (eq/eq-sym (times-zero n)))
-    (have <a> (P zero) :by (eq/eq-subst (lambda [k int]
-                                           (<= (* m zero) k))
-                                         <a4> <a3>))
+   
+    (have <a> (P zero) 
+          :by (eq/nrewrite 2 <a3> <a4>))
 
     "Inductive case"
     (assume [p int
@@ -1489,15 +1459,10 @@
             :by ((ord/plus-le-cong (* m p) m (* n p) n)
                  Hind Hmn))
       (have <b4> (<= (* m (succ p)) (+ (* n p) n))
-            :by (eq/eq-subst (lambda [k int]
-                                (<= k (+ (* n p) n)))
-                              <b1>
-                              <b3>))
+            :by (eq/rewrite <b3> <b1>))
+
       (have <b> (P (succ p))
-            :by (eq/eq-subst (lambda [k int]
-                                (<= (* m (succ p)) k))
-                              <b2>
-                              <b4>)))
+            :by (eq/rewrite <b4> <b2>)))
 
     "We apply the induction principle"
     (have <c> (<= (* m p) (* n p))
@@ -1519,32 +1484,21 @@
     (have <a> (> (pred m) (pred (succ zero)))
           :by ((ord/lt-pred-cong one m) Hm))
     (have <b> (> (pred m) zero)
-          :by (eq/eq-subst (lambda [k int]
-                              (> (pred m) k))
-                            (int/pred-of-succ zero)
-                            <a>))
+          :by (eq/rewrite <a> (int/pred-of-succ zero)))
     (have <c> (positive (pred m))
           :by ((ord/pos-gt-zero-conv (pred m)) <b>))
     (have <d> (positive (* n (pred m)))
           :by ((times-pos-pos n (pred m)) Hn <c>))
     (have <e> (positive (- (* n m) n))
-          :by (eq/eq-subst positive
-                            (times-pred n m)
-                            <d>))
+          :by (eq/rewrite <d> (times-pred n m)))
     (have <f> (> (- (* n m) n) zero)
           :by ((ord/pos-gt-zero (- (* n m) n)) <e>))
     (have <g> (> (+ (- (* n m) n) n) (+ zero n))
           :by ((ord/plus-lt-conv zero (- (* n m) n) n) <f>))
     (have <h> (> (* n m) (+ zero n))
-          :by (eq/eq-subst (lambda [k int]
-                              (> k (+ zero n)))
-                            (minus/minus-prop (* n m) n)
-                            <g>))
+          :by (eq/rewrite <g> (minus/minus-prop (* n m) n)))
     (have <i> (> (* n m) n)
-          :by (eq/eq-subst (lambda [k int]
-                              (> (* n m) k))
-                            (plus/plus-zero-swap n)
-                            <h>)))
+          :by (eq/rewrite <h> (plus/plus-zero-swap n))))
   (qed <i>))
 
 (defthm times-gt-pos-one
@@ -1581,10 +1535,7 @@
     (have <a> (= zero (* zero n))
           :by (eq/eq-sym (times-zero-swap n)))
     (have <b> (= (* zero n) one)
-          :by (eq/eq-subst (lambda [k int]
-                              (= (* k n) one))
-                            Hmzero
-                            Hmn))
+          :by (eq/rewrite Hmn Hmzero))
     (have <c> (= zero one)
           :by (eq/eq-trans <a> <b>))
 
@@ -1605,9 +1556,8 @@
       "Case analysis for `n`."
       (assume [Hnzero (= n zero)]
         (have <b1> (= (* n m) one)
-              :by (eq/eq-subst (lambda [k int] (= k one))
-                                (times-commute m n)
-                                Hmn))
+              :by (eq/rewrite Hmn (times-commute m n)))
+
         (have <b2> p/absurd
               :by ((not-zero-times-one n m) Hnzero <b1>))
         (have <b> _
@@ -1622,15 +1572,13 @@
               :by ((ord/pos-one-split n) Hnpos))
         (assume [Hm1 (= m one)]
           (have <d1> (= (* one n) one)
-                :by (eq/eq-subst (lambda [k int] (= (* k n) one))
-                                  Hm1 Hmn))
+                :by (eq/rewrite Hmn Hm1))
           (have <d2> (= (* one n) (* n one))
                 :by (times-commute one n))
           (have <d3> (= (* one n) n)
                 :by (eq/eq-trans <d2> (times-one n)))
           (have <d4> (= n one)
-                :by (eq/eq-subst (lambda [k int] (= k one))
-                                  <d3> <d1>))
+                :by (eq/rewrite <d1> <d3>))
           (have <d5> _ :by (p/and-intro Hm1 <d4>))
           (have <d> _
                 :by (p/or-intro-left
@@ -1646,10 +1594,7 @@
           (have <e3> (= one (* m n))
                 :by (eq/eq-sym Hmn))
           (have <e4> (= one (* n m))
-                :by (eq/eq-subst (lambda [k int]
-                                    (= one k))
-                                  (times-commute m n)
-                                  <e3>))
+                :by (eq/rewrite <e3> (times-commute m n)))
           (have <e5> p/absurd :by (<e2> <e4>))
           (have <e> _ :by (<e5> (or (and (= m one) (= n one))
                                     (and (= m (-- one)) (= n (-- one)))))))
@@ -1661,13 +1606,11 @@
         (have <g0> (negative (* m n))
               :by ((times-pos-neg m n) Hmpos Hnneg))
         (have <g1> (negative one)
-              :by (eq/eq-subst (lambda [k int] (negative k)) Hmn <g0>))
+              :by (eq/rewrite <g0> Hmn))
         (have <g2> (negative (pred (succ zero)))
               :by ((nat/negative-pred (succ zero)) <g1>))
         (have <g3> (negative zero)
-              :by (eq/eq-subst negative
-                                (int/pred-of-succ zero)
-                                <g2>))
+              :by (eq/rewrite <g2> (int/pred-of-succ zero)))
         (have <g4> p/absurd
               :by (nat/negative-not-zero <g3>))
         (have <g> _ :by (<g4> (or (and (= m one) (= n one))
@@ -1688,9 +1631,7 @@ Remark: we could probably factorize better..."
          (have <j1> (= n zero)
                :by ((minus/zero-opp-zero-conv n) Hnzero))
          (have <j2> (= (* n m) one)
-               :by (eq/eq-subst (lambda [k int] (= k one))
-                                 (times-commute m n)
-                                 Hmn))
+               :by (eq/rewrite Hmn (times-commute m n)))
          (have <j3> p/absurd
                :by ((not-zero-times-one n m) <j1> <j2>))
          (have <j> _
@@ -1707,24 +1648,17 @@ Remark: we could probably factorize better..."
            (have <l1> (= m (-- one))
                  :by ((minus/opp-eq m one) Hm1))
            (have <l2> (= (* (-- one) n) one)
-                 :by (eq/eq-subst (lambda [k int] (= (* k n) one))
-                                   <l1> Hmn))
+                 :by (eq/rewrite Hmn <l1>))
            (have <l3> (= (* n (-- one)) one)
-                 :by (eq/eq-subst (lambda [k int] (= k one))
-                                   (times-commute (-- one) n)
-                                   <l2>))
+                 :by (eq/rewrite <l2> (times-commute (-- one) n)))
            (have <l4> (= (-- (* n one)) one)
-                 :by (eq/eq-subst (lambda [k int] (= k one))
-                                   (times-opp n one)
-                                   <l3>))
+                 :by (eq/rewrite <l3> (times-opp n one)))
            (have <l5> (= (* n one) (-- one))
                  :by ((minus/opp-eq (* n one) one) <l4>))
            (have <l6> (= n (-- one))
-                 :by (eq/eq-subst (lambda [k int] (= k (-- one)))
-                                   (times-one n)
-                                   <l5>))
-
-           (have <l7> (and (= m (-- one)) (= n (-- one))) :by (p/and-intro <l1> <l6>))
+                 :by (eq/rewrite <l5> (times-one n)))
+           (have <l7> (and (= m (-- one)) (= n (-- one))) 
+                 :by (p/and-intro <l1> <l6>))
            (have <l> (or (and (= m one) (= n one))
                          (and (= m (-- one)) (= n (-- one))))
                  :by (p/or-intro-right
@@ -1734,20 +1668,14 @@ Remark: we could probably factorize better..."
            (have <m1> (> (* (-- n) (-- m)) one)
                  :by ((times-gt-pos-one (-- m) (-- n)) Hnpos Hm2))
            (have <m2> (> (* n m) one)
-                 :by (eq/eq-subst (lambda [k int] (> k one))
-                                   (times-opp-opp n m)
-                                   <m1>))
-
+                 :by (eq/rewrite <m1> (times-opp-opp n m)))
            (have <m3> (not (= one (* n m)))
                  :by (p/and-elim-right <m2>))
 
            (have <m4> (= one (* m n))
                  :by (eq/eq-sym Hmn))
            (have <m5> (= one (* n m))
-                 :by (eq/eq-subst (lambda [k int]
-                                     (= one k))
-                                   (times-commute m n)
-                                   <m4>))
+                 :by (eq/rewrite <m4> (times-commute m n)))
            (have <m6> p/absurd :by (<m3> <m5>))
            (have <m> _ :by (<m6> (or (and (= m one) (= n one))
                                      (and (= m (-- one)) (= n (-- one)))))))
@@ -1759,21 +1687,17 @@ Remark: we could probably factorize better..."
          (have <o1> (positive (-- (-- n)))
                :by ((minus/opp-neg-pos (-- n)) Hnneg))
          (have <o2> (positive n)
-               :by (eq/eq-subst positive
-                                 (minus/opp-opp n)
-                                 <o1>))
+               :by (eq/rewrite <o1> (minus/opp-opp n)))
          (have <o3> (negative (* m n))
                :by ((times-neg-pos m n) Hmneg <o2>))
          ;; TODO: the rest should be in a lemma (factorization) ...
          (have <o4> (negative one)
-               :by (eq/eq-subst (lambda [k int] (negative k)) Hmn <o3>))
+               :by (eq/rewrite <o3> Hmn))
          (have <o5> (negative (pred (succ zero)))
                :by ((nat/negative-pred (succ zero)) <o4>))
 
          (have <o6> (negative zero)
-               :by (eq/eq-subst negative
-                                 (int/pred-of-succ zero)
-                                 <o5>))
+               :by (eq/rewrite <o5> (int/pred-of-succ zero)))
          (have <o7> p/absurd
                :by (nat/negative-not-zero <o6>))
          (have <o> _ :by (<o7> (or (and (= m one) (= n one))
@@ -1807,9 +1731,7 @@ Remark: we could probably factorize better..."
       (have <b3> (= (-- one) m)
             :by (eq/eq-sym (p/and-elim-left H2)))
       (have <b4> (negative m)
-            :by (eq/eq-subst negative
-                              <b3>
-                              <b2>))
+            :by (eq/rewrite <b2> <b3>))
       (have <b5> p/absurd :by (<b4> Hm))
       (have <b> (= m one) :by (<b5> (= m one))))
     (have <c> (or (and (= m one) (= n one))
@@ -1830,13 +1752,12 @@ Remark: we could probably factorize better..."
     (have <a> (= m one)
           :by ((times-eq-one-nat m n) Hm H))
     (have <b> (= (* one n) one)
-          :by (eq/eq-subst (lambda [k int] (= (* k n) one))
-                            <a> H))
+          :by (eq/rewrite H <a>))
     (have <c> (= n one)
-          :by (eq/eq-subst (lambda [k int] (= k one))
-                            (times-one-swap n)
-                            <b>)))
+          :by (eq/rewrite <b> (times-one-swap n))))
   (qed <c>))
+
+
 
 
 

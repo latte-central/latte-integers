@@ -17,6 +17,7 @@
             [latte-prelude.fun :as fun]
 
             [latte-sets.set :as set :refer [elem]]
+            [latte-sets.quant :as sq :refer [exists-in]]
 
             [latte-integers.int :as int :refer [zero one succ pred int =]]
             [latte-integers.nat :as nat :refer [nat positive negative]]
@@ -28,6 +29,30 @@
   "The lower-or-equal order for integers."
   [[n int] [m int]]
   (elem (- m n) nat))
+
+;; The following intro and elim rules
+;; are useful because <= is opaque (outside this namespace)
+
+(defthm le-intro
+  [[n int] [m int]]
+  (==> (elem (- m n) nat)
+       (<= n m)))
+
+(proof 'le-intro
+  (assume [H _]
+    (have <a> _ :by H))
+  (qed <a>))
+
+(defthm le-elim
+  [[n int] [m int]]
+  (==> (<= n m)
+       (elem (- m n) nat)))
+
+(proof 'le-elim
+  (assume [H _]
+    (have <a> _ :by H))
+  (qed <a>))
+  
 
 (defthm le-refl
   [[n int]]
@@ -284,6 +309,25 @@
   (qed (p/iff-intro (plus-le n m p)
                     (plus-le-conv n m p))))
 
+(defthm plus-le-prop
+  "This is useful to relate `<=` to addition."
+  [[n int] [m int]]
+  (==> (<= n m)
+       (exists-in [k nat]
+         (= (+ n k) m))))
+
+(proof 'plus-le-prop
+  (assume [H _]
+    (have <a> (elem (- m n) nat) :by H)
+    (have <b> (= (+ (- m n) n) m)
+          :by (minus/minus-prop m n))
+    (have <c> (= (+ n (- m n)) m)
+          :by (eq/rewrite <b> (plus/plus-commute (- m n) n)))
+    (have <d> _ :by ((q/ex-intro (lambda [k int]
+                                   (and (elem k nat)
+                                        (= (+ n k) m))) (- m n))
+                     (p/and-intro <a> <c>))))
+  (qed <d>))
 
 (defthm plus-lt
   [[n int] [m int] [p int]]

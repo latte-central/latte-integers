@@ -3,7 +3,7 @@
   :url "https://github.com/fredokun/latte-integers.git"
   :license {:name "MIT Licence"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.10.1"]
+  :dependencies [[org.clojure/clojure "1.11.1"]
                  [latte-sets "1.0b10-SNAPSHOT"]]
   :main latte-integers.main
   :aliases {"certify" ["run" ":certify"]
@@ -14,5 +14,5 @@
                        latte-integers.rec latte-integers.plus
                        latte-integers.minus latte-integers.ord
                        latte-integers.times latte-integers.divides]}
-  :plugins [[lein-codox "0.10.7"]])
+  :plugins [[lein-codox "0.10.8"]])
 
